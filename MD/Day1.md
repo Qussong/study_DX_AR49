@@ -116,13 +116,14 @@ Client 가 StaticLib 의 라이브러리 파일을 가져다 쓰면 Client 가 S
 ```
 <br>
 
-**[ 1. *.bat 파일 생성 ]**<br>
+**[ 1. bat 파일 생성 ]**<br>
 메모장에 아래와 같은 코드를 입력하고 *.bat 확장자로 저장하면 된다.  
 `exclude:exclude_list.txt` : "exclude_list.txt" 파일을 생성하여 해당 파일안에 제외하고자하는 파일이 있으면 추가해주면 된다.
 ```
 xcopy /s /y  /exclude:exclude_list.txt ".\StaticLib\*.h" ".\External"
 ```
-<br>
+bat 파일을 추가해주면 솔루션 폴더의 구성은 아래와 같아진다.<br>
+<img src='./img/1_bat파일 추가.png' width=800><br><br>
 
 **[ 2. 빌드 전 이벤트 설정 ]**<br>
 정적 라이브러리 프로젝트에서 해당 설정을 해준다.  
@@ -130,8 +131,9 @@ xcopy /s /y  /exclude:exclude_list.txt ".\StaticLib\*.h" ".\External"
 ```
 설정 위치 : 정적 라이브러리 프로젝트 속성 → 빌드 이벤트 → 빌드 전 이벤트 → 명령줄
 
-추가 값 : 	cd $(SolutionDir)
-			call Copy.bat
+추가 값 : 	
+	cd $(SolutionDir)
+	call Copy.bat
 ```
 <img src="./img/1_정적 라이브러리 프로젝트 빌드 전 이벤트 설정.png" width=800><br><br>
 
