@@ -1,0 +1,6 @@
+﻿  .\StaticLib\math_static.h
+  1개 파일이 복사되었습니다.
+  .\DynamicLib\math_dynamic.h
+  1개 파일이 복사되었습니다.
+  math_static.cpp
+  StaticLib.vcxproj -> C:\Users\kih09\OneDrive\바탕 화면\study_DX2D_AR49\LibraryTest\External\StaticLib.lib

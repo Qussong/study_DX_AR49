@@ -1,0 +1,7 @@
+﻿  .\StaticLib\math_static.h
+  1개 파일이 복사되었습니다.
+  .\DynamicLib\math_dynamic.h
+  1개 파일이 복사되었습니다.
+  LINK : C:\Users\kih09\OneDrive\바탕 화면\study_DX2D_AR49\LibraryTest\External\DynamicLib.dll을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
+     C:\Users\kih09\OneDrive\바탕 화면\study_DX2D_AR49\LibraryTest\External\DynamicLib.lib 라이브러리 및 C:\Users\kih09\OneDrive\바탕 화면\study_DX2D_AR49\LibraryTest\External\DynamicLib.exp 개체를 생성하고 있습니다.
+  DynamicLib.vcxproj -> C:\Users\kih09\OneDrive\바탕 화면\study_DX2D_AR49\LibraryTest\External\DynamicLib.dll
