@@ -1,0 +1,1 @@
+xcopy /s /y ".\External\*.dll" ".\x64\Debug"
