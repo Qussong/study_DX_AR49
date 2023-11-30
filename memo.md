@@ -1,124 +1,117 @@
 
-## 공부
-- friend 키워드
-    ```
-    friend 키워드를 사용하면 특정 대상에 대해 모든 멤버를 공개할 수 있다.
-    -> friend 를 선언한 대상에게 내 모든 것을 공개한다.
 
-    friend 지정되면 '접근 지정자'에 상관없이 모든 멤버를 읽을 수 있다.
-    friend는 전역 함수, 클래스, 멤버 함수 세 가지 수준에서 지정한다.
+## 장치 초기화
 
-    1. 외부 전역 함수에 모두 공개
-    외부의 전역 함수를 friend로 지정할 때 클래스 선언문 안에 원형을 밝히되 friend 지정자를 붙인다.
+### 1. Device, DeviceContext
+- `D3D_FEATURE_LEVEL` 타입 변수 선언
+- `D3D11CreateDevice()` 함수  
+    - D3D11_CREATE_DEVICE_DEBUG : dll 이기에 문제가 있을시 알림 받음(메모리 릭)
+    - D3D11_SDK_VERSION : 메크로, d3d11 의 버전
+    - 이중포인터 (device, context)  
+    _(d3d11 장치 초기화 들어가는 인자들을 이해하려고 할 필요는 없다.)_
+<br><br>
 
-    class Some
-    {
-        friend void sub();
-        //...
-    }
-    Some 클래스의 멤버 변수들은 모두 friend 인 sub()함수가 접근할 수 있다.
-    sub()함수가 Some 클래스에 friend 선언되어 있다는 의미지, 실제 sub()함수는 Some 클래스 밖에 존재하고 있다.
+### 2. SwapChain
+- CreateSwapChain() 함수 생성 : 내부에 SwapChain 초기화 코드를 구현해준다.
+- SwapChain 생성을 위해서 `DXGI_SWAP_CHAIN_DESC` 타입의 변수를 채워야한다.
+- QueryInterface() 로 IDXGIDevice 얻어온다.
+- IDXGIDevice->GetParent() 로 IDXGIAdatper 얻어온다.
+- IDXGIAdatper->GetParent() 로 IDXGIFactory 얻어온다.
+- IDXGIFactory->CreateSwapChain() 으로 SwapChain 생성한다.
+- 즉, Factory에 접근하여 SwapChain 생성한다.
 
-    2. 
-
-    ```
-- <stdlib.h> atexit()
-- MessageBox()
-- ComPtr
-
-## 수업
-
-### 솔루션 생성
-"Window 데스크톱 애플리케이션"으로 솔루션 생성  
-```
-솔루션 명 : DirectX49
-프로젝트 명 : Client
-```
-
-### 솔루션 정리
-- 소스, 헤더 필터 제거
-- client.cpp -> main.cpp 로 파일명 변경
-- 정적 라이브러리 프로젝트 추가 (프로젝트 명 : "Engine")
-- Engine 에 필터(Default) 추가
-- Project 폴더에 Client, Engine 폴더 위치 옮기기 (Project 파일 따로 관리하기 위함)
-- x64 에 빌드되는 경로 변경한다.
-    ```
-    [CLinet]
-    Platform = x64
-
-    Output 폴더 생성
-        - bin 폴더 생성(빌드 )
-        - content 폴더 생성
-
-    출력 디렉터리 변경 '모든 구성' (경로 : Output/bin) - 출력물 관리
-    디버깅/작업 디렉터리 설정 - Current Directory 설정
-
-    일반 -> "대상이름" 에서 Debug 의 겨우 뒤에 "_d" 를 붙여주는 걸로 변경
-
-    [Engine]
-    라이브러리 폴더 생성하여 출력 디렉터리 설정해준다.
-
-    [bat 파일]
-    빌드 이벤트에 사용할 *.bat파일 과 exclude_list.txt 파일 추가
-
-    일반 -> "대상이름" 에서 Debug 의 겨우 뒤에 "_d" 를 붙여주는 걸로 변경
-    ```
-
-### CEngine 클래스 
-- 정적 라이브러리 프로젝트에 Engine 클래스 생성
-- CEngine 클래스 SingleTon 으로 만든다. (Template을 상속해서 만들어본다)
-    ```cpp
-    // singleton.h
-
-    // atexit() : 
-    //      메인함수 종료시 호출 될 함수 등록해주는 함수
-    //      SingleTon 객체들 메모리 해제할 때 사용
-
-    // 불필요하다고 생각하는 매니저를 런타임 도중에 메모리 해제할 수 있다.
-
-    ```
-
-- init(HWND, Vec2)
-    - AdjustWindowRect()
-    - SetWindowPos()
-- progress() : 매틱마다 호출되는 함수
-
-
-### struct.h 헤더 생성
-- 선언시 windows.h 아래에 위치해야한다. (POINT 타입 인식)
-- Vec2 구조체 생성
-
-### CDevice 클래스
-DirectX11 기준 GPU 제어  
-게임의 최저 사양이 안되는 경우 실패처리  
-- ID3D11Device : GPU 메모리 관리, 객체 생성 - 메모리 관련 주 업무를 담당하는 클래스
-- ID3D11DeviceContext : GPU 렌더링 명령
-- IDXGISwapChain : 출력 버퍼 지정
-
-[OM = OutputMergeState]
-- ID3D11Texture2D : 렌더타겟 텍스쳐
-- ID3D11RenderTargetView : 렌더 타겟 뷰
-- ID3D11Texture2D : 뎊스 스텐실 텍스쳐
-- ID3D11DepthStencilView : 뎊스 스텐실 뷰
-
-- ID3D11RasterizerState
-- ID3D11BlendState
-- ID3D11DepthStencilState
-- ID3D11SamplerState
-
-
-### DirectX 
-- DirectX 9 은 라이브러리를 다운받아서 사용햐야했으나, 이제 그럴필요 없다.
+#### DXGI_SWAP_CHAIN_DESC 
 ```cpp
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <DirectXMath.h>
+// SwapChain 이 관리하는 Buffer 의 구성 정보
+DXGI_SWAP_CHAIN_DESC tDesc = {};
+```
+- Buffer 정보
+    - BufferCount
+    - BufferUsage
+    - BufferDesc 
+        - width, height
+        - format : 픽셀 포멧
+        - refreshrate : Denominator(분자) ,Numerator(분모)
+    - Scalin
+    - ScanlineOrdering
+- Flags
+- SampleDesc
+    - Count
+    - Quality
+- Windowed : 창모드
+- OutputWindow : 출력 윈도우 지정
+<br><br>
 
-using namespace DirectX;
+### 3. RenderTargetView
+- 렌터 타겟 텍스처를 SwapChain 으로부터 얻어온다.
+- SwapChain 을 생성하면 "렌더 타겟 텍스처(= 버퍼)"가 하나 생성된다.
+- 렌더 타겟 텍스처 = 스왑 체인이 관리하는 버퍼
+- 렌더 타겟 텍스처는 GPU의 RAM 을 사용한다.
 
-#pragma comment(lib, "d3d11")
-#pragma comment(lib, "d3dcompiler")
+- SwapChain->GetBuffer() : 스왑 체인이 관리하는 버퍼를 얻을 수 있다.
+    이를 통해 SwapChain 의 참조 카운트가 늘어난다.
+
+#### ID3D11Resource
+- ID3D11Buffer
+- ID3D11Texture2D
+
+
+## 스마트 포인터
+
+```cpp
+// globla.h
+
+#include <wrl.h>
+using namespace Micsoft::WL;
 ```
 
-## To be...
-Device 장치 초기화 과정 
+- 위의 헤더를 추가해줌으로써 ComPtr<type> 사용가능  
+- 지정한 타입으로 포인터 변수 생성  
+- 해당 타입 변수를 하나 가지고 있는 클래스이다.  
+- 클래스 객체이다 보니 소멸하면서 자신이 가지고 있는 멤버 변수 타입의 소멸자를 호출함으로써 자동으로 해당 객체를 메모리 해제한다.
+- Comptr로 변수를 선언하면 스마트 포인터로 인해 생성자가 호출되기에 별도로 초기화 할 필요 없다.
+- Get() : 주소값 반환
+- GetAddressOf() : 더블 포인터 주소값 반환
+<br><br>
+
+## View?
+- View의 종류 : RenderTargetView, DepthStencilView, ShaderResourceView, UnorderedView, etc ...
+- 리소스 객체를 통해서 View가 생성되고 리소스가 필요한 곳에서는 리소스가 아니라 View 를 요청한다.  
+- 즉, 다이렉트로 리소스를 요구하지 않는 구조이다.
+- 이유 : texture 는 다양한 용도가 있다.
+- texture 는 만들어지는 순간부터 용도가 정해진다. (용도를 지정하는 flag값이 있다.)
+- 뷰는 중간 전달자의 역할을 한다. 
+- 뷰는 해당 리소스가 어떤 용도인지 보장해주는? 증명해주는? ID와도 같은것
+- 하나의 리소스에서 여러개의 뷰가 나올 수 있다.
+
+## DepthStencilView
+- RenderTarget 용 texture 는 SwapChain으로부터 받아올 수 있었지만, DepthStencil 용 texture 는 받아올 곳이 없기 떄문에 만들어줘야한다.
+- OMSetRenderTarets() 함수에서 rendertargetview 와 depthstencilview 를 요구한다.
+- OM = Output Merge State
+
+```cpp
+순서:
+
+1. depthstencil texture 생성 : 
+    D3D11_TEXUTURE_DESC desc;   //D3D11_TEXUTURE_DESC 타입 변수 선언
+    desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; // 픽셀 포멧
+
+    // depthstencistate 텍스처의 해상도는 반드시 RederTarget 해상도와 동일해야한다.
+    desc.Width = m_vRenderResolution.x;     
+    desc.Height = m_vRenderResolution.y;
+
+    desc.BindFlag = ;// 용도 설정
+
+    desc.CPUAccessFlags = 0;    // 통신하는게 없다는 의미
+    desc.Usage = D3D11_USAGE_DEFAULT;
+
+    // 샘플링
+    MipLevel = 1; // 1이면 저 퀄리티의 샘플이 없다는 의미 
+
+```
+뭔가 만들고자 할 때는 Device 를 사용한다. (Context 아님)
+<br><br>
+
+
+## 그래픽스 파이프라인
+렌더링 하는 과정
