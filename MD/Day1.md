@@ -217,4 +217,4 @@ int Pow(int a, int b)
 dll 파일이 위와 같이 External 폴더에 위치해 있으면 프로그램 실행시 오류가 발생한다.<br>
 <img src="./img/1_dll 파일을 찾을 수 없음.png" width=1000><br><br>
 때문에 dll 파일을 실행파일(exe) 위치로 옮겨줘야한다.<br>
-<img src="./img/dll파일 실행파일 위치로 옮김.png" width=500><br><br>
+<img src="./img/1_dll파일 실행파일 위치로 옮김.png" width=500><br><br>

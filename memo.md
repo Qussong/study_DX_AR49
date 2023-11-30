@@ -26,33 +26,6 @@
 - MessageBox()
 - ComPtr
 
-## 질문
-동적 라이브러리 암시적 링크로 사용할 경우 dll 파일을 실행파일 경로로 옮겨줘야하는데 
-이에 대한 bat 파일을 "동적 라이브러리 프로젝트"의 "빌드 이벤트/빌드 후 작업"에 넣어줘도 되는가?
-
-
-## 동적 라이브러리 런타임 도중에 실시간으로 링킹하여 함수 호출하는 과정
-```
-// HMODULE 타입
-HMODULE hDllHandle = LoadLibrary(L"DynamicLib.dll");    // 동적 라이브러리 핸들 받아옴
-
-typedef int(*FUNC_TYPE)(int, int);  // 함수 포인트타입 선언
-FUNC_TYPE pFunc = nullptr;
-
-pFunc = (FUNC_TYPE)GetProcAddress(hDllHandle, "Pow");   // 로드된 dll 라이브러리에서 pow 함수를 찾아서 주소를 반환
-
-pFunc(4, 3);    // Pow 함수 호출한것과 동일함
-
-FreeLibrary(hDllHandle);    //동적 라이브러리 링크 해제
-```
-
-위의 과정을 보면 사용하기 힘듦을 알 수 있다.  
-때문에 dll 을 사용하더라도 실시간에 초점을 두기보단, 필수적이거나 간단한 함수의 경우 암시적으로 링크를 걸어서 사용한다.  
-
-언어관련 기능을 사용할 때, 이를 dll로 관리할 수 있다. (동적)  
-모든 언어를 한 프로젝트에 다 넣어버리면 실행파일이 너무 커진다.  
-때문에 국가에 따라 필요한 언어를 dll을 통해서 동적할당 하면 깔끔하다.  
-
 ## 수업
 
 ### 솔루션 생성
