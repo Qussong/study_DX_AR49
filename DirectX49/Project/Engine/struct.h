@@ -1,24 +1,9 @@
 #pragma once
 
-struct Vec2
+// 3차원 공간에 배치되는 정점
+struct Vtx
 {
-public:
-	float x;
-	float y;
-
-public:
-	Vec2()
-		: x(0.f)
-		, y(0.f)
-	{}
-
-	Vec2(int _x, int _y)
-		: x(static_cast<float>(_x))
-		, y(static_cast<float>(_y))
-	{}
-
-	Vec2(POINT _pt)
-		: x(static_cast<float>(_pt.x))
-		, y(static_cast<float>(_pt.y))
-	{}
-} ;
+	Vec3 vPos;		// 정점의 좌표
+	Vec4 vColor;	// 정점의 색상 정보
+	Vec2 vUV;		// UV좌표계 or Texture Coodinate
+};
