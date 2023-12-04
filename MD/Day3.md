@@ -1,5 +1,6 @@
 23.11.30
 - CDevice.h/cpp
+<br><br>
 
 ## CDevice 클래스
 
@@ -9,6 +10,7 @@ Device, Device Context, SwapChain 객체 생성 및 초기화<br>
 	ComPtr<ID3D11DeviceContext>		m_Context;
 	ComPtr<IDXGISwapChain>			m_SwapChain;
 ```
+<br>
 
 ### ID3D11Device
 GPU 메모리 관리 및 객체 생성 담당<br>
@@ -41,11 +43,7 @@ typedef enum D3D_FEATURE_LEVEL {
     D3D_FEATURE_LEVEL_9_3,
     D3D_FEATURE_LEVEL_10_0,
     D3D_FEATURE_LEVEL_10_1,
-<<<<<<< HEAD
     D3D_FEATURE_LEVEL_11_0, // choice
-=======
-    D3D_FEATURE_LEVEL_11_0, // 채택
->>>>>>> 27c77e8bba5d4d98597d607b24ac6e6643a25c5a
     D3D_FEATURE_LEVEL_11_1,
     D3D_FEATURE_LEVEL_12_0,
     D3D_FEATURE_LEVEL_12_1,
@@ -96,17 +94,9 @@ HRESULT D3D11CreateDevice(
 
 ### ID3D11DeviceContext
 GPU 렌더링 명령 담당<br>
-<<<<<<< HEAD
-=======
-
->>>>>>> 27c77e8bba5d4d98597d607b24ac6e6643a25c5a
 <br><br>
 
 ### IDXGISwapChain
 출력 버퍼 지정 담당<br>
-<<<<<<< HEAD
-=======
-
->>>>>>> 27c77e8bba5d4d98597d607b24ac6e6643a25c5a
 <br><br>
 

@@ -1,15 +1,20 @@
 23.11.29
+- 동적 라이브러리 명시적 링킹
+- DX 프로젝트 초기 틀 잡기
+- VS 설정(작업 디렉터리, 출력 디렉터리, 참조 디렉터리, etc...)
+<br><br>
 
 ## 동적 라이브러리 런타임 링킹
 ( refer : https://blog.naver.com/sorkelf/40133647878 )<br>
 
 ### DLL 사용 방식
-1) 묵시적 링킹 :<br>
+**1) 묵시적 링킹 :**<br>
     실행 파일 자체에 사용하고자 하는 DLL과 함수에 대한 정보를 포함시키고, OS가 프로그램 실행 시 해당 함수들을 초기화한 후 이용하는 방식<br>
     ```cpp
     #pragma comment(lib, "library 이름");
     ```
-2) 명시적 링킹 :<br>
+	<br>
+**2) 명시적 링킹 :**<br>
     프로그램 실행 중 API를 이용하여 DLL 파일의 유무를 검사하고, 동적으로 원하는 함수만 불러와 사용하는 방식<br>
     ```cpp
     LoadLibrary();
@@ -57,6 +62,7 @@ int main()
 	return 0;
 }
 ```
+<br><br>
 
 ### LoadLibrary(LPCWSTR)
 ```cpp
@@ -66,7 +72,8 @@ HMODULE LoadLibraryW(LPCWSTR lpLibFileName);
 #define LoadLibrary  LoadLibraryW
 ```
 지정한 DLL을 현재 프로세스의 주소 공간으로 mapping 하여 사용할 수 있도록 해준다.<br>
-지정된 DLL을 찾을 수 없으면 nullptr 을 반환<br>
+지정된 DLL을 찾을 수 없으면 nullptr 을 반환
+<br><br>
 
 ### GetProcAddress()
 ```cpp
@@ -74,7 +81,8 @@ HMODULE LoadLibraryW(LPCWSTR lpLibFileName);
 FARPROC GetProcAddress(HMODULE hModule, LPCSTR lpProcName);
 ```
 DLL 에서 export 한 함수의 주소를 찾아서 함수의 포인터를 반환해준다.<br>
-지정된 함수를 찾지 못하면 nullptr을 반환한다.<br>
+지정된 함수를 찾지 못하면 nullptr을 반환한다.
+<br><br>
 
 ### FreeLibrary()
 ```cpp
@@ -82,15 +90,16 @@ DLL 에서 export 한 함수의 주소를 찾아서 함수의 포인터를 반�
 BOOL FreeLibrary(HMODULE hLibModule);
 ```
 지정된 DLL의 참조 수를 -1 시키고, 참조 수가 0 이 되면 호출 프로세스의 메모리 공간에서 언로드된다.<br>
-힘수가 성공하면 반환값이 0이 아니다.<br>
+힘수가 성공하면 반환값이 0이 아니다.
+<br><br>
 
 ### etc
 위의 예제 코드에서 보듯, DLL 을 명시적 링킹으로 사용하기엔 복잡한감이 없잖아 있다.<br>
 때문에 DLL 을 사용하더라도 런타임 링킹에 초점을 두기보단, 필수적이거나 간단한 기능의 경우 암시적으로 링킹을 통해 DLL의 기능을 사용한다.
-<br><br><br>
-
+<br><br>
 
 ## DirectX 프로젝트 구성 & Visual Studio 초기설정
+<br><br>
 
 ### 프로젝트 생성
 - "Windows 데스크톱 애플리케이션" 프로젝트 생성
@@ -116,7 +125,6 @@ BOOL FreeLibrary(HMODULE hLibModule);
 	<img src='./img/2_프로젝트 필터 정리.png' width=300><br>
 <br><br>
 
-
 ### 솔루션 폴더 구성 변경
 프로젝트 소스 코드들은 "프로젝트 명"의 폴더에 저장되고, 빌드 결과물은 "x64" 폴더에 저장되던 기본구조를 변경한다.<br>
 
@@ -141,8 +149,8 @@ Project : 소스코드 저장 폴더
 ```
 <br><br>
 
-
 ### Engine 프로젝트 설정
+<br><br>
 
 #### 1. 출력 디렉터리 경로 변경
 ```
@@ -152,6 +160,7 @@ Project : 소스코드 저장 폴더
 
 수정 경로 : $(SolutionDir)External\Library\Engine\
 ```
+<br><br>
 
 #### 2. 출력 대상 이름 변경
 ```
@@ -163,6 +172,7 @@ Project : 소스코드 저장 폴더
 
 수정 값 : $(ProjectName)_d
 ```
+<br><br>
 
 #### 3. 작업 디렉터리 경로 변경
 ```
@@ -172,6 +182,7 @@ Project : 소스코드 저장 폴더
 
 수정 경로 : $(SolutionDir)OutputFile\bin\
 ```
+<br><br>
 
 #### 4. 라이브러리 탐색 경로 추가
 ```
@@ -181,6 +192,7 @@ Project : 소스코드 저장 폴더
 	- 외부 include 디렉터리 : $(SolutionDir)External\Include\
 	- 라이브러리 디렉터리 	: $(SolutionDir)External\Library\
 ```
+<br><br>
 
 #### 5. 빌드 이벤트 추가
 ```
@@ -192,6 +204,7 @@ Project : 소스코드 저장 폴더
 <br><br>
 
 ### Client 프로젝트 설정
+<br><br>
 
 #### 1. 출력 디렉터리 변경
 ```
@@ -201,6 +214,7 @@ Project : 소스코드 저장 폴더
 
 수정 경로 : $(SolutionDir)External\Library\bin\
 ```
+<br><br>
 
 #### 2. 출력 대상 이름 변경
 ```
@@ -212,6 +226,7 @@ Project : 소스코드 저장 폴더
 
 수정 값 : $(ProjectName)_d
 ```
+<br><br>
 
 #### 3. 라이브러리 탐색 경로 추가
 ```
@@ -221,6 +236,7 @@ Project : 소스코드 저장 폴더
 	- 외부 include 디렉터리 : $(SolutionDir)External\Include\
 	- 
 ```
+<br><br>
 
 #### 4. 프로젝트 빌드 종속성 설정
 ```
@@ -231,18 +247,20 @@ Project : 소스코드 저장 폴더
 ```
 <br><br>
 
-
 ## 작업 디렉터리? 출력 디렉터리?
+<br><br>
 
 ### 작업 디렉터리 (Working Directory)
 - 현재 프로그램이 실행되고 있는 프로세스가 기준이 되는 디렉터리
 - 일반적으로 파일을 읽거나 쓸 때, 상대 경로의 기준이 되는 디렉터리
 - 일반적으로 작업 디렉터리는 소스 코드가 위치한 곳일 수 있다.
+<br><br>
 
 ### 출력 디렉터리 (Output Directory)
 - 빌드된 프로젝트의 실행 파일이나 라이브러리 등이 생성되는 디렉터리
 - 개발 환경에서 코드를 컴파일하고 빌드할 때, 결과물들이 위치하는 디렉터리
 - 빌드 시에 설정한 디렉터리에 실행 파일, 라이브러리 파일 등이 생성된다.
+<br><br>
 
 ### Test
 ```
@@ -261,8 +279,8 @@ GetCurrentDirectory(255, dirPath);
 
 ▼ 작업 디렉터리 폴더<br>
 일반적으로 작업 디렉터리는 *.sln 또는 *.vcxproj 파일이 위치한 곳이다.
-<img src='./img/2_작업 디렉터리 폴더.png' width=1000><br>
-
+<img src='./img/2_작업 디렉터리 폴더.png' width=1000>
+<br><br>
 
 ### GetCurrentDirectory( )
 Windows 운영체제의 경우 해당 함수를 통해 현재 작업 디렉터리의 경로를 가져올 수 있다.

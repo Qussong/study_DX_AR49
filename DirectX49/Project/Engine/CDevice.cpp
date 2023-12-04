@@ -46,7 +46,7 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 void CDevice::ClearRenderTarget(float(&_color)[4])
 {
 	m_Context->ClearRenderTargetView(m_RTView.Get(), _color);
-	m_Context->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0.f);
+	m_Context->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, (UINT8)0.f);
 	m_Context->RSSetViewports(1, &m_Viewport);
 }
 
@@ -79,22 +79,23 @@ int CDevice::CreateDevice()
 int CDevice::CreateSwapChain()
 {
 	// 积己且 SwapChain 积己 备炼眉
-	DXGI_SWAP_CHAIN_DESC tDesc = {};
+	DXGI_SWAP_CHAIN_DESC desc = {};
+	ZeroMemory(&desc, sizeof(desc));
 	{
-		tDesc.BufferCount = 1;
-		tDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		tDesc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
-		tDesc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
-		tDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		tDesc.BufferDesc.RefreshRate.Denominator = 1;
-		tDesc.BufferDesc.RefreshRate.Numerator = 60;
-		tDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-		tDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		tDesc.Flags = 0;
-		tDesc.SampleDesc.Count = 1;
-		tDesc.SampleDesc.Quality = 0;
-		tDesc.Windowed = true;
-		tDesc.OutputWindow = m_hRenderWnd;
+		desc.BufferCount = 1;
+		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
+		desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
+		desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		desc.BufferDesc.RefreshRate.Denominator = 1;
+		desc.BufferDesc.RefreshRate.Numerator = 60;
+		desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+		desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		desc.Flags = 0;
+		desc.SampleDesc.Count = 1;
+		desc.SampleDesc.Quality = 0;
+		desc.Windowed = true;
+		desc.OutputWindow = m_hRenderWnd;
 	}
 
 	// SwapChain 积己阑 困秦 Factory俊 立辟
@@ -108,7 +109,7 @@ int CDevice::CreateSwapChain()
 	}
 
 	// SwapChain
-	HRESULT hr = pFactory->CreateSwapChain(m_Device.Get(), &tDesc, m_SwapChain.GetAddressOf());
+	HRESULT hr = pFactory->CreateSwapChain(m_Device.Get(), &desc, m_SwapChain.GetAddressOf());
 	CHECK(hr);
 
 	return S_OK;
@@ -127,6 +128,7 @@ int CDevice::CreateTargetView()
 
 	// DepthStencil Texture 积己 备炼眉
 	D3D11_TEXTURE2D_DESC desc = {};
+	ZeroMemory(&desc, sizeof(desc));
 	{
 		desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		desc.Width = (UINT)m_vRenderResolution.x;
