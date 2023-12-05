@@ -1,7 +1,12 @@
 #include "pch.h"
 #include "CEngine.h"
 
+// DX
 #include "CDevice.h"
+// Mgr
+#include "CTimeMgr.h"
+#include "CKeyMgr.h"
+#include "CPathMgr.h"
 
 // 삼각형 그리기
 #include "Test.h"
@@ -33,6 +38,11 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
         return E_FAIL;
     }
 
+    // Manager init
+    CPathMgr::init();
+    CTimeMgr::GetInst()->init();
+    CKeyMgr::GetInst()->init();
+
     // 삼각형 그리기
     if (FAILED(TestInit()))
     {
@@ -45,14 +55,9 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
 
 void CEngine::progress()
 {
-    // 작업 디렉터리 경로 확인 코드
-    //wchar_t dirPath[255] = {};
-    //GetCurrentDirectory(255, dirPath);
-
-    // 배경 초기화 확인
-    //Vec4 color = { 0.f, 0.f, 0.f, 1.f };
-    //CDevice::GetInst()->ClearRenderTarget(color);
-    //CDevice::GetInst()->Present();
+    // Manager Update
+    CTimeMgr::GetInst()->tick();
+    CKeyMgr::GetInst()->tick();
 
     // 삼각형 그리기
     TestProgress();

@@ -79,9 +79,24 @@ int CDevice::CreateDevice()
 int CDevice::CreateSwapChain()
 {
 	// 생성할 SwapChain 생성 구조체
-	DXGI_SWAP_CHAIN_DESC desc = {};
+	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	{
+		//desc.BufferCount = 1;
+		//desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		//desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
+		//desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
+		//desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		//desc.BufferDesc.RefreshRate.Denominator = 1;
+		//desc.BufferDesc.RefreshRate.Numerator = 60;
+		//desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+		//desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+		//desc.Flags = 0;
+		//desc.SampleDesc.Count = 1;
+		//desc.SampleDesc.Quality = 0;
+		//desc.Windowed = true;
+		//desc.OutputWindow = m_hRenderWnd;
+
 		desc.BufferCount = 1;
 		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
@@ -94,8 +109,8 @@ int CDevice::CreateSwapChain()
 		desc.Flags = 0;
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
-		desc.Windowed = true;
-		desc.OutputWindow = m_hRenderWnd;
+		desc.Windowed = true; // 창모드
+		desc.OutputWindow = m_hRenderWnd; // SwapChain 의 출력 윈도우 지정
 	}
 
 	// SwapChain 생성을 위해 Factory에 접근
@@ -149,6 +164,8 @@ int CDevice::CreateTargetView()
 	// DepthStencil Texture View
 	hr = m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf());
 	CHECK(hr);
+
+	CONTEXT->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());
 
 	// Viewport 설정
 	SetViewport();

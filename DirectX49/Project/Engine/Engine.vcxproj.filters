@@ -22,8 +22,20 @@
     <Filter Include="ShaderCode">
       <UniqueIdentifier>{165106a6-b5ba-4817-a373-ade1d8661c11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Level">
+    <Filter Include="05.Level">
       <UniqueIdentifier>{7840689d-f74e-4530-88cf-0250fc73ddd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager">
+      <UniqueIdentifier>{95d8fa02-13b4-4ee3-be2b-ddd26d9443f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\Key">
+      <UniqueIdentifier>{dc8bf656-b9af-4338-9aad-b9d450f8c5ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\Path">
+      <UniqueIdentifier>{cbb98298-7826-452c-bf94-b25f5e57378d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\Time">
+      <UniqueIdentifier>{e1bad947-6fcf-4517-8d3f-c942a9af9025}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,11 +67,20 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="CLevel.h">
-      <Filter>04.Level</Filter>
+      <Filter>05.Level</Filter>
     </ClInclude>
     <ClInclude Include="Test.h" />
     <ClInclude Include="SimpleMath.h">
       <Filter>Module</Filter>
+    </ClInclude>
+    <ClInclude Include="CKeyMgr.h">
+      <Filter>04.Manager\Key</Filter>
+    </ClInclude>
+    <ClInclude Include="CTimeMgr.h">
+      <Filter>04.Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="CPathMgr.h">
+      <Filter>04.Manager\Path</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,9 +100,18 @@
       <Filter>Entity</Filter>
     </ClCompile>
     <ClCompile Include="CLevel.cpp">
-      <Filter>04.Level</Filter>
+      <Filter>05.Level</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="CKeyMgr.cpp">
+      <Filter>04.Manager\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="CTimeMgr.cpp">
+      <Filter>04.Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="CPathMgr.cpp">
+      <Filter>04.Manager\Path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
