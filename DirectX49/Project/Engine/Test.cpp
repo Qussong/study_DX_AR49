@@ -7,24 +7,24 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-// »ï°¢ÇüÀÇ Á¤Á¡ Á¤º¸ (»ï°¢ÇüÀÇ Á¤Á¡°³¼ö = 3°³)
+// ì‚¼ê°í˜•ì˜ ì •ì  ì •ë³´ (ì‚¼ê°í˜•ì˜ ì •ì ê°œìˆ˜ = 3ê°œ)
 Vtx g_vtx[3] = {};
-// »ç°¢ÇüÀÇ Á¤Á¡ Á¤º¸ (»ç°¢ÇüÀÇ Á¤Á¡°³¼ö = 4°³)
+// ì‚¬ê°í˜•ì˜ ì •ì  ì •ë³´ (ì‚¬ê°í˜•ì˜ ì •ì ê°œìˆ˜ = 4ê°œ)
 Vtx g_vtx2[4] = {};
 
-ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// Á¤Á¡¹öÆÛ
-ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS ÄÄÆÄÀÏ Á¤º¸ ÀúÀå	
-ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// ¹öÅØ½º ½¦ÀÌ´õ
-D3D11_INPUT_ELEMENT_DESC	g_arrElement[3]	= {};		// »ï°¢Çü Á¤Á¡ ±¸Á¶Á¤º¸(Layout)
-ComPtr<ID3D11InputLayout>	g_Layout		= nullptr;	// Á¤Á¡ ÇÏ³ªÀÇ ±¸Á¶¸¦ ¾Ë¸®´Â °´Ã¼
-ComPtr<ID3DBlob>			g_PSBlob		= nullptr;	// PS ÄÄÆÄÀÏ Á¤º¸ ÀúÀå
-ComPtr<ID3D11PixelShader>	g_PS			= nullptr;	// ÇÈ¼¿ ½¦ÀÌ´õ
+ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// ì •ì ë²„í¼
+ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS ì»´íŒŒì¼ ì •ë³´ ì €ìž¥	
+ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// ë²„í…ìŠ¤ ì‰ì´ë”
+D3D11_INPUT_ELEMENT_DESC	g_arrElement[3]	= {};		// ì‚¼ê°í˜• ì •ì  êµ¬ì¡°ì •ë³´(Layout)
+ComPtr<ID3D11InputLayout>	g_Layout		= nullptr;	// ì •ì  í•˜ë‚˜ì˜ êµ¬ì¡°ë¥¼ ì•Œë¦¬ëŠ” ê°ì²´
+ComPtr<ID3DBlob>			g_PSBlob		= nullptr;	// PS ì»´íŒŒì¼ ì •ë³´ ì €ìž¥
+ComPtr<ID3D11PixelShader>	g_PS			= nullptr;	// í”½ì…€ ì‰ì´ë”
 ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;
 
 
 int TestInit()
 {
-	// [»ï°¢Çü À§Ä¡ ¼³Á¤]
+	// [ì‚¼ê°í˜• ìœ„ì¹˜ ì„¤ì •]
 	//       0(Red)
 	//      /    \
 	//    2(G) - 1(Blue)
@@ -40,28 +40,28 @@ int TestInit()
 	g_vtx[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
 	g_vtx[2].vUV = Vec2(0.f, 0.f);
 
-	// Á¤Á¡¹öÆÛ »ý¼º & ÃÊ±âÈ­
+	// ì •ì ë²„í¼ ìƒì„± & ì´ˆê¸°í™”
 	if (FAILED(CreateVertexBuffer()))
 	{
-		MessageBox(nullptr, L"Vertex Buffer »ý¼º ½ÇÆÐ", L"TestInit ¿À·ù", MB_OK);
+		MessageBox(nullptr, L"Vertex Buffer ìƒì„± ì‹¤íŒ¨", L"TestInit ì˜¤ë¥˜", MB_OK);
 		return E_FAIL;
 	}
 
 	if (FAILED(CreateVertexShader()))
 	{
-		MessageBox(nullptr, L"Vertex Shader »ý¼º ½ÇÆÐ", L"TestInit ¿À·ù", MB_OK);
+		MessageBox(nullptr, L"Vertex Shader ìƒì„± ì‹¤íŒ¨", L"TestInit ì˜¤ë¥˜", MB_OK);
 		return E_FAIL;
 	}
 
 	if (FAILED(CreateInputLayout()))
 	{
-		MessageBox(nullptr, L"Input Layout »ý¼º ½ÇÆÐ", L"TestInit ¿À·ù", MB_OK);
+		MessageBox(nullptr, L"Input Layout ìƒì„± ì‹¤íŒ¨", L"TestInit ì˜¤ë¥˜", MB_OK);
 		return E_FAIL;
 	}
 
 	if (FAILED(CreatePixelShader()))
 	{
-		MessageBox(nullptr, L"Pixel Shader »ý¼º ½ÇÆÐ", L"TestInit ¿À·ù", MB_OK);
+		MessageBox(nullptr, L"Pixel Shader ìƒì„± ì‹¤íŒ¨", L"TestInit ì˜¤ë¥˜", MB_OK);
 		return E_FAIL;
 	}
 
@@ -70,18 +70,18 @@ int TestInit()
 
 int CreateVertexBuffer()
 {
-	// ¹öÅØ½º ¹öÆÛ »ý¼º ±¸Á¶Ã¼
+	// ë²„í…ìŠ¤ ë²„í¼ ìƒì„± êµ¬ì¡°ì²´
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 	{
-		bufferDesc.ByteWidth = sizeof(Vtx) * 3;				// ¹öÆÛÀÇ Å©±â
-		bufferDesc.StructureByteStride = sizeof(Vtx);		// Á¤Á¡ ÇÏ³ªÀÇ Å©±â
-		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// ¿ëµµ¼³Á¤ = ¹öÅØ½º ¹öÆÛ
+		bufferDesc.ByteWidth = sizeof(Vtx) * 3;				// ë²„í¼ì˜ í¬ê¸°
+		bufferDesc.StructureByteStride = sizeof(Vtx);		// ì •ì  í•˜ë‚˜ì˜ í¬ê¸°
+		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// ìš©ë„ì„¤ì • = ë²„í…ìŠ¤ ë²„í¼
 		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	}
 
-	// ¹öÅØ½º ¹öÆÛ¿¡ µé¾î°¥ Á¤Á¡µéÀÇ ÃÊ±â °ª ¼³Á¤
+	// ë²„í…ìŠ¤ ë²„í¼ì— ë“¤ì–´ê°ˆ ì •ì ë“¤ì˜ ì´ˆê¸° ê°’ ì„¤ì •
 	D3D11_SUBRESOURCE_DATA tSubData = {};
 	tSubData.pSysMem = g_vtx;
 
@@ -96,10 +96,10 @@ int CreateVertexShader()
 {
 	HRESULT hr = NULL;
 
-	// shader ÆÄÀÏ °æ·Î
+	// shader íŒŒì¼ ê²½ë¡œ
 	wstring strFilePath = CPathMgr::GetContentPath();
 
-	// HLSL ¹öÅØ½º ½¦ÀÌ´õ ÇÔ¼ö ÄÄÆÄÀÏ
+	// HLSL ë²„í…ìŠ¤ ì‰ì´ë” í•¨ìˆ˜ ì»´íŒŒì¼
 	hr = D3DCompileFromFile(
 		wstring(strFilePath + L"shader\\std2d.fx").c_str()
 		, nullptr
@@ -132,7 +132,7 @@ int CreateVertexShader()
 
 int CreateInputLayout()
 {
-	// Á¤Á¡ ±¸Á¶Á¤º¸
+	// ì •ì  êµ¬ì¡°ì •ë³´
 	{
 		g_arrElement[0].InputSlot = 0;
 		g_arrElement[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
@@ -159,7 +159,7 @@ int CreateInputLayout()
 		g_arrElement[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 	}
 
-	// Layout »ý¼º
+	// Layout ìƒì„±
 	HRESULT hr = DEVICE->CreateInputLayout(g_arrElement, 3
 		, g_VSBlob->GetBufferPointer()
 		, g_VSBlob->GetBufferSize()
@@ -173,10 +173,10 @@ int CreatePixelShader()
 {
 	HRESULT hr = NULL;
 
-	// shader ÆÄÀÏ °æ·Î
+	// shader íŒŒì¼ ê²½ë¡œ
 	wstring strFilePath = CPathMgr::GetContentPath();
 
-	// HLSL ¹öÅØ½º ½¦ÀÌ´õ ÇÔ¼ö ÄÄÆÄÀÏ
+	// HLSL ë²„í…ìŠ¤ ì‰ì´ë” í•¨ìˆ˜ ì»´íŒŒì¼
 	hr = D3DCompileFromFile(
 		wstring(strFilePath + L"shader\\std2d.fx").c_str()
 		, nullptr
@@ -210,11 +210,11 @@ int CreatePixelShader()
 
 void TestProgress()
 {
-	// Window ¹è°æ»ö ¼³Á¤
+	// Window ë°°ê²½ìƒ‰ ì„¤ì •
 	float clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(clearColor);
 
-	// »ï°¢Çü ±×¸®±â
+	// ì‚¼ê°í˜• ê·¸ë¦¬ê¸°
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
@@ -228,7 +228,7 @@ void TestProgress()
 
 	CONTEXT->Draw(3, 0);
 
-	// ¸Þ¸ð¸® »ó¿¡ ÀÛ¾÷ÇÑ »ï°¢Çü ±×¸²À» Window ¿¡ ±×·ÁÁØ´Ù.
+	// ë©”ëª¨ë¦¬ ìƒì— ìž‘ì—…í•œ ì‚¼ê°í˜• ê·¸ë¦¼ì„ Window ì— ê·¸ë ¤ì¤€ë‹¤.
 	CDevice::GetInst()->Present();
 }
 

@@ -3,7 +3,6 @@
 
 CDevice::CDevice()
 	: m_hRenderWnd(nullptr)
-	, m_Viewport{}
 {
 }
 
@@ -13,30 +12,30 @@ CDevice::~CDevice()
 
 int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 {
-	// Ãâ·Â À©µµ¿ì ÇÚµé
+	// ì¶œë ¥ ìœˆë„ìš° í•¸ë“¤
 	m_hRenderWnd = _hWnd;
 
-	// Ãâ·Â À©µµ¿ì ÇØ»óµµ, ¹öÆÛ ÇØ»óµµ
+	// ì¶œë ¥ ìœˆë„ìš° í•´ìƒë„, ë²„í¼ í•´ìƒë„
 	m_vRenderResolution = _vResolution;
 
-	// Device, DeviceContext »ı¼º & ÃÊ±âÈ­
+	// Device, DeviceContext ìƒì„± & ì´ˆê¸°í™”
 	if (FAILED(CreateDevice()))
 	{
-		MessageBox(nullptr, L"Device, Context »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"Device, Context ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// SwapChain »ı¼º & ÃÊ±âÈ­
+	// SwapChain ìƒì„± & ì´ˆê¸°í™”
 	if (FAILED(CreateSwapChain()))
 	{
-		MessageBox(nullptr, L"SwapChain »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"SwapChain ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
-	// RenderTarget, RenderTargetView, DepthStencil, DepthStencilView »ı¼º & ÃÊ±âÈ­
+	// RenderTarget, RenderTargetView, DepthStencil, DepthStencilView ìƒì„± & ì´ˆê¸°í™”
 	if (FAILED(CreateTargetView()))
 	{
-		MessageBox(nullptr, L"Å¸°Ù ¹× View »ı¼º ½ÇÆĞ", L"Device ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+		MessageBox(nullptr, L"íƒ€ê²Ÿ ë° View ìƒì„± ì‹¤íŒ¨", L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
 		return E_FAIL;
 	}
 
@@ -47,7 +46,19 @@ void CDevice::ClearRenderTarget(float(&_color)[4])
 {
 	m_Context->ClearRenderTargetView(m_RTView.Get(), _color);
 	m_Context->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, (UINT8)0.f);
-	m_Context->RSSetViewports(1, &m_Viewport);
+
+	// Viewport ì„¤ì •
+	D3D11_VIEWPORT viewport;
+	ZeroMemory(&viewport, sizeof(viewport));
+	{
+		viewport.MinDepth = 0;
+		viewport.MaxDepth = 1.f;
+		viewport.TopLeftX = 0;
+		viewport.TopLeftY = 0;
+		viewport.Width = m_vRenderResolution.x;
+		viewport.Height = m_vRenderResolution.y;
+	}
+	m_Context->RSSetViewports(1, &viewport);
 }
 
 void CDevice::Present()
@@ -57,10 +68,10 @@ void CDevice::Present()
 
 int CDevice::CreateDevice()
 {
-	// ÀåÄ¡ ÃÊ±âÈ­
+	// ì¥ì¹˜ ì´ˆê¸°í™”
 	D3D_FEATURE_LEVEL eLevel = D3D_FEATURE_LEVEL_11_0;
 
-	// Device »ı¼º
+	// Device ìƒì„±
 	HRESULT hr = D3D11CreateDevice(
 		nullptr
 		, D3D_DRIVER_TYPE_HARDWARE
@@ -78,24 +89,10 @@ int CDevice::CreateDevice()
 
 int CDevice::CreateSwapChain()
 {
-	// »ı¼ºÇÒ SwapChain »ı¼º ±¸Á¶Ã¼
+	// ìƒì„±í•  SwapChain ìƒì„± êµ¬ì¡°ì²´
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	{
-		//desc.BufferCount = 1;
-		//desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		//desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
-		//desc.BufferDesc.Height = (UINT)m_vRenderResolution.y;
-		//desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//desc.BufferDesc.RefreshRate.Denominator = 1;
-		//desc.BufferDesc.RefreshRate.Numerator = 60;
-		//desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-		//desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-		//desc.Flags = 0;
-		//desc.SampleDesc.Count = 1;
-		//desc.SampleDesc.Quality = 0;
-		//desc.Windowed = true;
-		//desc.OutputWindow = m_hRenderWnd;
 
 		desc.BufferCount = 1;
 		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -109,11 +106,11 @@ int CDevice::CreateSwapChain()
 		desc.Flags = 0;
 		desc.SampleDesc.Count = 1;
 		desc.SampleDesc.Quality = 0;
-		desc.Windowed = true; // Ã¢¸ğµå
-		desc.OutputWindow = m_hRenderWnd; // SwapChain ÀÇ Ãâ·Â À©µµ¿ì ÁöÁ¤
+		desc.Windowed = true; // ì°½ëª¨ë“œ
+		desc.OutputWindow = m_hRenderWnd; // SwapChain ì˜ ì¶œë ¥ ìœˆë„ìš° ì§€ì •
 	}
 
-	// SwapChain »ı¼ºÀ» À§ÇØ Factory¿¡ Á¢±Ù
+	// SwapChain ìƒì„±ì„ ìœ„í•´ Factoryì— ì ‘ê·¼
 	ComPtr<IDXGIDevice>		pIdxgiDevice	= nullptr;
 	ComPtr<IDXGIAdapter>	pAdapter		= nullptr;
 	ComPtr<IDXGIFactory>	pFactory		= nullptr;
@@ -141,7 +138,7 @@ int CDevice::CreateTargetView()
 	hr = m_Device->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf());
 	CHECK(hr);
 
-	// DepthStencil Texture »ı¼º ±¸Á¶Ã¼
+	// DepthStencil Texture ìƒì„± êµ¬ì¡°ì²´
 	D3D11_TEXTURE2D_DESC desc = {};
 	ZeroMemory(&desc, sizeof(desc));
 	{
@@ -167,22 +164,5 @@ int CDevice::CreateTargetView()
 
 	CONTEXT->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());
 
-	// Viewport ¼³Á¤
-	SetViewport();
-
 	return S_OK;
-}
-
-void CDevice::SetViewport()
-{
-	// Viewport ¼³Á¤
-	ZeroMemory(&m_Viewport, sizeof(m_Viewport));
-	{
-		m_Viewport.MinDepth = 0;
-		m_Viewport.MaxDepth = 1.f;
-		m_Viewport.TopLeftX = 0;
-		m_Viewport.TopLeftY = 0;
-		m_Viewport.Width = m_vRenderResolution.x;
-		m_Viewport.Height = m_vRenderResolution.y;
-	}
 }

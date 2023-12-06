@@ -1,6 +1,6 @@
 #pragma once
 
-// DirectX 11 ±âÁØ GPU Á¦¾î
+// DX11 ê¸°ì¤€ CPU ì œì–´
 class CDevice
 	: public CSingleton<CDevice>
 {
@@ -18,7 +18,6 @@ private:
 	ComPtr<ID3D11Texture2D>			m_DSTex;
 	ComPtr<ID3D11DepthStencilView>	m_DSView;
 
-	D3D11_VIEWPORT					m_Viewport;
 	HWND							m_hRenderWnd;
 	Vec2							m_vRenderResolution;
 
@@ -34,7 +33,5 @@ private:
 	int CreateDevice();
 	int CreateSwapChain();
 	int CreateTargetView();
-
-	void SetViewport();
 };
 

@@ -5,8 +5,8 @@ class CEngine
 {
 	SINGLE(CEngine);
 private:
-	HWND	m_hMainWnd;		// ¸ŞÀÎ Window ÇÚµé
-	Vec2	m_vResolution;	// ÇØ»óµµ Á¤º¸
+	HWND	m_hMainWnd;		// ë©”ì¸ Window í•¸ë“¤
+	Vec2	m_vResolution;	// í•´ìƒë„ ì •ë³´
 	
 public:
 	HWND GetMainWind() { return m_hMainWnd; }

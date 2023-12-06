@@ -1,9 +1,9 @@
 #pragma once
 
-// 3Â÷¿ø °ø°£¿¡ ¹èÄ¡µÇ´Â Á¤Á¡
+// 3ì°¨ì› ê³µê°„ì— ë°°ì¹˜ë˜ëŠ” ì •ì 
 struct Vtx
 {
-	Vec3 vPos;		// Á¤Á¡ÀÇ ÁÂÇ¥
-	Vec4 vColor;	// Á¤Á¡ÀÇ »ö»ó Á¤º¸
-	Vec2 vUV;		// UVÁÂÇ¥°è or Texture Coodinate
+	Vec3 vPos;		// ì •ì ì˜ ì¢Œí‘œ
+	Vec4 vColor;	// ì •ì ì˜ ìƒ‰ìƒ ì •ë³´
+	Vec2 vUV;		// UVì¢Œí‘œê³„ or Texture Coodinate
 };

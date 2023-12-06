@@ -1,8 +1,5 @@
 #pragma once
 
-
-
-
 class CTimeMgr
 	: public CSingleton<CTimeMgr>
 {

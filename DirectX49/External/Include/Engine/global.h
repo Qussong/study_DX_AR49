@@ -20,7 +20,7 @@ using namespace Microsoft::WRL;
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
-// DirectX 11 Çì´õ ¹× ¶óÀÌºê·¯¸® ÂüÁ¶
+// DirectX 11 í—¤ë” ë° ë¼ì´ë¸ŒëŸ¬ë¦¬ ì°¸ì¡°
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
@@ -37,7 +37,7 @@ typedef Vector2 Vec2;
 typedef Vector3 Vec3;
 typedef Vector4 Vec4;
 
-// Engine Çì´õ ÂüÁ¶
+// Engine í—¤ë” ì°¸ì¡°
 #include "singleton.h"
 #include "define.h"
 #include "struct.h"

@@ -8,7 +8,7 @@
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
 
-// »ï°¢Çü ±×¸®±â
+// ì‚¼ê°í˜• ê·¸ë¦¬ê¸°
 #include "Test.h"
 
 CEngine::CEngine()
@@ -19,7 +19,7 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-    // »ï°¢Çü ±×¸®±â
+    // ì‚¼ê°í˜• ê·¸ë¦¬ê¸°
     TestRelease();
 }
 
@@ -30,11 +30,11 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
 
     RECT rt = { 0,0,(int)m_vResolution.x, (int)m_vResolution.y };
     AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
-    SetWindowPos(m_hMainWnd, nullptr, 10.f, 10.f, rt.right - rt.left, rt.bottom - rt.top, 0);
+    SetWindowPos(m_hMainWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
 
     if (FAILED(CDevice::GetInst()->init(m_hMainWnd, m_vResolution)))
     {
-        MessageBox(nullptr, L"Device ÃÊ±âÈ­ ½ÇÆĞ", L"ÃÊ±âÈ­ ½ÇÆĞ", MB_OK);
+        MessageBox(nullptr, L"Device ì´ˆê¸°í™” ì‹¤íŒ¨", L"ì´ˆê¸°í™” ì‹¤íŒ¨", MB_OK);
         return E_FAIL;
     }
 
@@ -43,10 +43,10 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
     CTimeMgr::GetInst()->init();
     CKeyMgr::GetInst()->init();
 
-    // »ï°¢Çü ±×¸®±â
+    // ì‚¼ê°í˜• ê·¸ë¦¬ê¸°
     if (FAILED(TestInit()))
     {
-        MessageBox(nullptr, L"Test ÃÊ±âÈ­ ½ÇÆĞ", L"Test ½ÇÆĞ", MB_OK);
+        MessageBox(nullptr, L"Test ì´ˆê¸°í™” ì‹¤íŒ¨", L"Test ì‹¤íŒ¨", MB_OK);
         return E_FAIL;
     }
 
@@ -59,6 +59,6 @@ void CEngine::progress()
     CTimeMgr::GetInst()->tick();
     CKeyMgr::GetInst()->tick();
 
-    // »ï°¢Çü ±×¸®±â
+    // ì‚¼ê°í˜• ê·¸ë¦¬ê¸°
     TestProgress();
 }
