@@ -7,3 +7,10 @@ struct Vtx
 	Vec4 vColor;	// 정점의 색상 정보
 	Vec2 vUV;		// UV좌표계 or Texture Coodinate
 };
+
+// 상수버퍼 대응 구조체
+struct tTransform
+{
+	Vec4    vWorldScale;	// S
+	Vec4	vWorldPos;		// T
+};

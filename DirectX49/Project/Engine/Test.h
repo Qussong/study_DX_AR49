@@ -9,6 +9,7 @@ void Render();
 
 int CreateVertexBuffer();
 int CreateIndexBuffer();
+int CreateConstantBuffer();
 int CreateVertexShader();
 int CreateInputLayout();
 int CreatePixelShader();

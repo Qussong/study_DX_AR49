@@ -11,12 +11,15 @@ Vtx							g_vtx[4]		= {};		// 사각형의 정점 정보 (사각형의 정점개
 UINT						g_Idx[6]		= {};		// 사각형 정점의 인덱스 정보
 ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// 정점버퍼
 ComPtr<ID3D11Buffer>		g_IB			= nullptr;	// 인덱스버퍼
+ComPtr<ID3D11Buffer>		g_CB			= nullptr;	// 상수버퍼
 ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS 컴파일 정보 저장	
 ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// 버텍스 쉐이더
 ComPtr<ID3D11InputLayout>	g_Layout		= nullptr;	// 정점 하나의 구조를 알리는 객체
 ComPtr<ID3DBlob>			g_PSBlob		= nullptr;	// PS 컴파일 정보 저장
 ComPtr<ID3D11PixelShader>	g_PS			= nullptr;	// 픽셀 쉐이더
 ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;	// Shader 생성중 발생한 Error 메세지 저장
+
+tTransform					g_Transform		= { Vec4(1.f, 1.f, 1.f, 1.f), Vec4(0.f, 0.f, 0.f, 0.f)};
 
 int TestInit()
 {
@@ -29,6 +32,12 @@ int TestInit()
 	if (FAILED(CreateIndexBuffer()))
 	{
 		MessageBox(nullptr, L"Index Buffer 생성 실패", L"TestInit 오류", MB_OK);
+		return E_FAIL;
+	}
+
+	if (FAILED(CreateConstantBuffer()))
+	{
+		MessageBox(nullptr, L"Constant Buffer 생성 실패", L"TestInit 오류", MB_OK);
 		return E_FAIL;
 	}
 
@@ -67,47 +76,46 @@ void TestRelease()
 
 void Tick()
 {
-	// Vertex Buffer의 정점정보를 변경하여 객체를 움직인다.
-
+	// Constant Buffer 를 활용해서 객체를 움직인다.
+	// Transform
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		for (int i = 0; i < 4; ++i)
-		{
-			g_vtx[i].vPos.x -= DT;
-		}
+		g_Transform.vWorldPos.x -= DT;
 	}
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		for (int i = 0; i < 4; ++i)
-		{
-			g_vtx[i].vPos.x += DT;
-		}
+		g_Transform.vWorldPos.x += DT;
 	}
 
 	if (KEY_PRESSED(KEY::UP))
 	{
-		for (int i = 0; i < 4; ++i)
-		{
-			g_vtx[i].vPos.y += DT;
-		}
+		g_Transform.vWorldPos.y += DT;
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		for (int i = 0; i < 4; ++i)
-		{
-			g_vtx[i].vPos.y -= DT;
-		}
+		g_Transform.vWorldPos.y -= DT;
 	}
+	// Scale
+	if (KEY_PRESSED(KEY::Q))
+	{
+		g_Transform.vWorldScale += DT * Vec4(1.f, 1.f, 1.f, 1.f);
+	}
+
+	if (KEY_PRESSED(KEY::W))
+	{
+		g_Transform.vWorldScale -= DT * Vec4(1.f, 1.f, 1.f, 1.f);
+	}
+
 
 	// SystemMem -> GPUMem
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
-	CONTEXT->Map(g_VB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+	CONTEXT->Map(g_CB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
 
-	memcpy(tSub.pData, g_vtx, sizeof(Vtx) * 6);
+	memcpy(tSub.pData, &g_Transform, sizeof(tTransform) * 6);
 
-	CONTEXT->Unmap(g_VB.Get(), 0);
+	CONTEXT->Unmap(g_CB.Get(), 0);
 }
 
 void Render()
@@ -126,6 +134,8 @@ void Render()
 	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	CONTEXT->IASetInputLayout(g_Layout.Get());
+
+	CONTEXT->VSSetConstantBuffers(0, 1, g_CB.GetAddressOf());	// 상수버퍼 전달(바인딩)
 
 	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
 	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
@@ -160,18 +170,18 @@ int CreateVertexBuffer()
 		g_vtx[3].vUV = Vec2(0.f, 0.f);
 	}
 
-	// 버텍스 버퍼 생성 구조체
+	// 버텍스버퍼 생성 구조체
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 	{
-		bufferDesc.ByteWidth = sizeof(Vtx) * 4;				// 버퍼의 크기
-		bufferDesc.StructureByteStride = sizeof(Vtx);		// 정점 하나의 크기
-		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// 용도설정 = 버텍스 버퍼
-		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// Buffer에 데이터 쓰기 기능
-		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		bufferDesc.ByteWidth = sizeof(Vtx) * 4;				// 버텍스버퍼의 크기
+		bufferDesc.StructureByteStride = sizeof(Vtx);		// 버텍스버퍼의 인자 하나의 크기
+		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// 용도설정 = 버텍스버퍼
+		bufferDesc.CPUAccessFlags = 0;						// 버퍼에 데이터 쓰기 불가능
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	}
 
-	// 버텍스 버퍼에 들어갈 정점들의 초기 값 설정
+	// 버텍스버퍼에 들어갈 정점들의 초기 값 설정
 	D3D11_SUBRESOURCE_DATA tSubData = {};
 	tSubData.pSysMem = g_vtx;
 
@@ -198,23 +208,47 @@ int CreateIndexBuffer()
 		g_Idx[5] = 3;
 	}
 
-	// 인덱스 버퍼 생성 구조체
+	// 인덱스버퍼 생성 구조체
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 	{
-		bufferDesc.ByteWidth = sizeof(UINT) * 6;		// 버퍼의 크기
-		bufferDesc.StructureByteStride = sizeof(UINT);	// 정점 하나의 크기
-		bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;	// 용도설정 = 버텍스 버퍼
-		bufferDesc.CPUAccessFlags = 0;					// Buffer에 데이터 쓰기 불가능
+		bufferDesc.ByteWidth = sizeof(UINT) * 6;		// 인덱스버퍼의 크기
+		bufferDesc.StructureByteStride = sizeof(UINT);	// 인덱스버퍼의 인자 하나의 크기
+		bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;	// 용도설정 = 인덱스버퍼
+		bufferDesc.CPUAccessFlags = 0;					// 버퍼에 데이터 쓰기 불가능
 		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	}
 
-	// 인덱스 버퍼에 들어갈 정점들의 초기 값 설정
+	// 인덱스버퍼에 들어갈 정점들의 초기 값 설정
 	D3D11_SUBRESOURCE_DATA tSubData = {};
 	tSubData.pSysMem = g_Idx;
 
-	// Index Buffer
+	// 인덱스버퍼
 	HRESULT hr = DEVICE->CreateBuffer(&bufferDesc, &tSubData, g_IB.GetAddressOf());
+	CHECK(hr);
+
+	return S_OK;
+}
+
+int CreateConstantBuffer()
+{
+	// 상수 버퍼 생성 구조체
+	D3D11_BUFFER_DESC bufferDesc;
+	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
+	{
+		bufferDesc.ByteWidth = sizeof(tTransform);				// 상수버퍼의 크기
+		bufferDesc.StructureByteStride = sizeof(tTransform);	// 상수버퍼의 인자 하나의 크기
+		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;		// 용도설정 = 상수버퍼 
+		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;		// 버퍼에 쓰기 가능
+		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	}
+
+	// 상수버퍼에 들어갈 정점들의 초기 값 설정
+	D3D11_SUBRESOURCE_DATA tSubData = {};
+	tSubData.pSysMem = g_Idx;
+
+	// 상수버퍼
+	HRESULT hr = DEVICE->CreateBuffer(&bufferDesc, &tSubData, g_CB.GetAddressOf());
 	CHECK(hr);
 
 	return S_OK;
