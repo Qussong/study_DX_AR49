@@ -8,6 +8,7 @@ void Tick();
 void Render();
 
 int CreateVertexBuffer();
+int CreateIndexBuffer();
 int CreateVertexShader();
 int CreateInputLayout();
 int CreatePixelShader();

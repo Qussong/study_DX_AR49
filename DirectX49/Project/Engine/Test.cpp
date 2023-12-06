@@ -7,8 +7,10 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-Vtx							g_vtx[6]		= {};		// 사각형의 정점 정보 (사각형의 정점개수 = 삼각형*2 = 6개)
+Vtx							g_vtx[4]		= {};		// 사각형의 정점 정보 (사각형의 정점개수 = 4개)
+UINT						g_Idx[6]		= {};		// 사각형 정점의 인덱스 정보
 ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// 정점버퍼
+ComPtr<ID3D11Buffer>		g_IB			= nullptr;	// 인덱스버퍼
 ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS 컴파일 정보 저장	
 ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// 버텍스 쉐이더
 ComPtr<ID3D11InputLayout>	g_Layout		= nullptr;	// 정점 하나의 구조를 알리는 객체
@@ -18,46 +20,15 @@ ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;	// Shader 생성중 발생한 Error 메
 
 int TestInit()
 {
-	// 사각형 정점 위치 설정
-	// 1번 삼각형
-	{
-		// 0(R)
-		// |   \
-		// 2(B)-1(G)
-		g_vtx[0].vPos	= Vec3(-0.5f, 0.5f, 0.f);
-		g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-		g_vtx[0].vUV	= Vec2(0.f, 0.f);
-						  
-		g_vtx[1].vPos	= Vec3(0.5f, -0.5f, 0.f);
-		g_vtx[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-		g_vtx[1].vUV	= Vec2(0.f, 0.f);
-						  
-		g_vtx[2].vPos	= Vec3(-0.5f, -0.5f, 0.f);
-		g_vtx[2].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-		g_vtx[2].vUV	= Vec2(0.f, 0.f);
-	}					  
-	// 2번 삼각형		  
-	{					  
-		// 3(R)-4(B)	  
-		//	  \   |		  
-		//	   5(G)		  
-		g_vtx[3].vPos	= Vec3(-0.5f, 0.5f, 0.f);
-		g_vtx[3].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
-		g_vtx[3].vUV	= Vec2(0.f, 0.f);
-						  
-		g_vtx[4].vPos	= Vec3(0.5f, 0.5f, 0.f);
-		g_vtx[4].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
-		g_vtx[4].vUV	= Vec2(0.f, 0.f);
-						  
-		g_vtx[5].vPos	= Vec3(0.5f, -0.5f, 0.f);
-		g_vtx[5].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
-		g_vtx[5].vUV	= Vec2(0.f, 0.f);
-	}
-
-	// 정점버퍼 생성 & 초기화
 	if (FAILED(CreateVertexBuffer()))
 	{
 		MessageBox(nullptr, L"Vertex Buffer 생성 실패", L"TestInit 오류", MB_OK);
+		return E_FAIL;
+	}
+
+	if (FAILED(CreateIndexBuffer()))
+	{
+		MessageBox(nullptr, L"Index Buffer 생성 실패", L"TestInit 오류", MB_OK);
 		return E_FAIL;
 	}
 
@@ -87,13 +58,11 @@ void TestProgress()
 	Tick();
 
 	Render();
-
-	
 }
 
 void TestRelease()
 {
-
+	// nothing
 }
 
 void Tick()
@@ -102,7 +71,7 @@ void Tick()
 
 	if (KEY_PRESSED(KEY::LEFT))
 	{
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
 			g_vtx[i].vPos.x -= DT;
 		}
@@ -110,7 +79,7 @@ void Tick()
 
 	if (KEY_PRESSED(KEY::RIGHT))
 	{
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
 			g_vtx[i].vPos.x += DT;
 		}
@@ -118,7 +87,7 @@ void Tick()
 
 	if (KEY_PRESSED(KEY::UP))
 	{
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
 			g_vtx[i].vPos.y += DT;
 		}
@@ -126,7 +95,7 @@ void Tick()
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		for (int i = 0; i < 6; ++i)
+		for (int i = 0; i < 4; ++i)
 		{
 			g_vtx[i].vPos.y -= DT;
 		}
@@ -152,6 +121,8 @@ void Render()
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
 
+	CONTEXT->IASetIndexBuffer(g_IB.Get(), DXGI_FORMAT_R32_UINT, 0);
+
 	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	CONTEXT->IASetInputLayout(g_Layout.Get());
@@ -159,7 +130,7 @@ void Render()
 	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
 	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
 
-	CONTEXT->Draw(6, 0);
+	CONTEXT->DrawIndexed(6, 0, 0);
 
 	// 메모리 상에 작업한 삼각형 그림을 Window 에 그려준다.
 	CDevice::GetInst()->Present();
@@ -167,11 +138,33 @@ void Render()
 
 int CreateVertexBuffer()
 {
+	// 사각형 정점 위치 설정
+	// 0(R)--- 1(B)	     
+	//  |   \   |	     
+	// 3(G)--- 2(M)  
+	{
+		g_vtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
+		g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+		g_vtx[0].vUV = Vec2(0.f, 0.f);
+
+		g_vtx[1].vPos = Vec3(0.5f, 0.5f, 0.f);
+		g_vtx[1].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+		g_vtx[1].vUV = Vec2(0.f, 0.f);
+
+		g_vtx[2].vPos = Vec3(0.5f, -0.5f, 0.f);
+		g_vtx[2].vColor = Vec4(1.f, 0.f, 1.f, 1.f);
+		g_vtx[2].vUV = Vec2(0.f, 0.f);
+
+		g_vtx[3].vPos = Vec3(-0.5f, -0.5f, 0.f);
+		g_vtx[3].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+		g_vtx[3].vUV = Vec2(0.f, 0.f);
+	}
+
 	// 버텍스 버퍼 생성 구조체
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 	{
-		bufferDesc.ByteWidth = sizeof(Vtx) * 6;				// 버퍼의 크기
+		bufferDesc.ByteWidth = sizeof(Vtx) * 4;				// 버퍼의 크기
 		bufferDesc.StructureByteStride = sizeof(Vtx);		// 정점 하나의 크기
 		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// 용도설정 = 버텍스 버퍼
 		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// Buffer에 데이터 쓰기 기능
@@ -184,6 +177,44 @@ int CreateVertexBuffer()
 
 	// Vertex Buffer
 	HRESULT hr = DEVICE->CreateBuffer(&bufferDesc, &tSubData, g_VB.GetAddressOf());
+	CHECK(hr);
+
+	return S_OK;
+}
+
+int CreateIndexBuffer()
+{
+	// 사각형 인덱스 설정
+	// 0---1	     
+	// | \ |	     
+	// 3---2
+	{
+		g_Idx[0] = 0;
+		g_Idx[1] = 1;
+		g_Idx[2] = 2;
+
+		g_Idx[3] = 0;
+		g_Idx[4] = 2;
+		g_Idx[5] = 3;
+	}
+
+	// 인덱스 버퍼 생성 구조체
+	D3D11_BUFFER_DESC bufferDesc;
+	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
+	{
+		bufferDesc.ByteWidth = sizeof(UINT) * 6;		// 버퍼의 크기
+		bufferDesc.StructureByteStride = sizeof(UINT);	// 정점 하나의 크기
+		bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;	// 용도설정 = 버텍스 버퍼
+		bufferDesc.CPUAccessFlags = 0;					// Buffer에 데이터 쓰기 불가능
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	}
+
+	// 인덱스 버퍼에 들어갈 정점들의 초기 값 설정
+	D3D11_SUBRESOURCE_DATA tSubData = {};
+	tSubData.pSysMem = g_Idx;
+
+	// Index Buffer
+	HRESULT hr = DEVICE->CreateBuffer(&bufferDesc, &tSubData, g_IB.GetAddressOf());
 	CHECK(hr);
 
 	return S_OK;
@@ -258,7 +289,9 @@ int CreateInputLayout()
 	}
 
 	// Layout 생성
-	HRESULT hr = DEVICE->CreateInputLayout(arrElement, 3
+	HRESULT hr = DEVICE->CreateInputLayout(
+		arrElement
+		, 3
 		, g_VSBlob->GetBufferPointer()
 		, g_VSBlob->GetBufferSize()
 		, g_Layout.GetAddressOf());
