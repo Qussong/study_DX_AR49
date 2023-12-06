@@ -7,7 +7,7 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-Vtx							g_vtx[3]		= {};		// 삼각형의 정점 정보 (삼각형의 정점개수 = 3개)
+Vtx							g_vtx[6]		= {};		// 사각형의 정점 정보 (사각형의 정점개수 = 삼각형*2 = 6개)
 ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// 정점버퍼
 ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS 컴파일 정보 저장	
 ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// 버텍스 쉐이더
@@ -18,23 +18,40 @@ ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;	// Shader 생성중 발생한 Error 메
 
 int TestInit()
 {
-	// 삼각형 위치 설정
+	// 사각형 정점 위치 설정
+	// 1번 삼각형
 	{
-		//       0(Red)
-		//      /    \
-		//    2(G) - 1(Blue)
-		g_vtx[0].vPos = Vec3(0.f, 1.f, 0.f);
-		g_vtx[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		g_vtx[0].vUV = Vec2(0.f, 0.f);
-
-		g_vtx[1].vPos = Vec3(1.f, -1.f, 0.f);
-		g_vtx[1].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		g_vtx[1].vUV = Vec2(0.f, 0.f);
-
-		g_vtx[2].vPos = Vec3(-1.f, -1.f, 0.f);
-		g_vtx[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-		g_vtx[2].vUV = Vec2(0.f, 0.f);
-
+		// 0(R)
+		// |   \
+		// 2(B)-1(G)
+		g_vtx[0].vPos	= Vec3(-0.5f, 0.5f, 0.f);
+		g_vtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+		g_vtx[0].vUV	= Vec2(0.f, 0.f);
+						  
+		g_vtx[1].vPos	= Vec3(0.5f, -0.5f, 0.f);
+		g_vtx[1].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+		g_vtx[1].vUV	= Vec2(0.f, 0.f);
+						  
+		g_vtx[2].vPos	= Vec3(-0.5f, -0.5f, 0.f);
+		g_vtx[2].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+		g_vtx[2].vUV	= Vec2(0.f, 0.f);
+	}					  
+	// 2번 삼각형		  
+	{					  
+		// 3(R)-4(B)	  
+		//	  \   |		  
+		//	   5(G)		  
+		g_vtx[3].vPos	= Vec3(-0.5f, 0.5f, 0.f);
+		g_vtx[3].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
+		g_vtx[3].vUV	= Vec2(0.f, 0.f);
+						  
+		g_vtx[4].vPos	= Vec3(0.5f, 0.5f, 0.f);
+		g_vtx[4].vColor = Vec4(0.f, 0.f, 1.f, 1.f);
+		g_vtx[4].vUV	= Vec2(0.f, 0.f);
+						  
+		g_vtx[5].vPos	= Vec3(0.5f, -0.5f, 0.f);
+		g_vtx[5].vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+		g_vtx[5].vUV	= Vec2(0.f, 0.f);
 	}
 
 	// 정점버퍼 생성 & 초기화
@@ -67,11 +84,70 @@ int TestInit()
 
 void TestProgress()
 {
+	Tick();
+
+	Render();
+
+	
+}
+
+void TestRelease()
+{
+
+}
+
+void Tick()
+{
+	// Vertex Buffer의 정점정보를 변경하여 객체를 움직인다.
+
+	if (KEY_PRESSED(KEY::LEFT))
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			g_vtx[i].vPos.x -= DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::RIGHT))
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			g_vtx[i].vPos.x += DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::UP))
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			g_vtx[i].vPos.y += DT;
+		}
+	}
+
+	if (KEY_PRESSED(KEY::DOWN))
+	{
+		for (int i = 0; i < 6; ++i)
+		{
+			g_vtx[i].vPos.y -= DT;
+		}
+	}
+
+	// SystemMem -> GPUMem
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+	CONTEXT->Map(g_VB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+
+	memcpy(tSub.pData, g_vtx, sizeof(Vtx) * 6);
+
+	CONTEXT->Unmap(g_VB.Get(), 0);
+}
+
+void Render()
+{
 	// Window 배경색 설정
 	float clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(clearColor);
 
-	// 삼각형 그리기
+	// 사각형 그리기
 	UINT iStride = sizeof(Vtx);
 	UINT iOffset = 0;
 	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
@@ -83,15 +159,10 @@ void TestProgress()
 	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
 	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
 
-	CONTEXT->Draw(3, 0);
+	CONTEXT->Draw(6, 0);
 
 	// 메모리 상에 작업한 삼각형 그림을 Window 에 그려준다.
 	CDevice::GetInst()->Present();
-}
-
-void TestRelease()
-{
-
 }
 
 int CreateVertexBuffer()
@@ -100,10 +171,10 @@ int CreateVertexBuffer()
 	D3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 	{
-		bufferDesc.ByteWidth = sizeof(Vtx) * 3;				// 버퍼의 크기
+		bufferDesc.ByteWidth = sizeof(Vtx) * 6;				// 버퍼의 크기
 		bufferDesc.StructureByteStride = sizeof(Vtx);		// 정점 하나의 크기
 		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	// 용도설정 = 버텍스 버퍼
-		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// Buffer에 데이터 쓰기 기능
 		bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	}
 
