@@ -44,8 +44,8 @@ int CDevice::init(HWND _hWnd, Vec2 _vResolution)
 
 void CDevice::ClearRenderTarget(float(&_color)[4])
 {
-	m_Context->ClearRenderTargetView(m_RTView.Get(), _color);
-	m_Context->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, (UINT8)0.f);
+	CONTEXT->ClearRenderTargetView(m_RTView.Get(), _color);
+	CONTEXT->ClearDepthStencilView(m_DSView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, (UINT8)0.f);
 
 	// Viewport 설정
 	D3D11_VIEWPORT viewport;
@@ -53,12 +53,13 @@ void CDevice::ClearRenderTarget(float(&_color)[4])
 	{
 		viewport.MinDepth = 0;
 		viewport.MaxDepth = 1.f;
-		viewport.TopLeftX = 0;
-		viewport.TopLeftY = 0;
+		viewport.TopLeftX = 0.f;
+		viewport.TopLeftY = 0.f;
 		viewport.Width = m_vRenderResolution.x;
 		viewport.Height = m_vRenderResolution.y;
 	}
-	m_Context->RSSetViewports(1, &viewport);
+
+	CONTEXT->RSSetViewports(1, &viewport);
 }
 
 void CDevice::Present()
@@ -93,7 +94,6 @@ int CDevice::CreateSwapChain()
 	DXGI_SWAP_CHAIN_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	{
-
 		desc.BufferCount = 1;
 		desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		desc.BufferDesc.Width = (UINT)m_vRenderResolution.x;
@@ -115,7 +115,7 @@ int CDevice::CreateSwapChain()
 	ComPtr<IDXGIAdapter>	pAdapter		= nullptr;
 	ComPtr<IDXGIFactory>	pFactory		= nullptr;
 	{
-		m_Device->QueryInterface(__uuidof(IDXGIDevice), (void**)pIdxgiDevice.GetAddressOf());
+		DEVICE->QueryInterface(__uuidof(IDXGIDevice), (void**)pIdxgiDevice.GetAddressOf());
 		pIdxgiDevice->GetParent(__uuidof(IDXGIAdapter), (void**)pAdapter.GetAddressOf());
 		pAdapter->GetParent(__uuidof(IDXGIFactory), (void**)pFactory.GetAddressOf());
 	}
@@ -135,7 +135,7 @@ int CDevice::CreateTargetView()
 	hr = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)m_RTTex.GetAddressOf());
 	CHECK(hr);
 	// Render Target Texture View
-	hr = m_Device->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf());
+	hr = DEVICE->CreateRenderTargetView(m_RTTex.Get(), nullptr, m_RTView.GetAddressOf());
 	CHECK(hr);
 
 	// DepthStencil Texture 생성 구조체
@@ -156,10 +156,10 @@ int CDevice::CreateTargetView()
 	}
 
 	// DepthStencil Texture
-	hr = m_Device->CreateTexture2D(&desc, nullptr, m_DSTex.GetAddressOf());
+	hr = DEVICE->CreateTexture2D(&desc, nullptr, m_DSTex.GetAddressOf());
 	CHECK(hr);
 	// DepthStencil Texture View
-	hr = m_Device->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf());
+	hr = DEVICE->CreateDepthStencilView(m_DSTex.Get(), nullptr, m_DSView.GetAddressOf());
 	CHECK(hr);
 
 	CONTEXT->OMSetRenderTargets(1, m_RTView.GetAddressOf(), m_DSView.Get());

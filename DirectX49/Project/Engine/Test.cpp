@@ -7,38 +7,35 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 
-// 삼각형의 정점 정보 (삼각형의 정점개수 = 3개)
-Vtx g_vtx[3] = {};
-// 사각형의 정점 정보 (사각형의 정점개수 = 4개)
-Vtx g_vtx2[4] = {};
-
+Vtx							g_vtx[3]		= {};		// 삼각형의 정점 정보 (삼각형의 정점개수 = 3개)
 ComPtr<ID3D11Buffer>		g_VB			= nullptr;	// 정점버퍼
 ComPtr<ID3DBlob>			g_VSBlob		= nullptr;	// VS 컴파일 정보 저장	
 ComPtr<ID3D11VertexShader>	g_VS			= nullptr;	// 버텍스 쉐이더
-D3D11_INPUT_ELEMENT_DESC	g_arrElement[3]	= {};		// 삼각형 정점 구조정보(Layout)
 ComPtr<ID3D11InputLayout>	g_Layout		= nullptr;	// 정점 하나의 구조를 알리는 객체
 ComPtr<ID3DBlob>			g_PSBlob		= nullptr;	// PS 컴파일 정보 저장
 ComPtr<ID3D11PixelShader>	g_PS			= nullptr;	// 픽셀 쉐이더
-ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;
-
+ComPtr<ID3DBlob>			g_ErrBlob		= nullptr;	// Shader 생성중 발생한 Error 메세지 저장
 
 int TestInit()
 {
-	// [삼각형 위치 설정]
-	//       0(Red)
-	//      /    \
-	//    2(G) - 1(Blue)
-	g_vtx[0].vPos = Vec3(0.f, 1.f, 0.f);
-	g_vtx[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	g_vtx[0].vUV = Vec2(0.f, 0.f);
+	// 삼각형 위치 설정
+	{
+		//       0(Red)
+		//      /    \
+		//    2(G) - 1(Blue)
+		g_vtx[0].vPos = Vec3(0.f, 1.f, 0.f);
+		g_vtx[0].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		g_vtx[0].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[1].vPos = Vec3(1.f, -1.f, 0.f);
-	g_vtx[1].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	g_vtx[1].vUV = Vec2(0.f, 0.f);
+		g_vtx[1].vPos = Vec3(1.f, -1.f, 0.f);
+		g_vtx[1].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		g_vtx[1].vUV = Vec2(0.f, 0.f);
 
-	g_vtx[2].vPos = Vec3(-1.f, -1.f, 0.f);
-	g_vtx[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
-	g_vtx[2].vUV = Vec2(0.f, 0.f);
+		g_vtx[2].vPos = Vec3(-1.f, -1.f, 0.f);
+		g_vtx[2].vColor = Vec4(1.f, 1.f, 1.f, 1.f);
+		g_vtx[2].vUV = Vec2(0.f, 0.f);
+
+	}
 
 	// 정점버퍼 생성 & 초기화
 	if (FAILED(CreateVertexBuffer()))
@@ -66,6 +63,35 @@ int TestInit()
 	}
 
 	return S_OK;
+}
+
+void TestProgress()
+{
+	// Window 배경색 설정
+	float clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.f };
+	CDevice::GetInst()->ClearRenderTarget(clearColor);
+
+	// 삼각형 그리기
+	UINT iStride = sizeof(Vtx);
+	UINT iOffset = 0;
+	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
+
+	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	CONTEXT->IASetInputLayout(g_Layout.Get());
+
+	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
+	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
+
+	CONTEXT->Draw(3, 0);
+
+	// 메모리 상에 작업한 삼각형 그림을 Window 에 그려준다.
+	CDevice::GetInst()->Present();
+}
+
+void TestRelease()
+{
+
 }
 
 int CreateVertexBuffer()
@@ -132,35 +158,36 @@ int CreateVertexShader()
 
 int CreateInputLayout()
 {
-	// 정점 구조정보
+	// 삼각형 정점 구조정보(Layout)
+	D3D11_INPUT_ELEMENT_DESC arrElement[3] = {};
 	{
-		g_arrElement[0].InputSlot = 0;
-		g_arrElement[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		g_arrElement[0].SemanticName = "POSITION";
-		g_arrElement[0].SemanticIndex = 0;
-		g_arrElement[0].InstanceDataStepRate = 0;
-		g_arrElement[0].AlignedByteOffset = 0;
-		g_arrElement[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-		
-		g_arrElement[1].InputSlot = 0;
-		g_arrElement[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		g_arrElement[1].SemanticName = "COLOR";
-		g_arrElement[1].SemanticIndex = 0;
-		g_arrElement[1].InstanceDataStepRate = 0;
-		g_arrElement[1].AlignedByteOffset = 12;
-		g_arrElement[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-		
-		g_arrElement[2].InputSlot = 0;
-		g_arrElement[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-		g_arrElement[2].SemanticName = "TEXCOORD";
-		g_arrElement[2].SemanticIndex = 0;
-		g_arrElement[2].InstanceDataStepRate = 0;
-		g_arrElement[2].AlignedByteOffset = 28;
-		g_arrElement[2].Format = DXGI_FORMAT_R32G32_FLOAT;
+		arrElement[0].InputSlot = 0;
+		arrElement[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrElement[0].SemanticName = "POSITION";
+		arrElement[0].SemanticIndex = 0;
+		arrElement[0].InstanceDataStepRate = 0;
+		arrElement[0].AlignedByteOffset = 0;
+		arrElement[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+
+		arrElement[1].InputSlot = 0;
+		arrElement[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrElement[1].SemanticName = "COLOR";
+		arrElement[1].SemanticIndex = 0;
+		arrElement[1].InstanceDataStepRate = 0;
+		arrElement[1].AlignedByteOffset = 12;
+		arrElement[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+		arrElement[2].InputSlot = 0;
+		arrElement[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrElement[2].SemanticName = "TEXCOORD";
+		arrElement[2].SemanticIndex = 0;
+		arrElement[2].InstanceDataStepRate = 0;
+		arrElement[2].AlignedByteOffset = 28;
+		arrElement[2].Format = DXGI_FORMAT_R32G32_FLOAT;
 	}
 
 	// Layout 생성
-	HRESULT hr = DEVICE->CreateInputLayout(g_arrElement, 3
+	HRESULT hr = DEVICE->CreateInputLayout(arrElement, 3
 		, g_VSBlob->GetBufferPointer()
 		, g_VSBlob->GetBufferSize()
 		, g_Layout.GetAddressOf());
@@ -206,33 +233,4 @@ int CreatePixelShader()
 	CHECK(hr);
 
 	return S_OK;
-}
-
-void TestProgress()
-{
-	// Window 배경색 설정
-	float clearColor[4] = { 0.5f, 0.5f, 0.5f, 1.f };
-	CDevice::GetInst()->ClearRenderTarget(clearColor);
-
-	// 삼각형 그리기
-	UINT iStride = sizeof(Vtx);
-	UINT iOffset = 0;
-	CONTEXT->IASetVertexBuffers(0, 1, g_VB.GetAddressOf(), &iStride, &iOffset);
-
-	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	CONTEXT->IASetInputLayout(g_Layout.Get());
-
-	CONTEXT->VSSetShader(g_VS.Get(), 0, 0);
-	CONTEXT->PSSetShader(g_PS.Get(), 0, 0);
-
-	CONTEXT->Draw(3, 0);
-
-	// 메모리 상에 작업한 삼각형 그림을 Window 에 그려준다.
-	CDevice::GetInst()->Present();
-}
-
-void TestRelease()
-{
-
 }
