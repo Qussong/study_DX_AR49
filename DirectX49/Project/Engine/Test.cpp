@@ -113,7 +113,7 @@ void Tick()
 	D3D11_MAPPED_SUBRESOURCE tSub = {};
 	CONTEXT->Map(g_CB.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
 
-	memcpy(tSub.pData, &g_Transform, sizeof(tTransform) * 6);
+	memcpy(tSub.pData, &g_Transform, sizeof(tTransform) * 1);
 
 	CONTEXT->Unmap(g_CB.Get(), 0);
 }
