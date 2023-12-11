@@ -10,16 +10,16 @@ cbuffer TRANSFORM : register(b0)
 
 struct VS_IN
 {
-    float4 vColor : COLOR;
-    float3 vPos : POSITION; // Sementic
-    float2 vUV : TEXCOORD;
+    float3 vPos     : POSITION; // Sementic
+    float4 vColor   : COLOR;
+    float2 vUV      : TEXCOORD;
 };
 
 struct VS_OUT
 {
-    float4 vPosition : SV_Position;
-    float4 vColor : COLOR;
-    float2 vUV : TEXCOORD;
+    float4 vPosition    : SV_Position;
+    float4 vColor       : COLOR;
+    float2 vUV          : TEXCOORD;
 };
 
 VS_OUT VS_Std2D(VS_IN _in)

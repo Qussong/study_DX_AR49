@@ -7,3 +7,4 @@
 **_Day4_** : SimpleMath 라이브러리 추가, DEVICE/CONTEXT 메크로 추가, 삼각형 그리기 작업중<br>
 **_Day5_** : 삼각형 그리기 완료<br>
 **_Day6_** : 사각형 그리기(방식1:정점6개, 방식2:정점4개+인덱스버퍼), 객체 움직이기(방식1:VB정보수정,방식2:상수버퍼), 객체 Scale조정<br>
+**_DAY7_** : Asset/Mesh/Shader 클래스 생성, Test 클래스 구조 변경 및 Circle Mesh 출력 코드 추가<br>

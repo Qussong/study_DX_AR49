@@ -19,7 +19,7 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-    // 삼각형 그리기
+    // test
     TestRelease();
 }
 
@@ -43,7 +43,7 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
     CTimeMgr::GetInst()->init();
     CKeyMgr::GetInst()->init();
 
-    // 삼각형 그리기
+    // test
     if (FAILED(TestInit()))
     {
         MessageBox(nullptr, L"Test 초기화 실패", L"Test 실패", MB_OK);
@@ -59,6 +59,6 @@ void CEngine::progress()
     CTimeMgr::GetInst()->tick();
     CKeyMgr::GetInst()->tick();
 
-    // 삼각형 그리기
+    // test
     TestProgress();
 }
