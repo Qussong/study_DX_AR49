@@ -96,7 +96,7 @@ void CMesh::UpdateData()
     CONTEXT->IASetIndexBuffer(mIB.Get(), DXGI_FORMAT_R32_UINT, 0);
 }
 
-void CMesh::render()
+void CMesh::Render()
 {
     UpdateData();
 

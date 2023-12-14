@@ -22,7 +22,7 @@ private:
 
 public:
 	int Create(void* _vtx, UINT _vtxCnt, void* _idx, UINT _idxCnt);
-	void render();
+	void Render();
 
 public:
 	CMesh();

@@ -139,6 +139,12 @@
     <ClInclude Include="CTransform.h">
       <Filter>08.Component\01.Transform</Filter>
     </ClInclude>
+    <ClInclude Include="CConstBuffer.h" />
+    <ClInclude Include="CRenderComponent.h" />
+    <ClInclude Include="func.h">
+      <Filter>01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CMeshRender.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -190,6 +196,9 @@
     <ClCompile Include="CTransform.cpp">
       <Filter>08.Component\01.Transform</Filter>
     </ClCompile>
+    <ClCompile Include="CConstBuffer.cpp" />
+    <ClCompile Include="CRenderComponent.cpp" />
+    <ClCompile Include="CMeshRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">

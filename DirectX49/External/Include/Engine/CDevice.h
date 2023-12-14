@@ -1,5 +1,7 @@
 #pragma once
 
+class CConstBuffer;
+
 // DX11 기준 CPU 제어
 class CDevice
 	: public CSingleton<CDevice>
@@ -21,6 +23,8 @@ private:
 	HWND							m_hRenderWnd;
 	Vec2							m_vRenderResolution;
 
+	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
+
 public:
 	int init(HWND _hWnd, Vec2 _vResolution);
 	void ClearRenderTarget(float(&_color)[4]);
@@ -29,9 +33,12 @@ public:
 	ID3D11Device* GetDevice() { return m_Device.Get(); }
 	ID3D11DeviceContext* GetContext() { return m_Context.Get(); }
 
+	CConstBuffer* GetConstBuffer(CB_TYPE _type) { return m_arrCB[(UINT)_type]; }
+
 private:
 	int CreateDevice();
 	int CreateSwapChain();
 	int CreateTargetView();
+	int CreateConstBuffer();
 };
 
