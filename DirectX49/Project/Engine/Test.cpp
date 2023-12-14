@@ -116,7 +116,7 @@ int TestInit()
 		pObj->AddComponent(new CTransform);
 		pObj->AddComponent(new CMeshRender);
 
-		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.f));
+		pObj->Transform()->SetRelativePos(Vec3(-0.5f, 0.f, 0.f));
 		pObj->Transform()->SetRelativeScale(Vec3(1.5f, 1.5f, 1.5f));
 
 		pObj->MeshRender()->SetMesh(g_RectMesh);

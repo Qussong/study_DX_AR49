@@ -92,7 +92,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 	wstring strContentPath = CPathMgr::GetContentPath();
 	wstring strFilePath = strContentPath + _strRelativePath;
 
-	// HLSL 버텍스 쉐이더 함수 컴파일
+	// HLSL 픽셀 쉐이더 함수 컴파일
 	HRESULT hr = D3DCompileFromFile(
 		strFilePath.c_str()
 		, nullptr

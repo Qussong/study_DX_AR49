@@ -13,6 +13,9 @@ CConstBuffer::~CConstBuffer()
 
 int CConstBuffer::Create(UINT _size, UINT _cnt)
 {
+	m_elementSize = _size;
+	m_elementCnt = _cnt;
+
 	ZeroMemory(&m_desc, sizeof(m_desc));
 	{
 		m_desc.ByteWidth = _size * _cnt;				// 상수버퍼의 크기
