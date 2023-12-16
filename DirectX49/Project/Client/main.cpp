@@ -1,8 +1,8 @@
-﻿#include "framework.h"
+#include "framework.h"
 #include "main.h"
 
-#include <Engine\global.h>
-#include <Engine\CEngine.h>
+#include <Engine/global.h>
+#include <Engine/CEngine.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "Engine\\Engine_d.lib")

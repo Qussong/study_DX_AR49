@@ -11,3 +11,5 @@
 **_DAY8_** : ConstBuffer, CRenderComponent, CMeshRender 클래스 추가, GameObject 객체 2개 출력<br>
 <center>▼ GameObject 객체 2개 출력<br>
 <img src="README_img/day8.png" width=500></center>
+
+**_DAY9_** : Level, Layer 설계및 코드분리<br>

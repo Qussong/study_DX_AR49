@@ -12,9 +12,9 @@ private:
 	Vec3    m_vRelativeScale;
 	Vec3    m_vRealtiveRotation;
 	Vec3    m_vRelativePos;
-	Vec3    m_arrDir[3]; // Right, Up, Front
+	Vec3    m_arrDir[3];	// Right, Up, Front
 
-	Matrix  m_matWorld;
+	Matrix  m_matWorld;		// 상태행렬
 
 public:
 	virtual void FinalTick() override;

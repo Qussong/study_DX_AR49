@@ -19,6 +19,8 @@
 #define KEY_RELEASED(Key)		KEY_CHECK(Key, RELEASED)
 #define KEY_NONE(Key)			KEY_CHECK(Key, NONE)
 
+#define LAYER_MAX 32
+
 enum class DIR_TYPE
 {
 	RIGHT,
@@ -35,8 +37,11 @@ enum class ASSET_TYPE
 	SOUND,
 	COMPUTE_SHADER,
 	GRAPHICS_SHADER,
+
+	END,
 };
 
+// 컴포넌트 종류
 enum class COMPONENT_TYPE
 {
 	TRANSFORM,	// 오브젝트의 위치,크기,회전
@@ -61,6 +66,9 @@ enum class COMPONENT_TYPE
 	LANDSCAPE,
 
 	END,
+
+	// 스크립트
+	SCRIPT,
 };
 
 // 상수버퍼 종류

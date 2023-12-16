@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <Windows.h>
+#include <typeinfo>
 #include <string>
 using std::wstring;
 using std::string;

@@ -11,6 +11,7 @@ struct Vtx
 // 상수버퍼 대응 구조체
 struct tTransform
 {
-	Vec4    vWorldScale;	// S
-	Vec4	vWorldPos;		// T
+	//Vec4    vWorldScale;	// S
+	//Vec4	vWorldPos;		// T
+	Matrix	matWorld;
 };

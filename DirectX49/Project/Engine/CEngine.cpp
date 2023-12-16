@@ -7,9 +7,8 @@
 #include "CTimeMgr.h"
 #include "CKeyMgr.h"
 #include "CPathMgr.h"
-
-// 삼각형 그리기
-#include "Test.h"
+#include "CAssetMgr.h"
+#include "CLevelMgr.h"
 
 CEngine::CEngine()
     : m_hMainWnd(nullptr)
@@ -19,8 +18,6 @@ CEngine::CEngine()
 
 CEngine::~CEngine()
 {
-    // test
-    TestRelease();
 }
 
 int CEngine::init(HWND _hWnd, Vec2 _vResolution)
@@ -42,13 +39,8 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
     CPathMgr::init();
     CTimeMgr::GetInst()->init();
     CKeyMgr::GetInst()->init();
-
-    // test
-    if (FAILED(TestInit()))
-    {
-        MessageBox(nullptr, L"Test 초기화 실패", L"Test 실패", MB_OK);
-        return E_FAIL;
-    }
+    CAssetMgr::GetInst()->Init();
+    CLevelMgr::GetInst()->Init();
 
     return S_OK;
 }
@@ -59,6 +51,7 @@ void CEngine::progress()
     CTimeMgr::GetInst()->tick();
     CKeyMgr::GetInst()->tick();
 
-    // test
-    TestProgress();
+    // Level Update
+    CLevelMgr::GetInst()->Tick();
+    CLevelMgr::GetInst()->Render();
 }

@@ -39,5 +39,6 @@ public:
 	}
 };
 
+// static 변수 외부에서 초기화
 template<typename T>
 T* CSingleton<T>::m_This = nullptr;
