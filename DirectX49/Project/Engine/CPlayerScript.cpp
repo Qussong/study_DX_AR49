@@ -13,7 +13,8 @@ CPlayerScript::~CPlayerScript()
 void CPlayerScript::Tick()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
-
+	Vec3 vRot = Transform()->GetRelativeRotation();
+	// 이동
 	if (KEY_PRESSED(KEY::W))
 	{
 		vPos.y += DT * m_speed;
@@ -34,5 +35,22 @@ void CPlayerScript::Tick()
 		vPos.x += DT * m_speed;
 	}
 
+	// 회전
+	if (KEY_PRESSED(KEY::X))
+	{
+		vRot.x += DT * XM_PI;
+	}
+
+	if (KEY_PRESSED(KEY::Y))
+	{
+		vRot.y += DT * XM_PI;
+	}
+
+	if (KEY_PRESSED(KEY::Z))
+	{
+		vRot.z += DT * XM_PI;
+	}
+
 	Transform()->SetRelativePos(vPos);
+	Transform()->SetRelativeRotation(vRot);
 }

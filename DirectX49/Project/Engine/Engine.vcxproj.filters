@@ -91,12 +91,6 @@
     <Filter Include="08.Component\RenderComponent\01.MeshRender">
       <UniqueIdentifier>{1bf9764b-aa9e-44a1-a28c-aad8d7b962a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08.Component\Script">
-      <UniqueIdentifier>{02fc3c50-5fb4-4801-9123-77a2831a9b5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="08.Component\Script\PlayerScript">
-      <UniqueIdentifier>{ce5cb2a5-c952-46b0-a138-399bcca74a1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Asset\Material">
       <UniqueIdentifier>{48fb8816-14fd-4b92-8062-f54201972f6b}</UniqueIdentifier>
     </Filter>
@@ -105,6 +99,15 @@
     </Filter>
     <Filter Include="06.Asset\Sound">
       <UniqueIdentifier>{c2e43a77-6a5e-43aa-8123-c13d83d55412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Component\Scripts">
+      <UniqueIdentifier>{02fc3c50-5fb4-4801-9123-77a2831a9b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Component\Scripts\CameraMove">
+      <UniqueIdentifier>{692e4b12-8075-4a41-9424-242e66177bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Component\Scripts\Player">
+      <UniqueIdentifier>{ce5cb2a5-c952-46b0-a138-399bcca74a1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -190,19 +193,22 @@
       <Filter>04.Manager\Level</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
-      <Filter>08.Component\Script</Filter>
+      <Filter>08.Component\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
       <Filter>08.Component\08.Camera</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
-      <Filter>08.Component\Script\PlayerScript</Filter>
+      <Filter>08.Component\Scripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="CAssetMgr.h">
       <Filter>04.Manager\Asset</Filter>
     </ClInclude>
     <ClInclude Include="components.h">
       <Filter>01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CCameraMoveScript.h">
+      <Filter>08.Component\Scripts\CameraMove</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -270,19 +276,22 @@
       <Filter>04.Manager\Level</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
-      <Filter>08.Component\Script</Filter>
+      <Filter>08.Component\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>08.Component\08.Camera</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
-      <Filter>08.Component\Script\PlayerScript</Filter>
+      <Filter>08.Component\Scripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="CAssetMgr.cpp">
       <Filter>04.Manager\Asset</Filter>
     </ClCompile>
     <ClCompile Include="extern.cpp">
       <Filter>01.Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CCameraMoveScript.cpp">
+      <Filter>08.Component\Scripts\CameraMove</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,5 +25,7 @@ private:
 	Matrix m_matView;
 	Matrix m_matProj;
 
+public:
+	virtual void FinalTick() override;
 };
 
