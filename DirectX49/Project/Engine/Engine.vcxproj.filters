@@ -281,6 +281,9 @@
     <ClCompile Include="CAssetMgr.cpp">
       <Filter>04.Manager\Asset</Filter>
     </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>01.Header</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleMath.inl">
