@@ -32,7 +32,7 @@ VS_OUT VS_Std2D(VS_IN _in)
     float4 vWorldPos = mul(float4(_in.vPos, 1.f), g_matWorld);
     float4 vViewPos = mul(vWorldPos, g_matView);
     float4 vProjPos = mul(vViewPos, g_matProj);
-            
+    
     output.vPosition = vProjPos;
     output.vColor = _in.vColor;
     output.vUV = _in.vUV;
