@@ -5,7 +5,7 @@ class CShader :
 	public CAsset
 {
 protected:
-	ComPtr <ID3DBlob>	mErrBlob;
+	ComPtr <ID3DBlob>	m_ErrBlob;
 
 public:
 	virtual void UpdateData() = 0;

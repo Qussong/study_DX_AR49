@@ -6,7 +6,10 @@
 
 CGraphicsShader::CGraphicsShader()
 	: CShader(ASSET_TYPE::GRAPHICS_SHADER)
-	, mTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, m_Topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	, m_RSType(RS_TYPE::CULL_BACK)
+	, m_DSType(DS_TYPE::LESS)
+	, m_BSType(BS_TYPE::DEFAULT)
 {
 }
 
@@ -29,24 +32,24 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 			, _strFuncName.c_str(), "vs_5_0"
 			, D3DCOMPILE_DEBUG
 			, 0
-			, mVSBlob.GetAddressOf()
-			, mErrBlob.GetAddressOf());
+			, m_VSBlob.GetAddressOf()
+			, m_ErrBlob.GetAddressOf());
 
 		if (FAILED(hr))
 		{
-			if (nullptr != mErrBlob)
+			if (nullptr != m_ErrBlob)
 			{
-				char* pErrMsg = (char*)mErrBlob->GetBufferPointer();
+				char* pErrMsg = (char*)m_ErrBlob->GetBufferPointer();
 				MessageBoxA(nullptr, pErrMsg, "Vertex Shader Compile Failed!!", MB_OK);
 			}
 			return E_FAIL;
 		}
 
 		hr = DEVICE->CreateVertexShader(
-			mVSBlob->GetBufferPointer()
-			, mVSBlob->GetBufferSize()
+			m_VSBlob->GetBufferPointer()
+			, m_VSBlob->GetBufferSize()
 			, nullptr
-			, mVS.GetAddressOf());
+			, m_VS.GetAddressOf());
 		CHECK(hr);
 	}
 
@@ -62,9 +65,9 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 		HRESULT hr = DEVICE->CreateInputLayout(
 			arrElement
 			, 3
-			, mVSBlob->GetBufferPointer()
-			, mVSBlob->GetBufferSize()
-			, mLayout.GetAddressOf());
+			, m_VSBlob->GetBufferPointer()
+			, m_VSBlob->GetBufferSize()
+			, m_Layout.GetAddressOf());
 		CHECK(hr);
 	}
 
@@ -100,24 +103,24 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 		, _strFuncName.c_str(), "ps_5_0"
 		, D3DCOMPILE_DEBUG
 		, 0
-		, mPSBlob.GetAddressOf()
-		, mErrBlob.GetAddressOf());
+		, m_PSBlob.GetAddressOf()
+		, m_ErrBlob.GetAddressOf());
 
 	if (FAILED(hr))
 	{
-		if (nullptr != mErrBlob)
+		if (nullptr != m_ErrBlob)
 		{
-			char* pErrMsg = (char*)mErrBlob->GetBufferPointer();
+			char* pErrMsg = (char*)m_ErrBlob->GetBufferPointer();
 			MessageBoxA(nullptr, pErrMsg, "Pixel Shader Compile Failed!!", MB_OK);
 		}
 		return E_FAIL;
 	}
 
 	hr = DEVICE->CreatePixelShader(
-		mPSBlob->GetBufferPointer()
-		, mPSBlob->GetBufferSize()
+		m_PSBlob->GetBufferPointer()
+		, m_PSBlob->GetBufferSize()
 		, nullptr
-		, mPS.GetAddressOf());
+		, m_PS.GetAddressOf());
 	CHECK(hr);
 
 	return S_OK;
@@ -125,13 +128,18 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 
 void CGraphicsShader::UpdateData()
 {
-	// IA
-	CONTEXT->IASetInputLayout(mLayout.Get());
-	CONTEXT->IASetPrimitiveTopology(mTopology);
+	CONTEXT->IASetInputLayout(m_Layout.Get());
+	CONTEXT->IASetPrimitiveTopology(m_Topology);
 
-	CONTEXT->VSSetShader(mVS.Get(), nullptr, 0);
-	CONTEXT->HSSetShader(mHS.Get(), nullptr, 0);
-	CONTEXT->DSSetShader(mDS.Get(), nullptr, 0);
-	CONTEXT->GSSetShader(mGS.Get(), nullptr, 0);
-	CONTEXT->PSSetShader(mPS.Get(), nullptr, 0);
+	CONTEXT->VSSetShader(m_VS.Get(), nullptr, 0);
+	CONTEXT->HSSetShader(m_HS.Get(), nullptr, 0);
+	CONTEXT->DSSetShader(m_DS.Get(), nullptr, 0);
+	CONTEXT->GSSetShader(m_GS.Get(), nullptr, 0);
+
+	CONTEXT->RSSetState(CDevice::GetInst()->GetRSState(m_RSType).Get());
+
+	CONTEXT->PSSetShader(m_PS.Get(), nullptr, 0);
+
+	CONTEXT->OMSetDepthStencilState(CDevice::GetInst()->GetDSState(m_DSType).Get(), 0);
+	CONTEXT->OMSetBlendState(CDevice::GetInst()->GetBSState(m_BSType).Get(), nullptr, 0xffffffff);
 }

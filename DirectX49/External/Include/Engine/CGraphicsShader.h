@@ -5,21 +5,28 @@ class CGraphicsShader :
 	public CShader
 {
 private:
-	ComPtr<ID3DBlob>	mVSBlob;
-	ComPtr<ID3DBlob>	mHSBlob;
-	ComPtr<ID3DBlob>	mDSBlob;
-	ComPtr<ID3DBlob>	mGSBlob;
-	ComPtr<ID3DBlob>	mPSBlob;
+	ComPtr<ID3DBlob>				m_VSBlob;
+	ComPtr<ID3DBlob>				m_HSBlob;
+	ComPtr<ID3DBlob>				m_DSBlob;
+	ComPtr<ID3DBlob>				m_GSBlob;
+	ComPtr<ID3DBlob>				m_PSBlob;
 
-	ComPtr<ID3D11VertexShader>		mVS;
-	ComPtr<ID3D11HullShader>		mHS;
-	ComPtr<ID3D11DomainShader>		mDS;
-	ComPtr<ID3D11GeometryShader>	mGS;
-	ComPtr<ID3D11PixelShader>		mPS;
+	ComPtr<ID3D11VertexShader>		m_VS;
+	ComPtr<ID3D11HullShader>		m_HS;
+	ComPtr<ID3D11DomainShader>		m_DS;
+	ComPtr<ID3D11GeometryShader>	m_GS;
+	ComPtr<ID3D11PixelShader>		m_PS;
 
-	ComPtr<ID3D11InputLayout>		mLayout;
+	ComPtr<ID3D11InputLayout>		m_Layout;
 
-	D3D11_PRIMITIVE_TOPOLOGY		mTopology;
+	D3D11_PRIMITIVE_TOPOLOGY		m_Topology;
+
+	// Rasterizer State
+	RS_TYPE                         m_RSType;
+
+	// OutputMerge
+	DS_TYPE                         m_DSType;	// DepthStencilState
+	BS_TYPE                         m_BSType;	// BlendState
 
 public:
 	int CreateVertexShader(const wstring& _strRelativePath, const string& _strFuncName);
@@ -28,7 +35,10 @@ public:
 	int CreateGeometryShader();
 	int CreatePixelShader(const wstring& _strRelativePath, const string& _strFuncName);
 
-	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _topology) { mTopology = _topology; }
+	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _topology) { m_Topology = _topology; }
+	void SetRSType(RS_TYPE _Type) { m_RSType = _Type; }
+	void SetDSType(DS_TYPE _Type) { m_DSType = _Type; }
+	void SetBSType(BS_TYPE _Type) { m_BSType = _Type; }
 
 public:
 	virtual void UpdateData();

@@ -13,3 +13,8 @@
 <img src="README_img/day8.png" width=500></center>
 
 **_DAY9_** : Level, Layer 설계및 코드분리<br>
+**_DAY10_** : Camera 객체추가, Player객체 x,y,z 축 회전 구현<br>
+**_DAY11_** : 카메라 원근,직교 투영기능 추가<br>
+&nbsp;&nbsp;(I,O : 스케일 확대,축소 / P : 카메라 투영변경)<br>
+**_DAY12_** : Rasterizer/DepthStencil/Blend State 추가<br>
+&nbsp;&nbsp;(Rasterizer State 의 Culling 옵션을 none으로 설정함으로써 객체의 후면도 출력된다. default = back)

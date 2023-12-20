@@ -25,6 +25,10 @@ private:
 
 	CConstBuffer*					m_arrCB[(UINT)CB_TYPE::END];
 
+	ComPtr<ID3D11RasterizerState>	m_arrRS[(UINT)RS_TYPE::END];
+	ComPtr<ID3D11DepthStencilState>	m_arrDS[(UINT)DS_TYPE::END];
+	ComPtr<ID3D11BlendState>		m_arrBS[(UINT)DS_TYPE::END];
+
 public:
 	int init(HWND _hWnd, Vec2 _vResolution);
 	void ClearRenderTarget(float(&_color)[4]);
@@ -37,10 +41,19 @@ public:
 
 	Vec2 GetRenderResolution() { return m_vRenderResolution; }
 
+	ComPtr<ID3D11RasterizerState>	GetRSState(RS_TYPE _Type) { return m_arrRS[(UINT)_Type]; }
+	ComPtr<ID3D11DepthStencilState> GetDSState(DS_TYPE _Type) { return m_arrDS[(UINT)_Type]; }
+	ComPtr<ID3D11BlendState>		GetBSState(BS_TYPE _Type) { return m_arrBS[(UINT)_Type]; }
+
 private:
 	int CreateDevice();
 	int CreateSwapChain();
 	int CreateTargetView();
+
+	int CreateRasterizerState();
+	int CreateDepthStencilState();
+	int CreateBlendState();
+
 	int CreateConstBuffer();
 };
 
