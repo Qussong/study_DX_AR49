@@ -10,6 +10,7 @@
 class CComponent;
 class CRenderComponent;
 class CScript;
+class CCamera;
 
 class CGameObject :
 	public CEntity
@@ -33,7 +34,9 @@ public:
 	void AddComponent(CComponent* _comp);
 	CComponent* GetComponent(COMPONENT_TYPE _Type) { return m_arrCom[(UINT)_Type]; }
 
+	// GameObject가 가지고 있는 componenet 객체 반환(Getter)
 	GET_COMPONENT(Transform, TRANSFORM);
 	GET_COMPONENT(MeshRender, MESHRENDER);
+	GET_COMPONENT(Camera, CAMERA);
 };
 

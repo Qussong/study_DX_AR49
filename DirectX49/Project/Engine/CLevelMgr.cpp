@@ -33,7 +33,7 @@ void CLevelMgr::Init()
 	pCamObj->AddComponent(new CCamera);
 	pCamObj->AddComponent(new CCameraMoveScript);
 
-	pCamObj->Transform()->SetRelativePos(Vec3(0.5f, 0.f, 0.f));
+	pCamObj->Transform()->SetRelativePos(Vec3(0.0f, 0.f, 0.f));
 	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
 
 	m_curLevel->AddObject(pCamObj, 0);
@@ -49,8 +49,8 @@ void CLevelMgr::Init()
 	pObj->AddComponent(new CPlayerScript);
 
 	//pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.0f));	// 회전값이 왜 이상하게 출력되는가?
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.5f));
-	pObj->Transform()->SetRelativeScale(Vec3(0.5f, 0.5f, 0.5f));
+	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
+	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 	pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));

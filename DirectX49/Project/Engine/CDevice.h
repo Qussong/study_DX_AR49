@@ -35,6 +35,8 @@ public:
 
 	CConstBuffer* GetConstBuffer(CB_TYPE _type) { return m_arrCB[(UINT)_type]; }
 
+	Vec2 GetRenderResolution() { return m_vRenderResolution; }
+
 private:
 	int CreateDevice();
 	int CreateSwapChain();
