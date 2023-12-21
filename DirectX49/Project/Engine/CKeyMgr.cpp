@@ -76,6 +76,7 @@ int g_KeySync[KEY::KEY_END] =
 
 
 CKeyMgr::CKeyMgr()
+	: m_sMouseWheel(0)
 {
 }
 
@@ -164,5 +165,6 @@ void CKeyMgr::tick()
 
 		// 마우스 이동 방향
 		m_vMouseDrag = m_vMousePos - m_vMousePrevPos;
+		m_vMouseDrag.Normalize();
 	}
 }

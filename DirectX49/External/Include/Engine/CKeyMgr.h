@@ -102,10 +102,15 @@ private:
 
 	Vec2				m_vMouseDrag;
 
+	short				m_sMouseWheel;
+
 public:
 	KEY_STATE GetKeyState(KEY _Key) { return m_vecKeyData[_Key].eState; }
 	Vec2 GetMousePos() { return m_vMousePos; }
 	Vec2 GetMouseDrag() { return m_vMouseDrag; }
+
+	void SetMouseWheel(short _wheel) { m_sMouseWheel = _wheel; }
+	short GetMouseWheel() { return m_sMouseWheel; }
 
 public:
 	void init();

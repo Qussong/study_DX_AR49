@@ -19,6 +19,8 @@
 #define KEY_RELEASED(Key)		KEY_CHECK(Key, RELEASED)
 #define KEY_NONE(Key)			KEY_CHECK(Key, NONE)
 
+#define KEY_WHEEL				CKeyMgr::GetInst()->GetMouseWheel()
+
 #define LAYER_MAX 32
 
 enum class DIR_TYPE

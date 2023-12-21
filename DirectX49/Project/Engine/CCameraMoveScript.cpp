@@ -34,19 +34,25 @@ void CCameraMoveScript::Tick()
 	}
 
 	// Scale
-	if (KEY_PRESSED(KEY::I))
+	if(KEY_WHEEL < 0 /*KEY_PRESSED(KEY::O)*/)
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
-			Camera()->SetScale(Camera()->GetScale() + DT * 0.2f);
+			Camera()->SetScale(Camera()->GetScale() + DT * 100.f);
 		else
-			Camera()->SetFOV(Camera()->GetFOV() + DT * 2.f);
+			Camera()->SetFOV(Camera()->GetFOV() + DT * 100.f);
+
+		// 마우스 휠 값 초기화
+		CKeyMgr::GetInst()->SetMouseWheel(0);
 	}
-	if (KEY_PRESSED(KEY::O))
+	if(KEY_WHEEL > 0 /*KEY_PRESSED(KEY::I)*/)
 	{
 		if (Camera()->GetProjType() == PROJ_TYPE::ORTHOGRAPHIC)
-			Camera()->SetScale(Camera()->GetScale() - DT * 0.2f);
+			Camera()->SetScale(Camera()->GetScale() - DT * 100.f);
 		else
-			Camera()->SetFOV(Camera()->GetFOV() - DT * 2.f);
+			Camera()->SetFOV(Camera()->GetFOV() - DT * 100.f);
+
+		// 마우스 휠 값 초기화s
+		CKeyMgr::GetInst()->SetMouseWheel(0);
 	}
 }
 
