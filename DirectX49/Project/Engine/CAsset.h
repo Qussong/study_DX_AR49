@@ -24,8 +24,12 @@ private:
 	int GetRefCount() { return mRefCount; }
 	ASSET_TYPE GetType() { return mType; }
 
+	virtual int Load(const wstring& _strFilePath) { return E_FAIL; }
+
 public:
 	CAsset(ASSET_TYPE _type);
 	~CAsset();
+
+	friend class CAssetMgr;
 };
 

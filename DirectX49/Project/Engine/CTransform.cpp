@@ -51,6 +51,8 @@ void CTransform::FinalTick()
 void CTransform::UpdateData()
 {
 	g_transform.matWorld = m_matWorld;
+	g_transform.matWV = g_transform.matWorld * g_transform.matView;
+	g_transform.matWVP = g_transform.matWV * g_transform.matProj;
 
 	// TRANSFORM type 상수버퍼 얻어와서
 	CConstBuffer* pCB = CDevice::GetInst()->GetConstBuffer(CB_TYPE::TRANSFORM);

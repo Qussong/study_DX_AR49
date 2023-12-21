@@ -109,6 +109,9 @@
     <Filter Include="08.Component\Scripts\Player">
       <UniqueIdentifier>{ce5cb2a5-c952-46b0-a138-399bcca74a1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Asset\Texture">
+      <UniqueIdentifier>{ac9a0c56-1f56-461c-aaeb-88b72bc69992}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -210,6 +213,9 @@
     <ClInclude Include="CCameraMoveScript.h">
       <Filter>08.Component\Scripts\CameraMove</Filter>
     </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>06.Asset\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -292,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="CCameraMoveScript.cpp">
       <Filter>08.Component\Scripts\CameraMove</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
+      <Filter>06.Asset\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
