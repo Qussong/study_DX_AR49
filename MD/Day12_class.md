@@ -99,3 +99,10 @@ enum class BS_TYPE
     end,
 }
 ```
+
+### CreateBlendState()
+```cpp
+// CDevice class
+
+```
+
