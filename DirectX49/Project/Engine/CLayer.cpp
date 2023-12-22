@@ -9,6 +9,7 @@ CLayer::CLayer()
 
 CLayer::~CLayer()
 {
+	Delete_Vec(m_vecParent);
 }
 
 void CLayer::Begin()

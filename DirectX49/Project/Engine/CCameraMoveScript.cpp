@@ -87,8 +87,8 @@ void CCameraMoveScript::MovePerspective()
 {
 	Vec3 vPos = Transform()->GetRelativePos();
 
-	Vec3 vFront = Transform()->GetDir(DIR_TYPE::FRONT);
-	Vec3 vRight = Transform()->GetDir(DIR_TYPE::RIGHT);
+	Vec3 vFront = Transform()->GetWorldDir(DIR_TYPE::FRONT);
+	Vec3 vRight = Transform()->GetWorldDir(DIR_TYPE::RIGHT);
 
 	if (KEY_PRESSED(KEY::W))
 	{
@@ -116,8 +116,8 @@ void CCameraMoveScript::MovePerspective()
 	{
 		Vec2 vDrag = CKeyMgr::GetInst()->GetMouseDrag();
 		Vec3 vRot = Transform()->GetRelativeRotation();
-		vRot.y += vDrag.x * DT * XM_PI * 2.f;
-		vRot.x += vDrag.y * DT * XM_PI * 2.f;
+		vRot.y += vDrag.x * DT * XM_PI * 3.f;
+		vRot.x += vDrag.y * DT * XM_PI * 3.f;
 		Transform()->SetRelativeRotation(vRot);
 	}
 }

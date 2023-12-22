@@ -216,6 +216,9 @@
     <ClInclude Include="CTexture.h">
       <Filter>06.Asset\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="enum.h">
+      <Filter>01.Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">

@@ -28,41 +28,71 @@ void CLevelMgr::Init()
 	// 초기 레벨 구성
 	m_curLevel = new CLevel;
 
+	// 파이리
 	CTexture* pTex = CAssetMgr::GetInst()
 								->Load<CTexture>(L"PlayerTexture", L"texture\\player.png");
 	if (nullptr != pTex)
 	{
 		pTex->UpdateData(0);
 	}
+	// 꼬부기
+	CTexture* pTex2 = CAssetMgr::GetInst()
+		->Load<CTexture>(L"PlayerTexture2", L"texture\\player2.png");
+	if (nullptr != pTex2)
+	{
+		pTex2->UpdateData(1);
+	}
 
 	// Camera Object 생성
 	CGameObject* pCamObj = new CGameObject;
-	pCamObj->AddComponent(new CTransform);
-	pCamObj->AddComponent(new CCamera);
-	pCamObj->AddComponent(new CCameraMoveScript);
+	{
+		pCamObj->AddComponent(new CTransform);
+		pCamObj->AddComponent(new CCamera);
+		pCamObj->AddComponent(new CCameraMoveScript);
 
-	pCamObj->Transform()->SetRelativePos(Vec3(0.0f, 0.f, 0.f));
-	pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
-
+		pCamObj->Transform()->SetRelativePos(Vec3(0.0f, 0.f, 0.f));
+		pCamObj->Transform()->SetRelativeRotation(Vec3(0.f, 0.f, 0.f));
+	}
 	m_curLevel->AddObject(pCamObj, 0);
 
 	// GameObject 생성
 	CGameObject* pObj = nullptr;
+	{
+		pObj = new CGameObject;
+		pObj->SetName(L"Player");
 
-	pObj = new CGameObject;
-	pObj->SetName(L"Player");
+		pObj->AddComponent(new CTransform);
+		pObj->AddComponent(new CMeshRender);
+		pObj->AddComponent(new CPlayerScript);
 
-	pObj->AddComponent(new CTransform);
-	pObj->AddComponent(new CMeshRender);
-	pObj->AddComponent(new CPlayerScript);
+		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
+		pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
-	//pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 0.0f));	// 회전값이 왜 이상하게 출력되는가?
-	pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 500.f));
-	pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
+		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+		pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
-	pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-	pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
+		pObj->SetImgNum((UINT)IMGNUM::Charmander);
 
+		// 자식객체 생성
+		CGameObject* pChildObj = new CGameObject;
+		{
+			pChildObj->SetName(L"Child");
+
+			pChildObj->AddComponent(new CTransform);
+			pChildObj->AddComponent(new CMeshRender);
+
+			pChildObj->Transform()->SetRelativePos(Vec3(200.f, 0.f, 0.f));
+			pChildObj->Transform()->SetRelativeScale(Vec3(150.f, 150.f, 1.f));
+			pChildObj->Transform()->SetAbsolute(true);
+
+			pChildObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+			pChildObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
+
+			pChildObj->SetImgNum((UINT)IMGNUM::Squirtle);
+
+			pObj->AddChild(pChildObj);
+		}
+	}
 	m_curLevel->AddObject(pObj, 0);
 }
 
@@ -83,9 +113,7 @@ void CLevelMgr::Render()
 	float ClearColor[4] = { 0.3f, 0.3f, 0.3f, 1.f };
 	CDevice::GetInst()->ClearRenderTarget(ClearColor);
 
-
 	m_curLevel->Render();
-
 
 	CDevice::GetInst()->Present();
 }

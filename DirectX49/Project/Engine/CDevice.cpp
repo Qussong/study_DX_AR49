@@ -313,21 +313,35 @@ int CDevice::CreateBlendState()
 	// AlphaBlend
 	{
 		tDesc.AlphaToCoverageEnable = false;
-		tDesc.IndependentBlendEnable = true;
-
+		tDesc.IndependentBlendEnable = false;	// false : 0번의 설정이 나머지 7개에도 적용됨
+		// RenderTarget 8개까지 설정 가능
 		tDesc.RenderTarget[0].BlendEnable = true;
 		tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 		tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 		tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-
 		tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
-
 		tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		HRESULT hr = DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
+		CHECK(hr);
 	}
-	HRESULT hr = DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ALPHA_BLEND].GetAddressOf());
-	CHECK(hr);
+
+	// ONE_ONE
+	{
+		tDesc.AlphaToCoverageEnable = false;
+		tDesc.IndependentBlendEnable = false;
+		tDesc.RenderTarget[0].BlendEnable = true;
+		tDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		tDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		tDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+		tDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		tDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		tDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+		tDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		HRESULT hr = DEVICE->CreateBlendState(&tDesc, m_arrBS[(UINT)BS_TYPE::ONE_ONE].GetAddressOf());
+		CHECK(hr);
+	}
 
 	return S_OK;
 }
@@ -336,6 +350,9 @@ int CDevice::CreateConstBuffer()
 {
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer;
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(tTransform), 1);
+
+	m_arrCB[(UINT)CB_TYPE::GLOBAL_DATA] = new CConstBuffer;
+	m_arrCB[(UINT)CB_TYPE::GLOBAL_DATA]->Create(sizeof(ImgNum), 1);
 
 	return S_OK;
 }

@@ -19,7 +19,7 @@ int CConstBuffer::Create(UINT _size, UINT _cnt)
 	ZeroMemory(&m_desc, sizeof(m_desc));
 	{
 		m_desc.ByteWidth = _size * _cnt;				// 상수버퍼의 크기
-		m_desc.StructureByteStride = _cnt;				// 상수버퍼의 인자 하나의 크기
+		m_desc.StructureByteStride = _size;				// 상수버퍼의 인자 하나의 크기
 		m_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;	// 용도설정 = 상수버퍼 
 		m_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;	// 버퍼에 쓰기 가능
 		m_desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -28,7 +28,7 @@ int CConstBuffer::Create(UINT _size, UINT _cnt)
 	HRESULT hr = DEVICE->CreateBuffer(&m_desc, nullptr, m_CB.GetAddressOf());
 	if (FAILED(hr))
 	{
-		MessageBox(nullptr, L"상수 버퍼 생성 실패", L"TestInit 오류", MB_OK);
+		MessageBox(nullptr, L"상수 버퍼 생성 실패", L"Create ConstantBuffer Error", MB_OK);
 		return E_FAIL;
 	}
 

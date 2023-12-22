@@ -20,9 +20,12 @@ public:
 	~CGameObject();
 
 private:
-	CComponent*			m_arrCom[(UINT)COMPONENT_TYPE::END];
-	CRenderComponent*	m_renderCom;
-	vector<CScript*>    m_vecScript;
+	CComponent*				m_arrCom[(UINT)COMPONENT_TYPE::END];
+	CRenderComponent*		m_renderCom;
+	vector<CScript*>		m_vecScript;
+	vector<CGameObject*>	m_vecChild;
+	CGameObject*			m_parent;
+	UINT					m_iImgNum;
 
 public:
 	void Begin();
@@ -38,5 +41,12 @@ public:
 	GET_COMPONENT(Transform, TRANSFORM);
 	GET_COMPONENT(MeshRender, MESHRENDER);
 	GET_COMPONENT(Camera, CAMERA);
+
+	CGameObject* GetParent() { return m_parent; }
+	void DisconnectWithParent();
+	void AddChild(CGameObject* _Child);
+
+	void SetImgNum(UINT _num) { m_iImgNum = _num; }
+	UINT GetImgNum() { return m_iImgNum; }
 };
 

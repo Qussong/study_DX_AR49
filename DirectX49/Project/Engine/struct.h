@@ -23,5 +23,9 @@ struct tTransform
 	Matrix	matWV;
 	Matrix	matWVP;
 };
-
 extern tTransform g_transform;
+
+struct ImgNum
+{
+	Vec4 num;
+};
