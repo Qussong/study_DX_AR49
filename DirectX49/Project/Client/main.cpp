@@ -11,6 +11,15 @@
 #pragma comment(lib, "Engine\\Engine.lib")
 #endif
 
+// 디버그용 콘솔
+//#ifdef _DEBUG
+//#ifdef UNICODE
+//#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+//#else
+//#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+//#endif
+//#endif
+
 HINSTANCE   hInst;
 HWND        hWnd;
 
