@@ -18,12 +18,12 @@ void CPlayerScript::Tick()
 	// 이동
 	if (KEY_PRESSED(KEY::UP))
 	{
-		vPos.z += DT * m_speed;
+		vPos.y += DT * m_speed;
 	}
 
 	if (KEY_PRESSED(KEY::DOWN))
 	{
-		vPos.z -= DT * m_speed;
+		vPos.y -= DT * m_speed;
 	}
 
 	if (KEY_PRESSED(KEY::LEFT))
