@@ -25,6 +25,8 @@ private:
 	vector<CScript*>		m_vecScript;
 	vector<CGameObject*>	m_vecChild;
 	CGameObject*			m_parent;
+	int						m_iLayerIdx;	// 객체가 소속되어있는 Layer의 idx
+
 	UINT					m_iImgNum;
 
 public:
@@ -44,9 +46,12 @@ public:
 
 	CGameObject* GetParent() { return m_parent; }
 	void DisconnectWithParent();
+	void DisconnectWithLayer();
 	void AddChild(CGameObject* _Child);
 
 	void SetImgNum(UINT _num) { m_iImgNum = _num; }
 	UINT GetImgNum() { return m_iImgNum; }
+
+	friend class CLayer;
 };
 

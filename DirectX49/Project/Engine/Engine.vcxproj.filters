@@ -100,17 +100,23 @@
     <Filter Include="06.Asset\Sound">
       <UniqueIdentifier>{c2e43a77-6a5e-43aa-8123-c13d83d55412}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08.Component\Scripts">
-      <UniqueIdentifier>{02fc3c50-5fb4-4801-9123-77a2831a9b5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="08.Component\Scripts\CameraMove">
-      <UniqueIdentifier>{692e4b12-8075-4a41-9424-242e66177bb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="08.Component\Scripts\Player">
-      <UniqueIdentifier>{ce5cb2a5-c952-46b0-a138-399bcca74a1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Asset\Texture">
       <UniqueIdentifier>{ac9a0c56-1f56-461c-aaeb-88b72bc69992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Manager\Task">
+      <UniqueIdentifier>{09eb3746-edd6-49c9-b728-ecbb1a2036ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Scripts">
+      <UniqueIdentifier>{02fc3c50-5fb4-4801-9123-77a2831a9b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Scripts\CameraMove">
+      <UniqueIdentifier>{692e4b12-8075-4a41-9424-242e66177bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Scripts\Player">
+      <UniqueIdentifier>{ce5cb2a5-c952-46b0-a138-399bcca74a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="09.Scripts\Missile">
+      <UniqueIdentifier>{f7d65d37-7317-4890-aded-c91c7b739f6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -196,13 +202,13 @@
       <Filter>04.Manager\Level</Filter>
     </ClInclude>
     <ClInclude Include="CScript.h">
-      <Filter>08.Component\Scripts</Filter>
+      <Filter>09.Scripts</Filter>
     </ClInclude>
     <ClInclude Include="CCamera.h">
       <Filter>08.Component\08.Camera</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
-      <Filter>08.Component\Scripts\Player</Filter>
+      <Filter>09.Scripts\Player</Filter>
     </ClInclude>
     <ClInclude Include="CAssetMgr.h">
       <Filter>04.Manager\Asset</Filter>
@@ -211,13 +217,19 @@
       <Filter>01.Header</Filter>
     </ClInclude>
     <ClInclude Include="CCameraMoveScript.h">
-      <Filter>08.Component\Scripts\CameraMove</Filter>
+      <Filter>09.Scripts\CameraMove</Filter>
     </ClInclude>
     <ClInclude Include="CTexture.h">
       <Filter>06.Asset\Texture</Filter>
     </ClInclude>
     <ClInclude Include="enum.h">
       <Filter>01.Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CTaskMgr.h">
+      <Filter>04.Manager\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="CMissileScript.h">
+      <Filter>09.Scripts\Missile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,13 +297,13 @@
       <Filter>04.Manager\Level</Filter>
     </ClCompile>
     <ClCompile Include="CScript.cpp">
-      <Filter>08.Component\Scripts</Filter>
+      <Filter>09.Scripts</Filter>
     </ClCompile>
     <ClCompile Include="CCamera.cpp">
       <Filter>08.Component\08.Camera</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
-      <Filter>08.Component\Scripts\Player</Filter>
+      <Filter>09.Scripts\Player</Filter>
     </ClCompile>
     <ClCompile Include="CAssetMgr.cpp">
       <Filter>04.Manager\Asset</Filter>
@@ -300,10 +312,19 @@
       <Filter>01.Header</Filter>
     </ClCompile>
     <ClCompile Include="CCameraMoveScript.cpp">
-      <Filter>08.Component\Scripts\CameraMove</Filter>
+      <Filter>09.Scripts\CameraMove</Filter>
     </ClCompile>
     <ClCompile Include="CTexture.cpp">
       <Filter>06.Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="CTaskMgr.cpp">
+      <Filter>04.Manager\Task</Filter>
+    </ClCompile>
+    <ClCompile Include="CMissileScript.cpp">
+      <Filter>09.Scripts\Missile</Filter>
+    </ClCompile>
+    <ClCompile Include="func.cpp">
+      <Filter>01.Header</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

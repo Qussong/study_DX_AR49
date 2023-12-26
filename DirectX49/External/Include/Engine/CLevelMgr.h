@@ -16,5 +16,8 @@ public:
 	void Init();
 	void Tick();
 	void Render();
+
+public:
+	CLevel* GetCurrentLevel() { return m_curLevel; }
 };
 

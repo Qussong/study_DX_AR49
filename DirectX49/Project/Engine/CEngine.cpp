@@ -9,6 +9,7 @@
 #include "CPathMgr.h"
 #include "CAssetMgr.h"
 #include "CLevelMgr.h"
+#include "CTaskMgr.h"
 
 CEngine::CEngine()
     : m_hMainWnd(nullptr)
@@ -54,4 +55,7 @@ void CEngine::progress()
     // Level Update
     CLevelMgr::GetInst()->Tick();
     CLevelMgr::GetInst()->Render();
+
+    // Task
+    CTaskMgr::GetInst()->Tick();
 }

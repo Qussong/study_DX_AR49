@@ -20,6 +20,12 @@ public:
 	void FinalTick();
 	void Render();
 
-	void AddObject(CGameObject* _object, int _layerIdx);
+	void AddObject(CGameObject* _object, int _layerIdx, bool _bChildMove = true);
+	CLayer* GetLayer(int _iLayerIdx) { return m_arrLayer[_iLayerIdx]; }
+
+private:
+	void Clear();
+
+	friend class CLevelMgr;
 };
 

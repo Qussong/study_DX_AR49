@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "CPlayerScript.h"
+#include "CAssetMgr.h"
+
+#include "CMissileScript.h"
 
 CPlayerScript::CPlayerScript()
-	: m_speed(1000.f)
+	: m_speed(500.f)
 {
 }
 
@@ -54,4 +57,25 @@ void CPlayerScript::Tick()
 
 	Transform()->SetRelativePos(vPos);
 	Transform()->SetRelativeRotation(vRot);
+
+	if (KEY_TAP(KEY::SPACE))
+	{
+		// GameObject 생성
+		CGameObject* pObj = nullptr;
+
+		pObj = new CGameObject;
+		pObj->SetName(L"Missile");
+		pObj->AddComponent(new CTransform);
+		pObj->AddComponent(new CMeshRender);
+		pObj->AddComponent(new CMissileScript);
+		pObj->SetImgNum((UINT)IMGNUM::Squirtle);
+
+		pObj->Transform()->SetRelativePos(Transform()->GetRelativePos());
+		pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
+
+		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+		pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
+
+		GamePlayStatic::SpawnGameObject(pObj, 0);
+	}
 }

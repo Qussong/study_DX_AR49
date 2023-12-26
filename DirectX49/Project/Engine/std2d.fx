@@ -70,7 +70,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     }
     else
     {
-        _in.vColor.a = 0.1f;
+        _in.vColor.a = 1.f;
         vColor = _in.vColor;
     }
     
