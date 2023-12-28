@@ -53,7 +53,7 @@ void CTaskMgr::Tick()
 
 				for (size_t i = 0; i < pObject->m_vecChild.size(); ++i)
 				{
-					queue.push_back(pObject->m_vecChild[i]);
+					queue.push_back(pObject ->m_vecChild[i]);
 				}
 			}
 		}

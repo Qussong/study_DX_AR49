@@ -2,6 +2,7 @@
 #include "CLayer.h"
 
 #include "CGameObject.h"
+#include "CGC.h"
 
 CLayer::CLayer()
 	: m_iLayerIdx(-1)
@@ -31,10 +32,23 @@ void CLayer::Tick()
 
 void CLayer::FinalTick()
 {
-	for (size_t i = 0; i < m_vecParent.size(); ++i)
+	vector<CGameObject*>::iterator itr = m_vecParent.begin();
+
+	for (; itr != m_vecParent.end(); )
 	{
-		m_vecParent[i]->FinalTick();
+		(*itr)->FinalTick();
+
+		if ((*itr)->IsDead())
+		{
+			CGC::GetInst()->Add(*itr);
+			itr = m_vecParent.erase(itr);
+		}
+		else
+		{
+			++itr;
+		}
 	}
+
 }
 
 void CLayer::Render()
@@ -58,12 +72,12 @@ void CLayer::DetachGameObject(CGameObject* _object)
 	// 최상위 부모 오브젝트인 경우
 	else
 	{
-		vector<CGameObject*>::iterator iter = m_vecParent.begin();
-		for (; iter != m_vecParent.end(); ++iter)
+		vector<CGameObject*>::iterator itr = m_vecParent.begin();
+		for (; itr != m_vecParent.end(); ++itr)
 		{
-			if (*iter == _object)
+			if (*itr == _object)
 			{
-				m_vecParent.erase(iter);
+				m_vecParent.erase(itr);
 				_object->m_iLayerIdx = -1;
 				return;
 			}
@@ -76,9 +90,9 @@ void CLayer::DetachGameObject(CGameObject* _object)
 void CLayer::AddObject(CGameObject* _object, bool _bMove)
 {
 	// _bMove : true  - 레이어에 입력되는 Object가 자식이 있는 경우, 자식까지 모두 해당 레이어로 넘어온다.
-// _bMove : false - 레이어에 입력되는 Object의 자식은 해당 레이어로 같이 넘어오지 않는다. 단 자식오브젝트가 레이어 소속이 없는 경우(-1)에만 같이 변경한다.      AssortRock
+	// _bMove : false - 레이어에 입력되는 Object의 자식은 해당 레이어로 같이 넘어오지 않는다. 단 자식오브젝트가 레이어 소속이 없는 경우(-1)에만 같이 변경한다.      AssortRock
 
-// 최상위 부모 오브젝트였다.
+	// 최상위 부모 오브젝트였다.
 	if (nullptr == _object->GetParent())
 	{
 		// 다른 레이어 소속이었다

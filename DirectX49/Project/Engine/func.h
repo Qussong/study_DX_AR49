@@ -1,6 +1,7 @@
 #pragma once
 
 class CGameObject;
+
 namespace GamePlayStatic
 {
 	void SpawnGameObject(CGameObject* _target, int _layerIdx);
