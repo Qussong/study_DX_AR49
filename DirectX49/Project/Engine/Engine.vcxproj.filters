@@ -118,6 +118,9 @@
     <Filter Include="09.Scripts\Missile">
       <UniqueIdentifier>{f7d65d37-7317-4890-aded-c91c7b739f6b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GarbageCollector">
+      <UniqueIdentifier>{c4b376b3-2d5c-49ad-82ed-7408f4f58b1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="CMissileScript.h">
       <Filter>09.Scripts\Missile</Filter>
     </ClInclude>
+    <ClInclude Include="CGC.h">
+      <Filter>GarbageCollector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -325,6 +331,9 @@
     </ClCompile>
     <ClCompile Include="func.cpp">
       <Filter>01.Header</Filter>
+    </ClCompile>
+    <ClCompile Include="CGC.cpp">
+      <Filter>GarbageCollector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

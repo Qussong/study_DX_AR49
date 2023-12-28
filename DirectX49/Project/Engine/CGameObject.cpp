@@ -10,12 +10,14 @@
 #include "CLevel.h"
 #include "CLayer.h"
 
+#include "CGC.h"
+
 CGameObject::CGameObject()
 	: m_arrCom{}
 	, m_renderCom(nullptr)
 	, m_parent(nullptr)
-	, m_iImgNum((UINT)IMGNUM::END)
 	, m_iLayerIdx(-1)	// 어떠한 레벨(레이어)에 소속되어있지 않다.
+	, m_bDead(false)
 {
 }
 
@@ -79,9 +81,20 @@ void CGameObject::FinalTick()
 	pCurLayer->RegisterGameObject(this);
 
 	// 자식객체
-	for (size_t i = 0; i < m_vecChild.size(); ++i)
+	vector<CGameObject*>::iterator itr = m_vecChild.begin();
+	for (; itr != m_vecChild.end();)
 	{
-		m_vecChild[i]->FinalTick();
+		(*itr)->FinalTick();
+
+		if ((*itr)->m_bDead)
+		{
+			CGC::GetInst()->Add(*itr);
+			itr = m_vecChild.erase(itr);
+		}
+		else
+		{
+			++itr;
+		}
 	}
 }
 

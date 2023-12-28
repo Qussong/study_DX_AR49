@@ -26,8 +26,7 @@ private:
 	vector<CGameObject*>	m_vecChild;
 	CGameObject*			m_parent;
 	int						m_iLayerIdx;	// 객체가 소속되어있는 Layer의 idx
-
-	UINT					m_iImgNum;
+	bool                    m_bDead;
 
 public:
 	void Begin();
@@ -49,9 +48,9 @@ public:
 	void DisconnectWithLayer();
 	void AddChild(CGameObject* _Child);
 
-	void SetImgNum(UINT _num) { m_iImgNum = _num; }
-	UINT GetImgNum() { return m_iImgNum; }
+	bool IsDead() { return m_bDead; }
 
 	friend class CLayer;
+	friend class CTaskMgr;
 };
 

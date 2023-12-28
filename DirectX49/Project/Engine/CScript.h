@@ -16,9 +16,12 @@ public:
 	~CScript();
 
 private:
-	UINT        m_iScriptType;
+	UINT			m_iScriptType;
 
 public:
-	virtual void FinalTick() final {}
+	void			Destroy();
+
+public:
+	virtual void	FinalTick() final {}
 };
 

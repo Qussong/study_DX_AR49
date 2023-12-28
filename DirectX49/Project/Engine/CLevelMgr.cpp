@@ -73,8 +73,6 @@ void CLevelMgr::Init()
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 		pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
-		pObj->SetImgNum((UINT)IMGNUM::Charmander);
-
 		// 자식객체 생성
 		CGameObject* pChildObj = new CGameObject;
 		{
@@ -89,8 +87,6 @@ void CLevelMgr::Init()
 
 			pChildObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 			pChildObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
-
-			pChildObj->SetImgNum((UINT)IMGNUM::Squirtle);
 
 			pObj->AddChild(pChildObj);
 		}

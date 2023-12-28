@@ -60,22 +60,23 @@ void CPlayerScript::Tick()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
+		Destroy();
+
 		// GameObject 생성
-		CGameObject* pObj = nullptr;
+		//CGameObject* pObj = nullptr;
 
-		pObj = new CGameObject;
-		pObj->SetName(L"Missile");
-		pObj->AddComponent(new CTransform);
-		pObj->AddComponent(new CMeshRender);
-		pObj->AddComponent(new CMissileScript);
-		pObj->SetImgNum((UINT)IMGNUM::Squirtle);
+		//pObj = new CGameObject;
+		//pObj->SetName(L"Missile");
+		//pObj->AddComponent(new CTransform);
+		//pObj->AddComponent(new CMeshRender);
+		//pObj->AddComponent(new CMissileScript);
 
-		pObj->Transform()->SetRelativePos(Transform()->GetRelativePos());
-		pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
+		//pObj->Transform()->SetRelativePos(Transform()->GetRelativePos());
+		//pObj->Transform()->SetRelativeScale(Vec3(50.f, 50.f, 1.f));
 
-		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-		pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
+		//pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+		//pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 
-		GamePlayStatic::SpawnGameObject(pObj, 0);
+		//GamePlayStatic::SpawnGameObject(pObj, 0);
 	}
 }

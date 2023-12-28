@@ -17,15 +17,10 @@ cbuffer TRANSFORM : register(b0)
     row_major Matrix g_matWVP;
 }
 
-cbuffer IMGNUM : register(b1)
-{
-    float4 imgNum;
-}
-
 Texture2D g_tex_0 : register(t0);
-Texture2D g_tex_1 : register(t1);
 
 SamplerState g_sam_0 : register(s0);
+SamplerState g_sam_1 : register(s1);
 
 struct VS_IN
 {
@@ -58,21 +53,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
     // _in.vColor.a = 0.1f;
     // return _in.vColor;
     
-    float4 vColor = 0;
-    
-    if (imgNum.w <= 0.f)
-    {
-        vColor = g_tex_0.Sample(g_sam_0, _in.vUV);
-    }
-    else if (imgNum.w <= 1.f)
-    {
-        vColor = g_tex_1.Sample(g_sam_0, _in.vUV);
-    }
-    else
-    {
-        _in.vColor.a = 1.f;
-        vColor = _in.vColor;
-    }
+    float4 vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
     
     return vColor;
 }
