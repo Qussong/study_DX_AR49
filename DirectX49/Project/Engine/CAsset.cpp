@@ -2,7 +2,7 @@
 #include "CAsset.h"
 
 CAsset::CAsset(ASSET_TYPE _type)
-	: mType(_type)
+	: m_Type(_type)
 {
 }
 

@@ -16,7 +16,7 @@ class CAssetMgr :
 	SINGLE(CAssetMgr);
 
 private:
-	map<wstring, CAsset*> m_mapAsset[(UINT)ASSET_TYPE::END];
+	map<wstring, Ptr<CAsset>> m_mapAsset[(UINT)ASSET_TYPE::END];
 
 public:
 	void Init();
@@ -29,10 +29,10 @@ public:
 	void AddAsset(const wstring& _strKey, T* _asset);
 
 	template<typename T>
-	T* FindAsset(const wstring& _strKey);
+	Ptr<T> FindAsset(const wstring& _strKey);
 
 	template<typename T>
-	T* Load(const wstring& _strKey, const wstring& _strRelativePath);
+	Ptr<T> Load(const wstring& _strKey, const wstring& _strRelativePath);
 };
 
 template<typename T>
@@ -59,53 +59,53 @@ inline void CAssetMgr::AddAsset(const wstring& _strKey, T* _asset)
 {
 	ASSET_TYPE Type = GetAssetType<T>();
 
-	map<wstring, CAsset*>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
+	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
 	assert(iter == m_mapAsset[(UINT)Type].end());
 
 	m_mapAsset[(UINT)Type].insert(make_pair(_strKey, _asset));
 }
 
 template<typename T>
-inline T* CAssetMgr::FindAsset(const wstring& _strKey)
+inline Ptr<T> CAssetMgr::FindAsset(const wstring& _strKey)
 {
 	ASSET_TYPE Type = GetAssetType<T>();
 
-	map<wstring, CAsset*>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
+	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
 
 	if (iter == m_mapAsset[(UINT)Type].end())
 	{
 		return nullptr;
 	}
 
-	return (T*)iter->second;
+	return (T*)iter->second.Get();
 }
 
 template<typename T>
-inline T* CAssetMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
+inline Ptr<T> CAssetMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 {
-	CAsset* pAsset = FindAsset<T>(_strKey);
+	Ptr<T> pAsset = FindAsset<T>(_strKey);
 
 	// 로딩할 때 사용할 키로 이미 다른 에셋이 있다면
 	if (nullptr != pAsset)
 	{
-		return (T*)pAsset;
+		return (T*)pAsset.Get();
 	}
 
 	wstring strFilePath = CPathMgr::GetContentPath();
 	strFilePath += _strRelativePath;
 
 	pAsset = new T;
-
 	if (FAILED(pAsset->Load(strFilePath)))
 	{
 		MessageBox(nullptr, L"에셋 로딩 실패", L"에셋 로딩 실패", MB_OK);
-		delete pAsset;
+		pAsset = nullptr;
 		return nullptr;
 	}
 
 	pAsset->SetKey(_strKey);
 	pAsset->SetRelativePath(_strRelativePath);
-	AddAsset(_strKey, (T*)pAsset);
 
-	return (T*)pAsset;
+	AddAsset<T>(_strKey, (T*)pAsset.Get());
+
+	return (T*)pAsset.Get();
 }

@@ -30,20 +30,20 @@ void CLevelMgr::Init()
 	// 초기 레벨 구성
 	m_curLevel = new CLevel;
 
-	// 파이리
-	CTexture* pTex = CAssetMgr::GetInst()
-								->Load<CTexture>(L"PlayerTexture", L"texture\\player.png");
-	if (nullptr != pTex)
-	{
-		pTex->UpdateData(0);
-	}
-	// 꼬부기
-	CTexture* pTex2 = CAssetMgr::GetInst()
-		->Load<CTexture>(L"PlayerTexture2", L"texture\\player2.png");
-	if (nullptr != pTex2)
-	{
-		pTex2->UpdateData(1);
-	}
+	//// 파이리
+	//CTexture* pTex = CAssetMgr::GetInst()
+	//							->Load<CTexture>(L"PlayerTexture", L"texture\\player.png");
+	//if (nullptr != pTex)
+	//{
+	//	pTex->UpdateData(0);
+	//}
+	//// 꼬부기
+	//CTexture* pTex2 = CAssetMgr::GetInst()
+	//	->Load<CTexture>(L"PlayerTexture2", L"texture\\player2.png");
+	//if (nullptr != pTex2)
+	//{
+	//	pTex2->UpdateData(1);
+	//}
 
 	// Camera Object 생성
 	CGameObject* pCamObj = new CGameObject;
@@ -71,9 +71,11 @@ void CLevelMgr::Init()
 		pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
-		//pObj->MeshRender()->SetShader(CAssetMgr::GetInst()->FindAsset<CGraphicsShader>(L"Std2DShader"));
 		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
-		pObj->MeshRender()->GetMaterial()->m_const.iArr[0] = 1;	// 0, 1
+		pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
+
+		Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\player2_bmp.bmp");
+		pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
 	}
 	m_curLevel->AddObject(pObj, 0, false);
 }

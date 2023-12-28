@@ -21,7 +21,11 @@ private:
 private:
     virtual int Load(const wstring& _strFilePath) override;
 
+
 public:
-    void UpdateData(int _RegisterNum);
+    void        UpdateData(int _RegisterNum);
+    static void Clear(int _RegisterNum);
+
+    friend class CAssetMgr;
 };
 

@@ -2,8 +2,8 @@
 
 #include "CComponent.h"
 
-class CMesh;
-class CMaterial;
+#include "CMesh.h"
+#include "CMaterial.h"
 
 class CRenderComponent :
 	public CComponent
@@ -13,16 +13,15 @@ public:
 	~CRenderComponent();
 
 private:
-	CMesh* m_mesh;
-	//CGraphicsShader* m_shader;
-	CMaterial* m_mtrl;
+	Ptr<CMesh>      m_mesh;
+	Ptr<CMaterial>  m_mtrl;
 
 public:
-	void SetMesh(CMesh* _mesh) { m_mesh = _mesh; }
-	void SetMaterial(CMaterial* _mtrl) { m_mtrl = _mtrl; }
+	void SetMesh(Ptr<CMesh> _mesh) { m_mesh = _mesh; }
+	void SetMaterial(Ptr<CMaterial> _mtrl) { m_mtrl = _mtrl; }
 
-	CMesh* GetMesh() { return m_mesh; }
-	CMaterial* GetMaterial() { return m_mtrl; }
+	Ptr<CMesh> GetMesh() { return m_mesh; }
+	Ptr<CMaterial> GetMaterial() { return m_mtrl; }
 
 public:
 	virtual void FinalTick() {};
