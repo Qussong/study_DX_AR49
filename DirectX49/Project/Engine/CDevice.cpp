@@ -401,8 +401,11 @@ int CDevice::CreateSamplerState()
 
 int CDevice::CreateConstBuffer()
 {
-	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer;
+	m_arrCB[(UINT)CB_TYPE::TRANSFORM] = new CConstBuffer(CB_TYPE::TRANSFORM);
 	m_arrCB[(UINT)CB_TYPE::TRANSFORM]->Create(sizeof(tTransform), 1);
+
+	m_arrCB[(UINT)CB_TYPE::MATERIAL_CONST] = new CConstBuffer(CB_TYPE::MATERIAL_CONST);
+	m_arrCB[(UINT)CB_TYPE::MATERIAL_CONST]->Create(sizeof(tMtrlConst), 1);
 
 	return S_OK;
 }

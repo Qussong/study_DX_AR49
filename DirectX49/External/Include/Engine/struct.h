@@ -8,7 +8,9 @@ struct Vtx
 	Vec2 vUV;		// UV좌표계 or Texture Coodinate
 };
 
+// ==================
 // 상수버퍼 대응 구조체
+// ==================
 struct tTransform
 {
 	Matrix	matWorld;
@@ -23,9 +25,17 @@ struct tTransform
 	Matrix	matWV;
 	Matrix	matWVP;
 };
+
 extern tTransform g_transform;
 
-struct ImgNum
+// ==================
+// 재질 대응 구조체
+// ==================
+struct tMtrlConst
 {
-	Vec4 num;
+	int iArr[4];
+	float fArr[4];
+	Vec2 v2Arr[4];
+	Vec4 v4Arr[4];
+	Matrix matArr[4];
 };

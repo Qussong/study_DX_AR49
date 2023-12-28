@@ -85,5 +85,5 @@ void CTransform::UpdateData()
 	// 위치정보를 Transform 상수버퍼에 보내고
 	pCB->SetData(&g_transform);
 	// B0 레지스터에 바인딩 해둠
-	pCB->UpdateData(0);
+	pCB->UpdateData();
 }

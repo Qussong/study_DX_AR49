@@ -3,6 +3,7 @@
 
 #include "CMesh.h"
 #include "CGraphicsShader.h"
+#include "CMaterial.h"
 
 CAssetMgr::CAssetMgr()
 {
@@ -103,7 +104,7 @@ void CAssetMgr::Init()
 		AddAsset(L"CircleMesh", pCircleMesh);
 	}
 
-	// Shader 생성
+	// Std2D Shader 생성
 	CGraphicsShader* pShader = new CGraphicsShader;
 	{
 		pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
@@ -114,5 +115,25 @@ void CAssetMgr::Init()
 		pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 
 		AddAsset(L"Std2DShader", pShader);
+	}
+
+	// Effect Shader 생성
+	{
+		pShader = new CGraphicsShader;
+		pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
+		pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
+
+		pShader->SetRSType(RS_TYPE::CULL_NONE);
+		pShader->SetDSType(DS_TYPE::LESS);
+		pShader->SetBSType(BS_TYPE::ONE_ONE);
+
+		AddAsset(L"EffectShader", pShader);
+	}
+
+	// Std2D Material 생성
+	CMaterial* pMtrl = new CMaterial;
+	{
+		pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
+		AddAsset<CMaterial>(L"Std2DMtrl", pMtrl);
 	}
 }

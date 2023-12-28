@@ -3,7 +3,9 @@
 
 #include "CDevice.h"
 
-CConstBuffer::CConstBuffer()
+CConstBuffer::CConstBuffer(CB_TYPE _type)
+	: m_desc{}
+	, m_Type(_type)
 {
 }
 
@@ -49,11 +51,11 @@ void CConstBuffer::SetData(void* _src, UINT _cnt)
 	CONTEXT->Unmap(m_CB.Get(), 0);
 }
 
-void CConstBuffer::UpdateData(UINT _registerNum)
+void CConstBuffer::UpdateData()
 {
-	CONTEXT->VSSetConstantBuffers(_registerNum, 1, m_CB.GetAddressOf());
-	CONTEXT->HSSetConstantBuffers(_registerNum, 1, m_CB.GetAddressOf());
-	CONTEXT->DSSetConstantBuffers(_registerNum, 1, m_CB.GetAddressOf());
-	CONTEXT->GSSetConstantBuffers(_registerNum, 1, m_CB.GetAddressOf());
-	CONTEXT->PSSetConstantBuffers(_registerNum, 1, m_CB.GetAddressOf());
+	CONTEXT->VSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->HSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->DSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->GSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
+	CONTEXT->PSSetConstantBuffers((UINT)m_Type, 1, m_CB.GetAddressOf());
 }

@@ -6,9 +6,7 @@
 
 #include "CGameObject.h"
 #include "CTransform.h"
-
-#include "CDevice.h"
-#include "CConstBuffer.h"
+#include "CMaterial.h"
 
 CMeshRender::CMeshRender()
 	: CRenderComponent(COMPONENT_TYPE::MESHRENDER)
@@ -21,9 +19,9 @@ CMeshRender::~CMeshRender()
 
 void CMeshRender::UpdateData()
 {
-	if (nullptr != GetShader())
+	if (nullptr != GetMaterial())
 	{
-		GetShader()->UpdateData();
+		GetMaterial()->UpdateData();
 	}
 
 	GetOwner()->Transform()->UpdateData();
@@ -31,7 +29,7 @@ void CMeshRender::UpdateData()
 
 void CMeshRender::Render()
 {
-	if (nullptr == GetMesh() || nullptr == GetShader())
+	if (nullptr == GetMesh() || nullptr == GetMaterial())
 		return;
 
 	UpdateData();

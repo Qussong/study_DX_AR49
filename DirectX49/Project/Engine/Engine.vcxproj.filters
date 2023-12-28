@@ -118,7 +118,7 @@
     <Filter Include="09.Scripts\Missile">
       <UniqueIdentifier>{f7d65d37-7317-4890-aded-c91c7b739f6b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GarbageCollector">
+    <Filter Include="04.Manager\GarbageCollector">
       <UniqueIdentifier>{c4b376b3-2d5c-49ad-82ed-7408f4f58b1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -235,7 +235,10 @@
       <Filter>09.Scripts\Missile</Filter>
     </ClInclude>
     <ClInclude Include="CGC.h">
-      <Filter>GarbageCollector</Filter>
+      <Filter>04.Manager\GarbageCollector</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaterial.h">
+      <Filter>06.Asset\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -333,7 +336,10 @@
       <Filter>01.Header</Filter>
     </ClCompile>
     <ClCompile Include="CGC.cpp">
-      <Filter>GarbageCollector</Filter>
+      <Filter>04.Manager\GarbageCollector</Filter>
+    </ClCompile>
+    <ClCompile Include="CMaterial.cpp">
+      <Filter>06.Asset\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

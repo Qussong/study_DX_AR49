@@ -3,7 +3,7 @@
 #include "CComponent.h"
 
 class CMesh;
-class CGraphicsShader;
+class CMaterial;
 
 class CRenderComponent :
 	public CComponent
@@ -14,14 +14,15 @@ public:
 
 private:
 	CMesh* m_mesh;
-	CGraphicsShader* m_shader;
+	//CGraphicsShader* m_shader;
+	CMaterial* m_mtrl;
 
 public:
 	void SetMesh(CMesh* _mesh) { m_mesh = _mesh; }
-	void SetShader(CGraphicsShader* _shader) { m_shader = _shader; }
+	void SetMaterial(CMaterial* _mtrl) { m_mtrl = _mtrl; }
 
 	CMesh* GetMesh() { return m_mesh; }
-	CGraphicsShader* GetShader() { return m_shader; }
+	CMaterial* GetMaterial() { return m_mtrl; }
 
 public:
 	virtual void FinalTick() {};
