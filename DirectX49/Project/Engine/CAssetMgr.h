@@ -21,6 +21,11 @@ private:
 public:
 	void Init();
 
+private:
+	void CreateDefaultMesh();
+	void CreateDefaultGraphicsShader();
+	void CreateDefaultMaterial();
+
 public:
 	template<typename T>
 	ASSET_TYPE GetAssetType();

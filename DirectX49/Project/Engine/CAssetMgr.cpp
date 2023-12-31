@@ -16,6 +16,18 @@ CAssetMgr::~CAssetMgr()
 void CAssetMgr::Init()
 {
 	// Rectangle Mesh 생성
+	CreateDefaultMesh();
+
+	// Std2D Shader 생성
+	CreateDefaultGraphicsShader();
+
+	// Std2D Material 생성
+	CreateDefaultMaterial();
+}
+
+void CAssetMgr::CreateDefaultMesh()
+{
+	// Rect Mesh 생성
 	CMesh* pRectMesh = new CMesh;
 	{
 		Vtx		arrVtx[4] = {};		// 사각형의 정점 정보 (사각형의 정점개수 = 4개)
@@ -93,8 +105,13 @@ void CAssetMgr::Init()
 		AddAsset(L"CircleMesh", pCircleMesh);
 	}
 
-	// Std2D Shader 생성
+}
+
+void CAssetMgr::CreateDefaultGraphicsShader()
+{
 	CGraphicsShader* pShader = new CGraphicsShader;
+
+	// Std2D Shader 생성
 	{
 		pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 		pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
@@ -121,10 +138,34 @@ void CAssetMgr::Init()
 		AddAsset(L"EffectShader", pShader);
 	}
 
-	// Std2D Material 생성
-	CMaterial* pMtrl = new CMaterial;
+	// DebugShape Shader 생성
 	{
+		pShader = new CGraphicsShader;
+		pShader->CreateVertexShader(L"shader\\debug.fx", "VS_DebugShape");
+		pShader->CreatePixelShader(L"shader\\debug.fx", "PS_DebugShape");
+
+		pShader->SetRSType(RS_TYPE::CULL_NONE);
+		pShader->SetBSType(BS_TYPE::DEFAULT);
+
+		AddAsset(L"DebugShapeShader", pShader);
+	}
+}
+
+void CAssetMgr::CreateDefaultMaterial()
+{
+	CMaterial* pMtrl = nullptr;
+
+	// Std2D Material
+	{
+		pMtrl = new CMaterial;
 		pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 		AddAsset<CMaterial>(L"Std2DMtrl", pMtrl);
+	}
+
+	// DebugShape Material
+	{
+		pMtrl = new CMaterial;
+		pMtrl->SetShader(FindAsset<CGraphicsShader>(L"DebugShapeShader"));
+		AddAsset<CMaterial>(L"DebugShapeMtrl", pMtrl);
 	}
 }

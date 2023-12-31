@@ -169,3 +169,12 @@ enum TEX_PARAM
 
 	END,
 };
+
+enum class DEBUG_SHAPE
+{
+	RECT,
+	CIRCLE,
+
+	CUBE,
+	SPHERE,
+};

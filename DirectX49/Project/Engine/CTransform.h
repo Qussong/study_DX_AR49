@@ -23,6 +23,8 @@ public:
 	virtual void UpdateData() override;
 
 public:
+	void SetWorldMat(const Matrix _matWorld) { m_matWorld = _matWorld; }
+
 	void SetRelativePos(Vec3 _Pos) { m_vRelativePos = _Pos; }
 	Vec3 GetRelativePos() { return m_vRelativePos; }
 

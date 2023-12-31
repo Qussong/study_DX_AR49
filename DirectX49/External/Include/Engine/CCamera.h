@@ -33,6 +33,8 @@ private:
 	Matrix		m_matView;
 	Matrix		m_matProj;
 
+	UINT        m_layerCheck;
+
 public:
 	PROJ_TYPE GetProjType() { return m_projType; }
 	void SetProjType(PROJ_TYPE _type) { m_projType = _type; }
@@ -43,7 +45,16 @@ public:
 	float GetFOV() { return m_fov; }
 	void SetFOV(float _fov) { m_fov = _fov; }
 
+	const Matrix& GetViewMat() { return m_matView; }
+	const Matrix& GetProjMat() { return m_matProj; }
+
+	void SetCameraPriority(int _priority);
+	void LayerCheck(UINT _layerIdx, bool _bCheck);
+	void LayerCheck(const wstring& _strLayerName, bool _bCheck);
+	void LayerCheckAll() { m_layerCheck = 0xffffffff; }
+
 public:
-	virtual void FinalTick() override;
+	virtual void	FinalTick() override;
+	void			Render();
 };
 

@@ -51,13 +51,13 @@ void CLayer::FinalTick()
 
 }
 
-void CLayer::Render()
-{
-	for (size_t i = 0; i < m_vecObjects.size(); ++i)
-	{
-		m_vecObjects[i]->Render();
-	}
-}
+//void CLayer::Render()
+//{
+//	for (size_t i = 0; i < m_vecObjects.size(); ++i)
+//	{
+//		m_vecObjects[i]->Render();
+//	}
+//}
 
 void CLayer::DetachGameObject(CGameObject* _object)
 {

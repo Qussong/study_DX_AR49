@@ -8,6 +8,20 @@ struct Vtx
 	Vec2 vUV;		// UV좌표계 or Texture Coodinate
 };
 
+struct tDebugShapeInfo
+{
+	DEBUG_SHAPE	eShape;
+
+	Vec3		vWorldPos;
+	Vec3		vWorldScale;
+	Vec3		vWorldRot;
+	Matrix		matWorld;
+
+	Vec3		vColor;
+	float		fDuration;
+	bool		bDepthTest;
+};
+
 // ==================
 // 상수버퍼 대응 구조체
 // ==================
