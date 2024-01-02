@@ -23,7 +23,6 @@ public:
 	virtual void UpdateData() override;
 
 public:
-	void SetWorldMat(const Matrix _matWorld) { m_matWorld = _matWorld; }
 
 	void SetRelativePos(Vec3 _Pos) { m_vRelativePos = _Pos; }
 	Vec3 GetRelativePos() { return m_vRelativePos; }
@@ -34,7 +33,12 @@ public:
 	void SetRelativeRotation(Vec3 _Rotation) { m_vRealtiveRotation = _Rotation; }
 	Vec3 GetRelativeRotation() { return m_vRealtiveRotation; }
 
+	void SetWorldMat(const Matrix _matWorld) { m_matWorld = _matWorld; }
 	const Matrix& GetWorldMat() { return m_matWorld; }
+
+	Vec3 GetWorldPos() { return m_matWorld.Translation(); }
+	Vec3 GetWorldScale();
+	//Vec3 GetWorldRot();
 
 	void SetAbsolute(bool _bAbsolute) { m_bAbsolute = _bAbsolute; }
 

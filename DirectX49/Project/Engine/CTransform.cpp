@@ -87,3 +87,17 @@ void CTransform::UpdateData()
 	// B0 레지스터에 바인딩 해둠
 	pCB->UpdateData();
 }
+
+Vec3 CTransform::GetWorldScale()
+{
+	CGameObject* pParent = GetOwner()->GetParent();
+	Vec3 vWorldScale = m_vRelativeScale;
+
+	if (pParent)
+	{
+		vWorldScale *= pParent->Transform()->GetRelativeScale();
+		pParent = pParent->GetParent();
+	}
+
+	return vWorldScale;
+}

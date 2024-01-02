@@ -10,7 +10,8 @@ namespace GamePlayStatic
 	void DrawDebugRect(const Matrix& _worldMat, Vec3 _color, bool _bDepthTest, float _duration = 0.f);
 	void DrawDebugRect(Vec3 _vWorldPos, Vec3 _vWorldScale, Vec3 _vWorldRot, Vec3 _color, bool _bDepthTest, float _duration = 0.f);
 
-	//void DrawDebugCircle();
+	void DrawDebugCircle(Vec3 _vWorldPos, float _fRadius, Vec3 _color, bool _bDepthTest, float _duration = 0.f);
+	
 	//void DrawDebugCube();
 	//void DrawDebugSphere();
 }
