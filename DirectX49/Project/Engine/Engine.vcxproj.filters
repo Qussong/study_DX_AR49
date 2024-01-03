@@ -124,6 +124,9 @@
     <Filter Include="04.Manager\Render">
       <UniqueIdentifier>{83433207-519e-479e-a06c-6a578d845f99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Manager\Collision">
+      <UniqueIdentifier>{3e4dfff3-5d5d-4650-b497-b13162381eff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -252,6 +255,9 @@
     <ClInclude Include="CCollider2D.h">
       <Filter>08.Component\02.Collider2D</Filter>
     </ClInclude>
+    <ClInclude Include="CCollisionMgr.h">
+      <Filter>04.Manager\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -361,6 +367,9 @@
     </ClCompile>
     <ClCompile Include="CCollider2D.cpp">
       <Filter>08.Component\02.Collider2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CCollisionMgr.cpp">
+      <Filter>04.Manager\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

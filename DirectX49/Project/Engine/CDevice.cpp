@@ -18,7 +18,7 @@ CDevice::~CDevice()
 	Delete_Array(m_arrCB);
 }
 
-int CDevice::init(HWND _hWnd, Vec2 _vResolution)
+int CDevice::Init(HWND _hWnd, Vec2 _vResolution)
 {
 	// 출력 윈도우 핸들
 	m_hRenderWnd = _hWnd;

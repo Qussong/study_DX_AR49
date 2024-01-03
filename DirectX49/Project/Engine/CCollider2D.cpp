@@ -50,3 +50,17 @@ void CCollider2D::FinalTick()
 		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
 	}
 }
+
+void CCollider2D::BeginOverlap(CCollider2D* _otherCollider)
+{
+	++m_collisionCount;
+}
+
+void CCollider2D::Overlap(CCollider2D* _otherCollider)
+{
+}
+
+void CCollider2D::EndOverlap(CCollider2D* _otherCollider)
+{
+	--m_collisionCount;
+}

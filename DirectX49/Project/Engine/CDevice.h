@@ -31,7 +31,7 @@ private:
 	ComPtr<ID3D11SamplerState>		m_arrSampler[2];
 
 public:
-	int init(HWND _hWnd, Vec2 _vResolution);
+	int Init(HWND _hWnd, Vec2 _vResolution);
 	void ClearRenderTarget(float(&_color)[4]);
 	void Present();
 

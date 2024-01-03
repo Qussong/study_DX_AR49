@@ -93,7 +93,7 @@ Vec3 CTransform::GetWorldScale()
 	CGameObject* pParent = GetOwner()->GetParent();
 	Vec3 vWorldScale = m_vRelativeScale;
 
-	if (pParent)
+	while (pParent)
 	{
 		vWorldScale *= pParent->Transform()->GetRelativeScale();
 		pParent = pParent->GetParent();

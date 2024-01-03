@@ -12,6 +12,7 @@
 #include "CTaskMgr.h"
 #include "CGC.h"
 #include "CRenderMgr.h"
+#include "CCollisionMgr.h"
 
 CEngine::CEngine()
     : m_hMainWnd(nullptr)
@@ -32,14 +33,14 @@ int CEngine::init(HWND _hWnd, Vec2 _vResolution)
     AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
     SetWindowPos(m_hMainWnd, nullptr, 10, 10, rt.right - rt.left, rt.bottom - rt.top, 0);
 
-    if (FAILED(CDevice::GetInst()->init(m_hMainWnd, m_vResolution)))
+    if (FAILED(CDevice::GetInst()->Init(m_hMainWnd, m_vResolution)))
     {
         MessageBox(nullptr, L"Device 초기화 실패", L"초기화 실패", MB_OK);
         return E_FAIL;
     }
 
     // Manager init
-    CPathMgr::init();
+    CPathMgr::Init();
     CTimeMgr::GetInst()->init();
     CKeyMgr::GetInst()->init();
     CAssetMgr::GetInst()->Init();
@@ -57,6 +58,7 @@ void CEngine::progress()
 
     // Level Update
     CLevelMgr::GetInst()->Tick();
+    CCollisionMgr::GetInst()->Tick();
     CRenderMgr::GetInst()->Tick();
 
     // GC

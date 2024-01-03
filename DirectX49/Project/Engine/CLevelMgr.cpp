@@ -14,6 +14,7 @@
 #include "CMesh.h"
 #include "CGraphicsShader.h"
 #include "CTexture.h"
+#include "CCollisionMgr.h"
 
 CLevelMgr::CLevelMgr()
 	: m_curLevel(nullptr)
@@ -29,6 +30,7 @@ CLevelMgr::~CLevelMgr()
 void CLevelMgr::Init()
 {
 	// 초기 레벨 구성
+	// Layer maxCnt = 32
 	m_curLevel = new CLevel;
 	m_curLevel->GetLayer(0)->SetName(L"Default");
 	m_curLevel->GetLayer(1)->SetName(L"Background");
@@ -36,6 +38,10 @@ void CLevelMgr::Init()
 	m_curLevel->GetLayer(3)->SetName(L"Player");
 	m_curLevel->GetLayer(4)->SetName(L"Monster");
 	m_curLevel->GetLayer(31)->SetName(L"UI");
+
+	// 충돌 설정
+	CCollisionMgr::GetInst()->LayerCheck(L"Player", L"Monster");
+	CCollisionMgr::GetInst()->LayerCheck(L"Monster", L"Monster");
 
 	// MainCamera Object 생성
 	CGameObject* pCamObj = new CGameObject;
@@ -98,7 +104,53 @@ void CLevelMgr::Init()
 		pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
 
 		//m_curLevel->AddObject(pObj, 0, false);
-		m_curLevel->AddObject(pObj, L"Default", false);
+		m_curLevel->AddObject(pObj, L"Player", false);
+	}
+
+	// Monster Object 생성
+	{
+		pObj = new CGameObject;
+		pObj->SetName(L"Monster");
+
+		pObj->AddComponent(new CTransform);
+		pObj->AddComponent(new CMeshRender);
+		pObj->AddComponent(new CCollider2D);
+
+		pObj->Transform()->SetRelativePos(Vec3(300.f, 100.f, 400.f));
+		pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+		pObj->Collider2D()->SetAbsolute(true);
+		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
+		pObj->Collider2D()->SetOffsetPos(Vec2(100.f, 0.f));
+
+		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+		pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
+
+		m_curLevel->AddObject(pObj, L"Monster", false);
+	}
+
+	// Monster Object 생성 2
+	{
+		pObj = new CGameObject;
+		pObj->SetName(L"Monster");
+
+		pObj->AddComponent(new CTransform);
+		pObj->AddComponent(new CMeshRender);
+		pObj->AddComponent(new CCollider2D);
+
+		pObj->Transform()->SetRelativePos(Vec3(300.f, -100.f, 400.f));
+		pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+
+		pObj->Collider2D()->SetAbsolute(true);
+		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
+		pObj->Collider2D()->SetOffsetPos(Vec2(100.f, 0.f));
+
+		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
+		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
+		pObj->MeshRender()->GetMaterial()->SetScalarParam(FLOAT_0, 0.f);
+
+		m_curLevel->AddObject(pObj, L"Monster", false);
 	}
 
 	// UI Object 생성

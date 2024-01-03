@@ -19,13 +19,13 @@ public:
 	~CCollider2D();
 
 private:
-	Vec3 m_vOffsetPos;
-	Vec3 m_vOffsetScale;
-	int m_collisionCount;	// 다른 충돌체와 충돌중인 횟수
-	bool m_bAbsolute;
+	Vec3				m_vOffsetPos;
+	Vec3				m_vOffsetScale;
+	int					m_collisionCount;	// 다른 충돌체와 충돌중인 횟수
+	bool				m_bAbsolute;
 
-	Matrix	m_matColWorld;
-	COLLIDER2D_TYPE m_type;
+	Matrix				m_matColWorld;
+	COLLIDER2D_TYPE		m_type;
 
 public:
 	void SetAbsolute(bool _absol) { m_bAbsolute = _absol; }
@@ -38,8 +38,15 @@ public:
 	Vec2 GetOffsetScale() { return Vec2(m_vOffsetScale.x, m_vOffsetScale.y); }
 	COLLIDER2D_TYPE GetType() { return m_type; }
 
+	const Matrix& GetColliderWorldMat() { return m_matColWorld; }
+
 public:
 	virtual void FinalTick() override;
+
+public:
+	void BeginOverlap(CCollider2D* _otherCollider);
+	void Overlap(CCollider2D* _otherCollider);
+	void EndOverlap(CCollider2D* _otherCollider);
 
 };
 

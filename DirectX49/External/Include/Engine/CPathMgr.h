@@ -7,7 +7,7 @@ private:
 	
 
 public:
-	static void init();
+	static void Init();
 	static const wchar_t* GetContentPath() { return g_szContent; }
 };
 

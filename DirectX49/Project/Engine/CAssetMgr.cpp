@@ -11,6 +11,7 @@ CAssetMgr::CAssetMgr()
 
 CAssetMgr::~CAssetMgr()
 {
+
 }
 
 void CAssetMgr::Init()
@@ -68,7 +69,7 @@ void CAssetMgr::CreateDefaultMesh()
 
 	// RectMesh_Debug
 	// Topology LineStrip
-	CMesh*	pDebugRectMesh = new CMesh;
+	CMesh*	pDebugRectMesh = nullptr;
 	{
 		// 0(Red)-- 1(Blue)	     
 		//  |       |	     
@@ -124,8 +125,8 @@ void CAssetMgr::CreateDefaultMesh()
 		AddAsset(L"CircleMesh", pCircleMesh);
 	}
 
-	// CircleMesh_Debug
-	CMesh* pDebugCircleMesh = new CMesh;
+	//// CircleMesh_Debug
+	CMesh* pDebugCircleMesh = nullptr;
 	{
 		//vecIdx.clear();
 		vector<UINT>	vecIdx;

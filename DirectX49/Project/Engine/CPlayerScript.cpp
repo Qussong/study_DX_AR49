@@ -60,7 +60,7 @@ void CPlayerScript::Tick()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
-		//Destroy();
+		Destroy();
 
 		// GameObject 생성
 		CGameObject* pObj = nullptr;
