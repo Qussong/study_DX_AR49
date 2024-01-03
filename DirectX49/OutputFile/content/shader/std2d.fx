@@ -100,10 +100,6 @@ VS_OUT VS_Std2D(VS_IN _in)
 
 float4 PS_Std2D(VS_OUT _in) : SV_Target
 {
-    //uint width = 0;
-    //uint height = 0;
-    //g_tex_1.GetDimensions(width, height);
-    
     float4 vColor = float4(1.f, 0.f, 1.f, 1.f);
     
     if (g_btex_0)
@@ -118,6 +114,11 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
             // 픽셀 쉐이더를 중간에 폐기처리
             discard; //clip(-1);            
         }
+    }
+    
+    if (g_int_0)
+    {
+        vColor.r *= 2.f;
     }
     
     return vColor;
