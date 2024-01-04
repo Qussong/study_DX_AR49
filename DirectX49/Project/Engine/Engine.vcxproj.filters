@@ -58,9 +58,6 @@
     <Filter Include="08.Component\02.Collider2D">
       <UniqueIdentifier>{58ea1d48-610f-4352-8f78-bd563fa77013}</UniqueIdentifier>
     </Filter>
-    <Filter Include="08.Component\04.Animato">
-      <UniqueIdentifier>{7e612470-fd48-4ab8-8803-ba041272e61d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="08.Component\06.Light2D">
       <UniqueIdentifier>{62dd1e90-7cac-4bcc-84b1-d99a76428b4d}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,12 @@
     </Filter>
     <Filter Include="04.Manager\Collision">
       <UniqueIdentifier>{3e4dfff3-5d5d-4650-b497-b13162381eff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Component\04.Animator2D">
+      <UniqueIdentifier>{7e612470-fd48-4ab8-8803-ba041272e61d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="08.Component\04.Animator2D\Animation">
+      <UniqueIdentifier>{eadc74a9-5d39-44cf-9563-d3eae758cd95}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +261,12 @@
     <ClInclude Include="CCollisionMgr.h">
       <Filter>04.Manager\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="CAnimator2D.h">
+      <Filter>08.Component\04.Animator2D</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnim.h">
+      <Filter>08.Component\04.Animator2D\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -370,6 +379,12 @@
     </ClCompile>
     <ClCompile Include="CCollisionMgr.cpp">
       <Filter>04.Manager\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimator2D.cpp">
+      <Filter>08.Component\04.Animator2D</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnim.cpp">
+      <Filter>08.Component\04.Animator2D\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

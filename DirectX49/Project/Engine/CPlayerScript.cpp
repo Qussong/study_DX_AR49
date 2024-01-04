@@ -3,6 +3,7 @@
 #include "CAssetMgr.h"
 
 #include "CMissileScript.h"
+#include "CGameObject.h"
 
 CPlayerScript::CPlayerScript()
 	: m_speed(500.f)
@@ -60,7 +61,7 @@ void CPlayerScript::Tick()
 
 	if (KEY_TAP(KEY::SPACE))
 	{
-		Destroy();
+		GetOwner()->Destroy();
 
 		// GameObject 생성
 		CGameObject* pObj = nullptr;
@@ -99,4 +100,17 @@ void CPlayerScript::Tick()
 	}
 	//GamePlayStatic::DrawDebugRect(Vec3(0.f, 0.f, 0.f), Vec3(200.f, 200.f, 1.f), Vec3(0.f, 0.f, 0.f), Vec3(1.f, 1.f, 1.f), true, 20);
 	//GamePlayStatic::DrawDebugCircle(Vec3(0.f, 0.f, 0.f), 200.f, Vec3(0.f, 1.f, 1.f), true);
+}
+
+void CPlayerScript::BeginOverlap(CCollider2D* _collider, CGameObject* _otherObj, CCollider2D* _otherCollider)
+{
+	_otherObj->Destroy();
+}
+
+void CPlayerScript::Overlap(CCollider2D* _collider, CGameObject* _otherObj, CCollider2D* _otherCollider)
+{
+}
+
+void CPlayerScript::EndOverlap(CCollider2D* _collider, CGameObject* _otherObj, CCollider2D* _otherCollider)
+{
 }

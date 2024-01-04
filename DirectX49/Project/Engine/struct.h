@@ -58,3 +58,12 @@ struct tMtrlConst
 
 	int iPadding[2];
 };
+
+struct tAnimData2D
+{
+	Vec2 vLeftTop;
+	Vec2 vSlizeSize;
+	Vec2 vOffset;
+	int  useAnim2D;
+	int	 iPadding;
+};

@@ -21,10 +21,12 @@ private:
 private:
     virtual int Load(const wstring& _strFilePath) override;
 
-
 public:
     void        UpdateData(int _RegisterNum);
     static void Clear(int _RegisterNum);
+
+    UINT GetWidth() { return m_Desc.Width; }
+    UINT GetHeight() { return m_Desc.Height; }
 
     friend class CAssetMgr;
 };
