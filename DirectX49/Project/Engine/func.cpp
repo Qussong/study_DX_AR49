@@ -44,9 +44,10 @@ void GamePlayStatic::DrawDebugRect(Vec3 _vWorldPos, Vec3 _vWorldScale, Vec3 _vWo
 		info.vWorldScale = _vWorldScale;
 		info.vWorldRot = _vWorldRot;
 
-		info.matWorld = XMMatrixScaling(info.vWorldScale.x, info.vWorldScale.y, info.vWorldScale.z)
-			* XMMatrixRotationX(info.vWorldRot.x) * XMMatrixRotationY(info.vWorldRot.y)
-			* XMMatrixRotationZ(info.vWorldRot.z) * XMMatrixTranslation(info.vWorldPos.x, info.vWorldPos.y, info.vWorldPos.z);
+		info.matWorld = 
+			XMMatrixScaling(info.vWorldScale.x, info.vWorldScale.y, info.vWorldScale.z)
+			* XMMatrixRotationX(info.vWorldRot.x) * XMMatrixRotationY(info.vWorldRot.y) * XMMatrixRotationZ(info.vWorldRot.z)
+			* XMMatrixTranslation(info.vWorldPos.x, info.vWorldPos.y, info.vWorldPos.z);
 
 		info.vColor = _color;
 		info.bDepthTest = _bDepthTest;
@@ -65,9 +66,10 @@ void GamePlayStatic::DrawDebugCircle(Vec3 _vWorldPos, float _fRadius, Vec3 _colo
 	info.vWorldScale = Vec3(_fRadius, _fRadius, 1.f);
 	info.vWorldRot = Vec3(0.f, 0.f, 0.f);
 
-	info.matWorld = XMMatrixScaling(info.vWorldScale.x, info.vWorldScale.y, info.vWorldScale.z)
-		* XMMatrixRotationX(info.vWorldRot.x) * XMMatrixRotationY(info.vWorldRot.y)
-		* XMMatrixRotationZ(info.vWorldRot.z) * XMMatrixTranslation(info.vWorldPos.x, info.vWorldPos.y, info.vWorldPos.z);
+	info.matWorld = 
+		XMMatrixScaling(info.vWorldScale.x, info.vWorldScale.y, info.vWorldScale.z)
+		* XMMatrixRotationX(info.vWorldRot.x) * XMMatrixRotationY(info.vWorldRot.y) * XMMatrixRotationZ(info.vWorldRot.z)
+		* XMMatrixTranslation(info.vWorldPos.x, info.vWorldPos.y, info.vWorldPos.z);
 
 	info.vColor = _color;
 	info.bDepthTest = _bDepthTest;

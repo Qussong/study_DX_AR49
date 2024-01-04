@@ -20,5 +20,5 @@ void CPathMgr::Init()
 		}
 	}
 
-	wcscat_s(g_szContent, 255, L"content\\");
+	wcscat_s(g_szContent, 255, L"content\\");	// 경로 + "content\\"
 }

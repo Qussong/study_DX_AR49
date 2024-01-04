@@ -6,7 +6,7 @@
 CCollider2D::CCollider2D()
 	: Super(COMPONENT_TYPE::COLLIDER2D)
 	, m_collisionCount(0)
-	, m_bAbsolute(false)
+	, m_bAbsolute(true)
 	, m_type(COLLIDER2D_TYPE::RECT)
 {
 }
@@ -39,15 +39,34 @@ void CCollider2D::FinalTick()
 		m_matColWorld *= matObjWorld;
 	}
 
+	// test
+	Vec3 v3Scale;
+	Quaternion quatRotation;
+	Vec3 v3Positon;
+	m_matColWorld.Decompose(v3Scale, quatRotation, v3Positon);
 
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
 	if (0 == m_collisionCount)
 	{
-		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
+		if (COLLIDER2D_TYPE::RECT == m_type)
+		{
+			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(0.f, 1.f, 0.f), false);
+		}
+		else if (COLLIDER2D_TYPE::CIRCLE == m_type)
+		{
+			GamePlayStatic::DrawDebugCircle(v3Positon, 100.f, Vec3(0.f, 1.f, 0.f), false);
+		}
 	}
 	else
 	{
-		GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
+		if (COLLIDER2D_TYPE::RECT == m_type)
+		{
+			GamePlayStatic::DrawDebugRect(m_matColWorld, Vec3(1.f, 0.f, 0.f), false);
+		}
+		else if (COLLIDER2D_TYPE::CIRCLE == m_type)
+		{
+			GamePlayStatic::DrawDebugCircle(v3Positon, 100.f, Vec3(1.f, 0.f, 0.f), false);
+		}
 	}
 }
 

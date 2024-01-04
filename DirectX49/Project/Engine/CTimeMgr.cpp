@@ -18,9 +18,9 @@ CTimeMgr::~CTimeMgr()
 
 void CTimeMgr::init()
 {
-	// 초당 빈도
+	// 성능 카운터의 빈도, 타이머의 주파수
 	QueryPerformanceFrequency(&m_Frequency);
-
+	// 성능 카운터의 현재 값
 	QueryPerformanceCounter(&m_PrevCount);
 }
 
@@ -28,11 +28,12 @@ void CTimeMgr::tick()
 {
 	QueryPerformanceCounter(&m_CurCount);
 
+	// 현재 tick 수 / 초당 tick 수 = 1 프레임에 걸린시간 (sec)
 	m_DeltaTime = float(m_CurCount.QuadPart - m_PrevCount.QuadPart) / float(m_Frequency.QuadPart);
 
 	m_PrevCount = m_CurCount;
 
-	// DT 보정
+	// DT 보정 (60 프레임 제한)
 	if ((1.f / 60.f) < m_DeltaTime)
 		m_DeltaTime = (1.f / 60.f);
 

@@ -5,17 +5,17 @@ class CMesh
 	: public CAsset
 {
 private:
-	ComPtr<ID3D11Buffer>	mVB;
-	ComPtr<ID3D11Buffer>	mIB;
+	ComPtr<ID3D11Buffer>	m_VB;
+	ComPtr<ID3D11Buffer>	m_IB;
 
-	D3D11_BUFFER_DESC		mVBDesc;
-	D3D11_BUFFER_DESC		mIBDesc;
+	D3D11_BUFFER_DESC		m_VBDesc;
+	D3D11_BUFFER_DESC		m_IBDesc;
 
-	UINT					mVtxCount;
-	UINT					mIdxCount;
+	UINT					m_VtxCount;
+	UINT					m_IdxCount;
 
-	void*					mVtxSysMem;
-	void*					mIdxSysMem;
+	void*					m_VtxSysMem;
+	void*					m_IdxSysMem;
 
 private:
 	void UpdateData();

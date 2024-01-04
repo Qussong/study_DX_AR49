@@ -69,7 +69,7 @@ void CAssetMgr::CreateDefaultMesh()
 
 	// RectMesh_Debug
 	// Topology LineStrip
-	CMesh*	pDebugRectMesh = nullptr;
+	CMesh*	pDebugRectMesh = new CMesh;
 	{
 		// 0(Red)-- 1(Blue)	     
 		//  |       |	     
@@ -82,7 +82,6 @@ void CAssetMgr::CreateDefaultMesh()
 		arrIdx[3] = 3; 	
 		arrIdx[4] = 0;
 
-		pDebugRectMesh = new CMesh;
 		pDebugRectMesh->Create(arrVtx, 4, arrIdx, 5);
 		AddAsset(L"RectMesh_Debug", pDebugRectMesh);
 	}
@@ -121,12 +120,13 @@ void CAssetMgr::CreateDefaultMesh()
 			vecIdx.push_back(i + 2);
 			vecIdx.push_back(i + 1);
 		}
+
 		pCircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 		AddAsset(L"CircleMesh", pCircleMesh);
 	}
 
-	//// CircleMesh_Debug
-	CMesh* pDebugCircleMesh = nullptr;
+	// CircleMesh_Debug
+	CMesh* pDebugCircleMesh = new CMesh;
 	{
 		//vecIdx.clear();
 		vector<UINT>	vecIdx;
@@ -136,52 +136,43 @@ void CAssetMgr::CreateDefaultMesh()
 			vecIdx.push_back(i);
 		}
 
-		pDebugCircleMesh = new CMesh;
 		pDebugCircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 		AddAsset(L"CircleMesh_Debug", pDebugCircleMesh);
-		vecVtx.clear();
-		vecIdx.clear();
 	}
 }
 
 void CAssetMgr::CreateDefaultGraphicsShader()
 {
-	CGraphicsShader* pShader = new CGraphicsShader;
-
 	// Std2D Shader 생성
 	{
+		CGraphicsShader* pShader = new CGraphicsShader;
 		pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 		pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
-
 		pShader->SetRSType(RS_TYPE::CULL_NONE);
-		pShader->SetDSType(DS_TYPE::LESS);
-		//pShader->SetBSType(BS_TYPE::ALPHA_BLEND);
 		pShader->SetBSType(BS_TYPE::DEFAULT);
-
+		pShader->SetDSType(DS_TYPE::LESS);
 
 		AddAsset(L"Std2DShader", pShader);
 	}
 
 	// Effect Shader 생성
 	{
-		pShader = new CGraphicsShader;
+		CGraphicsShader* pShader = new CGraphicsShader;
 		pShader->CreateVertexShader(L"shader\\std2d.fx", "VS_Std2D");
 		pShader->CreatePixelShader(L"shader\\std2d.fx", "PS_Std2D");
-
 		pShader->SetRSType(RS_TYPE::CULL_NONE);
-		pShader->SetDSType(DS_TYPE::LESS);
 		pShader->SetBSType(BS_TYPE::ONE_ONE);
+		pShader->SetDSType(DS_TYPE::LESS);
 
 		AddAsset(L"EffectShader", pShader);
 	}
 
 	// DebugShape Shader 생성
 	{
-		pShader = new CGraphicsShader;
+		CGraphicsShader* pShader = new CGraphicsShader;
 		pShader->CreateVertexShader(L"shader\\debug.fx", "VS_DebugShape");
 		pShader->CreatePixelShader(L"shader\\debug.fx", "PS_DebugShape");
-
-		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		pShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);	// default = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 		pShader->SetRSType(RS_TYPE::CULL_NONE);
 		pShader->SetBSType(BS_TYPE::DEFAULT);
 		pShader->SetDSType(DS_TYPE::NO_TEST_NO_WRITE);
@@ -192,18 +183,16 @@ void CAssetMgr::CreateDefaultGraphicsShader()
 
 void CAssetMgr::CreateDefaultMaterial()
 {
-	CMaterial* pMtrl = nullptr;
-
 	// Std2D Material
 	{
-		pMtrl = new CMaterial;
+		CMaterial* pMtrl = new CMaterial;
 		pMtrl->SetShader(FindAsset<CGraphicsShader>(L"Std2DShader"));
 		AddAsset<CMaterial>(L"Std2DMtrl", pMtrl);
 	}
 
 	// DebugShape Material
 	{
-		pMtrl = new CMaterial;
+		CMaterial* pMtrl = new CMaterial;
 		pMtrl->SetShader(FindAsset<CGraphicsShader>(L"DebugShapeShader"));
 		AddAsset<CMaterial>(L"DebugShapeMtrl", pMtrl);
 	}

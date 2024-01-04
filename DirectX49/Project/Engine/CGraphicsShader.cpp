@@ -40,7 +40,7 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 			if (nullptr != m_ErrBlob)
 			{
 				char* pErrMsg = (char*)m_ErrBlob->GetBufferPointer();
-				MessageBoxA(nullptr, pErrMsg, "Vertex Shader Compile Failed!!", MB_OK);
+				MessageBoxA(nullptr, pErrMsg, "Vertex Shader Compile Failed", MB_OK);
 			}
 			return E_FAIL;
 		}
@@ -50,10 +50,16 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 			, m_VSBlob->GetBufferSize()
 			, nullptr
 			, m_VS.GetAddressOf());
-		CHECK(hr);
+
+		if (FAILED(hr))
+		{
+			MessageBox(nullptr, L"Failed to create Vertex Shader", L"Vertex Shader", MB_OK);
+			return E_FAIL;
+		}
 	}
 
 	// Layout(정점 구조정보) 생성
+	// 정점 구조체 = struct Vtx { Vec3 vPos; Vec4 vColor; Vec2 vUV; };
 	{
 		D3D11_INPUT_ELEMENT_DESC arrElement[] =
 		{
@@ -68,7 +74,12 @@ int CGraphicsShader::CreateVertexShader(const wstring& _strRelativePath, const s
 			, m_VSBlob->GetBufferPointer()
 			, m_VSBlob->GetBufferSize()
 			, m_Layout.GetAddressOf());
-		CHECK(hr);
+
+		if (FAILED(hr))
+		{
+			MessageBox(nullptr, L"Failed to create Input Layout", L"Input Layout", MB_OK);
+			return E_FAIL;
+		}
 	}
 
 	return S_OK;
@@ -111,7 +122,7 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 		if (nullptr != m_ErrBlob)
 		{
 			char* pErrMsg = (char*)m_ErrBlob->GetBufferPointer();
-			MessageBoxA(nullptr, pErrMsg, "Pixel Shader Compile Failed!!", MB_OK);
+			MessageBoxA(nullptr, pErrMsg, "Pixel Shader Compile Failed", MB_OK);
 		}
 		return E_FAIL;
 	}
@@ -121,7 +132,12 @@ int CGraphicsShader::CreatePixelShader(const wstring& _strRelativePath, const st
 		, m_PSBlob->GetBufferSize()
 		, nullptr
 		, m_PS.GetAddressOf());
-	CHECK(hr);
+
+	if (FAILED(hr))
+	{
+		MessageBox(nullptr, L"Failed to create Pixel Shader", L"Pixel Shader", MB_OK);
+		return E_FAIL;
+	}
 
 	return S_OK;
 }
