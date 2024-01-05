@@ -67,8 +67,7 @@ void CAssetMgr::CreateDefaultMesh()
 		AddAsset(L"RectMesh", pRectMesh);
 	}
 
-	// RectMesh_Debug
-	// Topology LineStrip
+	// RectMesh_Debug (Topology LineStrip)
 	CMesh*	pDebugRectMesh = new CMesh;
 	{
 		// 0(Red)-- 1(Blue)	     

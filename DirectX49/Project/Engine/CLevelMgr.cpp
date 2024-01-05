@@ -89,12 +89,12 @@ void CLevelMgr::Init()
 		pObj->AddComponent(new CAnimator2D);
 		pObj->AddComponent(new CPlayerScript);
 
-		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 401.f));
+		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 300.f));
 		pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-		pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
+		//pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
 
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
@@ -103,10 +103,13 @@ void CLevelMgr::Init()
 		Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\player2_bmp.bmp");
 		pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
 
-		Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-		pObj->Animator2D()->Create(L"Explosion", pAltasTex, Vec2(0.f, 520.f)
-			, Vec2(120.f, 130.f), Vec2(0.f, 0.f), 10, 24.f);
-		pObj->Animator2D()->Play(L"Explosion");
+		//Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
+		//pObj->Animator2D()->Create(L"link", pAltasTex, Vec2(0.f, 520.f)
+		//	, Vec2(120.f, 130.f), Vec2(0.f, 0.f), 10, 24.f);
+		Ptr<CTexture> pAltasTex2 = CAssetMgr::GetInst()->Load<CTexture>(L"img_bluebird_jump", L"texture\\bluebird_jump.png");
+		pObj->Animator2D()->Create(L"ani_bluebird_jump", pAltasTex2
+			, Vec2(0.f, 0.f), Vec2(32.f, 32.f), Vec2(0.f, 0.f), 4, 8.f);
+		pObj->Animator2D()->Play(L"ani_bluebird_jump");
 
 		m_curLevel->AddObject(pObj, L"Player", false);
 	}
@@ -121,7 +124,7 @@ void CLevelMgr::Init()
 		pObj->AddComponent(new CCollider2D);
 
 		pObj->Transform()->SetRelativePos(Vec3(300.f, 100.f, 400.f));
-		pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+		pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
@@ -143,7 +146,7 @@ void CLevelMgr::Init()
 		pObj->AddComponent(new CCollider2D);
 
 		pObj->Transform()->SetRelativePos(Vec3(300.f, -100.f, 400.f));
-		pObj->Transform()->SetRelativeScale(Vec3(200.f, 200.f, 1.f));
+		pObj->Transform()->SetRelativeScale(Vec3(100.f, 100.f, 1.f));
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
