@@ -15,12 +15,18 @@ private:
 
     CGameObject*            m_pDebugObj;
 
+    bool                    m_bDebugPos;
+
 public:
     void RegisterCamera(CCamera* _cam, int _idx);
     void AddDebugShapeInfo(const tDebugShapeInfo& _info)
     {
         m_dbgShapeInfo.push_back(_info);
     }
+
+    void SetDebugPosition(bool _flag) { m_bDebugPos = _flag; }
+    bool IsDebugPosition() { return m_bDebugPos; }
+
 public:
     void Init();
     void Tick();

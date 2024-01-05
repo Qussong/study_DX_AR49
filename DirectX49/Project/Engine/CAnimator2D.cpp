@@ -28,13 +28,14 @@ void CAnimator2D::Clear()
 	CAnim::Clear();
 }
 
-void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _altasTex, Vec2 _leftTop, Vec2 _vSliceSize, Vec2 _offsetSize, int _frmCount, float _FPS)
+void CAnimator2D::Create(const wstring& _strKey, Ptr<CTexture> _altasTex, Vec2 _leftTop
+						, Vec2 _vSliceSize, Vec2 _offsetSize, Vec2 _background, int _frmCount, float _FPS)
 {
 	CAnim* pAnim = FindAnim(_strKey);
 	assert(!pAnim);
 
 	pAnim = new CAnim;
-	pAnim->Create(this, _altasTex, _leftTop, _vSliceSize, _offsetSize, _frmCount, _FPS);
+	pAnim->Create(this, _altasTex, _leftTop, _vSliceSize, _offsetSize, _background, _frmCount, _FPS);
 	m_mapAnim.insert(make_pair(_strKey, pAnim));
 }
 

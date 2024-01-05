@@ -55,6 +55,9 @@ void CCollider2D::FinalTick()
 	Vec3		v3Positon;		// position
 	m_matColWorld.Decompose(v3Scale, quatRotation, v3Positon);
 
+	//test
+	return;
+
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
 	if (0 == m_collisionCount)
 	{

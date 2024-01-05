@@ -28,16 +28,14 @@ void CAssetMgr::Init()
 
 void CAssetMgr::CreateDefaultMesh()
 {
-	// Rect Mesh 생성
-	CMesh* pRectMesh = new CMesh;
-	Vtx		arrVtx[4] = {};		// 사각형의 정점 정보 (사각형의 정점개수 = 4개)
+	// RectMesh 생성
+	Vtx		arrVtx[4] = {};	// 사각형의 정점 정보 (사각형의 정점개수 = 4개)
 	{
 		// 0(R)--- 1(B)	     
 		//  |   \   |	     
 		// 3(G)--- 2(M)  
 		UINT	arrIdx[6] = {};		// 사각형 정점의 인덱스 정보
 
-		// 사각형 정점 위치 설정
 		arrVtx[0].vPos = Vec3(-0.5f, 0.5f, 0.f);
 		arrVtx[0].vColor = Vec4(1.f, 0.f, 0.f, 1.f);
 		arrVtx[0].vUV = Vec2(0.f, 0.f);
@@ -63,12 +61,12 @@ void CAssetMgr::CreateDefaultMesh()
 		arrIdx[4] = 2;
 		arrIdx[5] = 3;
 
+		CMesh* pRectMesh = new CMesh;
 		pRectMesh->Create(arrVtx, 4, arrIdx, 6);
 		AddAsset(L"RectMesh", pRectMesh);
 	}
 
 	// RectMesh_Debug (Topology LineStrip)
-	CMesh*	pDebugRectMesh = new CMesh;
 	{
 		// 0(Red)-- 1(Blue)	     
 		//  |       |	     
@@ -81,12 +79,12 @@ void CAssetMgr::CreateDefaultMesh()
 		arrIdx[3] = 3; 	
 		arrIdx[4] = 0;
 
+		CMesh* pDebugRectMesh = new CMesh;
 		pDebugRectMesh->Create(arrVtx, 4, arrIdx, 5);
 		AddAsset(L"RectMesh_Debug", pDebugRectMesh);
 	}
 
-	// Circle Mesh 생성
-	CMesh* pCircleMesh = new CMesh;
+	// CircleMesh 생성
 	vector<Vtx>		vecVtx;
 	{
 		vector<UINT>	vecIdx;
@@ -122,22 +120,55 @@ void CAssetMgr::CreateDefaultMesh()
 			vecIdx.push_back(i + 1);
 		}
 
+		CMesh* pCircleMesh = new CMesh;
 		pCircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 		AddAsset(L"CircleMesh", pCircleMesh);
 	}
 
-	// CircleMesh_Debug
-	CMesh* pDebugCircleMesh = new CMesh;
+	// CircleMesh_Debug 생성
 	{
-		// 정점 연결 순서 설정
 		vector<UINT>	vecIdx;
+
 		for (int i = 1; i < vecVtx.size(); ++i)
 		{
 			vecIdx.push_back(i);
 		}
-		
+
+		CMesh* pDebugCircleMesh = new CMesh;
 		pDebugCircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 		AddAsset(L"CircleMesh_Debug", pDebugCircleMesh);
+	}
+
+	// CrossMesh 생성
+	{
+		Vtx				v;
+		vector<UINT>	vecIdx;
+		vecVtx.clear();
+
+		v.vPos = Vec3(0.f, 0.5f, 0.f);
+		v.vUV = Vec2(0.f, 0.f);
+		v.vColor = Vec4(0.f, 1.f, 0.f, 1.f);
+		vecVtx.push_back(v);
+
+		v.vPos = Vec3(0.f, -0.5f, 0.f);
+		vecVtx.push_back(v);
+
+		v.vPos = Vec3(-0.5f, 0.f, 0.f);
+		vecVtx.push_back(v);
+
+		v.vPos = Vec3(0.5f, 0.f, 0.f);
+		vecVtx.push_back(v);
+
+		vecIdx.push_back(0); 
+		vecIdx.push_back(1);
+		vecIdx.push_back(2); 
+		vecIdx.push_back(3);
+
+		CMesh* pCrossMesh = new CMesh;
+		pCrossMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
+		AddAsset(L"CrossMesh", pCrossMesh);
+		vecVtx.clear();
+		vecIdx.clear();
 	}
 }
 

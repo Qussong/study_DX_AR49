@@ -35,6 +35,8 @@ public:
 	int CreateGeometryShader();
 	int CreatePixelShader(const wstring& _strRelativePath, const string& _strFuncName);
 
+	D3D11_PRIMITIVE_TOPOLOGY GetTopology() { return m_Topology; }
+
 	void SetTopology(D3D11_PRIMITIVE_TOPOLOGY _topology) { m_Topology = _topology; }
 	void SetRSType(RS_TYPE _Type) { m_RSType = _Type; }
 	void SetDSType(DS_TYPE _Type) { m_DSType = _Type; }

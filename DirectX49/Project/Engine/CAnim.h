@@ -10,6 +10,7 @@ struct tAnimFrm
     Vec2    vLeftTop;
     Vec2    vSlice;
     Vec2    vOffset;
+    Vec2    vBackground;
     float   duration;
 };
 
@@ -36,6 +37,6 @@ public:
     static void Clear();
 
     void Create(CAnimator2D* _animator, Ptr<CTexture> _atlas, Vec2 _vLeftTop
-        , Vec2 _vSliceSize, Vec2 _vOffset, int _frmCount, float _FPS);
+        , Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _frmCount, float _FPS);
 };
 

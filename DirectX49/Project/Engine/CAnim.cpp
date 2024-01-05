@@ -41,6 +41,7 @@ void CAnim::UpdateData()
 	data.vLeftTop = m_vecFrm[m_curFrmIdx].vLeftTop;
 	data.vOffset = m_vecFrm[m_curFrmIdx].vOffset;
 	data.vSlizeSize = m_vecFrm[m_curFrmIdx].vSlice;
+	data.vBackGround = m_vecFrm[m_curFrmIdx].vBackground;
 
 	pCB->SetData(&data);
 	pCB->UpdateData();
@@ -59,7 +60,8 @@ void CAnim::Clear()
 	pCB->UpdateData();
 }
 
-void CAnim::Create(CAnimator2D* _animator, Ptr<CTexture> _atlas, Vec2 _vLeftTop, Vec2 _vSliceSize, Vec2 _vOffset, int _frmCount, float _FPS)
+void CAnim::Create(CAnimator2D* _animator, Ptr<CTexture> _atlas, Vec2 _vLeftTop
+	, Vec2 _vSliceSize, Vec2 _vOffset, Vec2 _vBackground, int _frmCount, float _FPS)
 {
 	m_animator = _animator;
 	m_atlasTex = _atlas;
@@ -70,11 +72,18 @@ void CAnim::Create(CAnimator2D* _animator, Ptr<CTexture> _atlas, Vec2 _vLeftTop,
 
 		frm.vSlice = Vec2(_vSliceSize.x / (float)_atlas->GetWidth(), _vSliceSize.y / (float)_atlas->GetHeight());
 
-		frm.vLeftTop = Vec2(_vLeftTop.x / (float)_atlas->GetWidth() + frm.vSlice.x * i, _vLeftTop.y / (float)_atlas->GetHeight());
+		frm.vLeftTop = Vec2(_vLeftTop.x / (float)_atlas->GetWidth() 
+							+ frm.vSlice.x * i, _vLeftTop.y / (float)_atlas->GetHeight());
 
 		frm.vOffset = Vec2(_vOffset.x / (float)_atlas->GetWidth(), _vOffset.y / (float)_atlas->GetHeight());
 		frm.duration = 1.f / _FPS;
 
+		frm.vBackground = Vec2(_vBackground.x / (float)_atlas->GetWidth()
+								, _vBackground.y / (float)_atlas->GetHeight());
+
 		m_vecFrm.push_back(frm);
 	}
+
+	// 멘사 : uv 좌표계로 나눠
+	m_vecFrm[1].vOffset.x = 5.0f / (float)_atlas->GetWidth();
 }

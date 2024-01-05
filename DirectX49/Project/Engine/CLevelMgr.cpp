@@ -103,13 +103,15 @@ void CLevelMgr::Init()
 		Ptr<CTexture> pTex = CAssetMgr::GetInst()->Load<CTexture>(L"PlayerTexture", L"texture\\player2_bmp.bmp");
 		pObj->MeshRender()->GetMaterial()->SetTexParam(TEX_0, pTex);
 
-		//Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"AnimAtlasTex", L"texture\\link.png");
-		//pObj->Animator2D()->Create(L"link", pAltasTex, Vec2(0.f, 520.f)
-		//	, Vec2(120.f, 130.f), Vec2(0.f, 0.f), 10, 24.f);
-		Ptr<CTexture> pAltasTex2 = CAssetMgr::GetInst()->Load<CTexture>(L"img_bluebird_jump", L"texture\\bluebird_jump.png");
-		pObj->Animator2D()->Create(L"ani_bluebird_jump", pAltasTex2
-			, Vec2(0.f, 0.f), Vec2(32.f, 32.f), Vec2(0.f, 0.f), 4, 8.f);
-		pObj->Animator2D()->Play(L"ani_bluebird_jump");
+		Ptr<CTexture> pAltasTex = CAssetMgr::GetInst()->Load<CTexture>(L"img_link", L"texture\\link.png");
+		pObj->Animator2D()->Create(L"ani_link", pAltasTex, Vec2(0.f, 390.f)
+			, Vec2(120.f, 130.f), Vec2(0.f, 0.f), Vec2(200.f, 200.f), 3, 1);
+		pObj->Animator2D()->Play(L"ani_link");
+
+		//Ptr<CTexture> pAltasTex2 = CAssetMgr::GetInst()->Load<CTexture>(L"img_bluebird_jump", L"texture\\bluebird_jump.png");
+		//pObj->Animator2D()->Create(L"ani_bluebird_jump", pAltasTex2
+		//	, Vec2(0.f, 0.f), Vec2(32.f, 32.f), Vec2(0.f, 0.f), 4, 8.f);
+		//pObj->Animator2D()->Play(L"ani_bluebird_jump");
 
 		m_curLevel->AddObject(pObj, L"Player", false);
 	}
