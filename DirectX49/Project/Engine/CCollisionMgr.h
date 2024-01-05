@@ -16,6 +16,7 @@ class CCollisionMgr
 	: public CSingleton<CCollisionMgr>
 {
 	SINGLE(CCollisionMgr);
+
 private:
 	UINT					m_matrix[LAYER_MAX];
 	map<UINT_PTR, bool>		m_mapPrevInfo;		// 이전 프레임에 두 충돌체의 충돌여부 (key = ID, value = 충돌여부)

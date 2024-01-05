@@ -24,8 +24,10 @@ private:
 	CComponent*				m_arrCom[(UINT)COMPONENT_TYPE::END];
 	CRenderComponent*		m_renderCom;
 	vector<CScript*>		m_vecScript;
+
 	vector<CGameObject*>	m_vecChild;
 	CGameObject*			m_parent;
+
 	int						m_iLayerIdx;	// 객체가 소속되어있는 Layer의 idx
 	bool                    m_bDead;
 

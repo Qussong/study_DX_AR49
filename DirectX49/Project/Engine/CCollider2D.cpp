@@ -20,9 +20,6 @@ CCollider2D::~CCollider2D()
 void CCollider2D::FinalTick()
 {
 	// 충돌체의 로컬 행렬 계산
-	//m_matColWorld = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
-	//m_matColWorld *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
-
 	Matrix matObjLocal = XMMatrixScaling(m_vOffsetScale.x, m_vOffsetScale.y, m_vOffsetScale.z);
 	matObjLocal *= XMMatrixTranslation(m_vOffsetPos.x, m_vOffsetPos.y, m_vOffsetPos.z);
 
@@ -45,7 +42,6 @@ void CCollider2D::FinalTick()
 	}
 	else
 	{
-		//m_matColWorld *= matObjWorld;
 		m_matColWorld = matObjLocal * matObjWorld;
 	}
 
@@ -54,9 +50,6 @@ void CCollider2D::FinalTick()
 	Quaternion	quatRotation;	// rotation
 	Vec3		v3Positon;		// position
 	m_matColWorld.Decompose(v3Scale, quatRotation, v3Positon);
-
-	//test
-	return;
 
 	// 충돌중이면 Red, 충돌하고 있지 않으면 Green
 	if (0 == m_collisionCount)

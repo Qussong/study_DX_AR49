@@ -20,11 +20,6 @@ CRenderMgr::~CRenderMgr()
 		delete m_pDebugObj;
 }
 
-//void CRenderMgr::Init()
-//{
-//	// ?
-//}
-
 void CRenderMgr::Tick()
 {
 	Vec4 vClearColor = Vec4(0.2f, 0.2f, 0.2f, 1.f);

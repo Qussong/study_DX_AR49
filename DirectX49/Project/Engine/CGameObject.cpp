@@ -38,6 +38,7 @@ void CGameObject::Begin()
 			m_arrCom[i]->Begin();
 		}
 	}
+
 	// 자식객체
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
@@ -59,6 +60,7 @@ void CGameObject::Tick()
 	{
 		m_vecScript[i]->Tick();
 	}
+
 	// 자식객체
 	for (size_t i = 0; i < m_vecChild.size(); ++i)
 	{
@@ -129,9 +131,6 @@ void CGameObject::AddComponent(CComponent* _comp)
 		// 이미 해당 타입의 컴포넌트를 보유하고 있는 경우 
 		assert(!m_arrCom[(UINT)type]);
 
-		m_arrCom[(UINT)type] = _comp;
-		_comp->m_owner = this;
-
 		CRenderComponent* pRenderCom = dynamic_cast<CRenderComponent*>(_comp);
 		if (nullptr != pRenderCom)
 		{
@@ -140,6 +139,10 @@ void CGameObject::AddComponent(CComponent* _comp)
 
 			m_renderCom = pRenderCom;
 		}
+
+		m_arrCom[(UINT)type] = _comp;
+		_comp->m_owner = this;
+
 	}
 }
 

@@ -104,7 +104,7 @@ void CPlayerScript::Tick()
 
 void CPlayerScript::BeginOverlap(CCollider2D* _collider, CGameObject* _otherObj, CCollider2D* _otherCollider)
 {
-	_otherObj->Destroy();
+	//_otherObj->Destroy();
 }
 
 void CPlayerScript::Overlap(CCollider2D* _collider, CGameObject* _otherObj, CCollider2D* _otherCollider)

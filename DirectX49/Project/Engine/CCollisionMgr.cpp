@@ -138,9 +138,7 @@ bool CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 								  , Vec3(0.5f, 0.5f, 0.f)
 								  , Vec3(0.5f, -0.5f, 0.f)
 								  , Vec3(-0.5f, -0.5f, 0.f) };
-
 		Vec3 arrProj[4] = {};
-
 		// 0 -→ 1
 		// ↓    |
 		// 3 -- 2
@@ -180,6 +178,7 @@ bool CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 			// 둘을 분리시킬 수 있다.
 			if (ProjAcc < fCenterDist)
 			{
+				// 비 충돌 상태
 				return false;
 			}
 		}
@@ -200,10 +199,33 @@ bool CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 	// CIRCLE-CIRCLE
 	else if (COLLIDER2D_TYPE::CIRCLE == typeLeft && COLLIDER2D_TYPE::CIRCLE == typeRight)
 	{
-		return false;
+		Matrix		left = matLeft;
+		Matrix		right = matRight;
+
+		Vec3		scaleL;	
+		Quaternion	rotL;
+		Vec3		posL;	
+
+		Vec3		scaleR;
+		Quaternion	rotR;
+		Vec3		posR;
+		
+		Vec3 posRight;
+		left.Decompose(scaleL, rotL, posL);
+		right.Decompose(scaleR, rotR, posR);
+
+		float fCenter = sqrt(pow((posR.x - posL.x), 2) + pow((posR.y - posL.y), 2));
+		float fLeftRadius = 0.5f * scaleL.x;
+		float fRightRadius = 0.5f * scaleR.x;
+
+		if (fCenter > fLeftRadius + fRightRadius)
+		{
+			// 비 충돌 상태
+			return false;
+		}
 	}
 
-	// 4번의 테스트동안 분리할 수 없었다.
+	// 충돌 상태
 	return true;
 }
 
