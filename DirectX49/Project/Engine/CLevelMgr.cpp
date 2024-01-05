@@ -94,7 +94,7 @@ void CLevelMgr::Init()
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-		pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
+		//pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
 
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
@@ -130,7 +130,7 @@ void CLevelMgr::Init()
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-		pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
+		//pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
 
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));
