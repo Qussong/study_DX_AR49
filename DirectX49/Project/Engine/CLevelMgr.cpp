@@ -77,7 +77,6 @@ void CLevelMgr::Init()
 		m_curLevel->AddObject(pCamObj, 0);
 	}
 
-
 	// Player Object 생성
 	CGameObject* pObj = nullptr;
 	{
@@ -90,12 +89,12 @@ void CLevelMgr::Init()
 		pObj->AddComponent(new CAnimator2D);
 		pObj->AddComponent(new CPlayerScript);
 
-		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 200.f));
+		pObj->Transform()->SetRelativePos(Vec3(0.f, 0.f, 401.f));
 		pObj->Transform()->SetRelativeScale(Vec3(300.f, 300.f, 1.f));
 
 		pObj->Collider2D()->SetOffsetScale(Vec2(50.f, 50.f));
 		pObj->Collider2D()->SetOffsetPos(Vec2(0.f, 0.f));
-		//pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
+		pObj->Collider2D()->SetColliderType(COLLIDER2D_TYPE::CIRCLE);
 
 		pObj->MeshRender()->SetMesh(CAssetMgr::GetInst()->FindAsset<CMesh>(L"RectMesh"));
 		pObj->MeshRender()->SetMaterial(CAssetMgr::GetInst()->FindAsset<CMaterial>(L"Std2DMtrl"));

@@ -103,6 +103,7 @@ void CAssetMgr::CreateDefaultMesh()
 		float	fTheta = 0.f;
 		float	fRadius = 0.5f;
 
+		// 월 둘레를 이루는 정점의 위치값 설정
 		for (int i = 0; i <= iSlice; ++i)
 		{
 			fTheta = (XM_2PI / iSlice) * i;
@@ -114,6 +115,7 @@ void CAssetMgr::CreateDefaultMesh()
 			vecVtx.push_back(v);
 		}
 
+		// 정점 연결 순서 설정
 		for (int i = 0; i < iSlice; ++i)
 		{
 			vecIdx.push_back(0);
@@ -128,14 +130,13 @@ void CAssetMgr::CreateDefaultMesh()
 	// CircleMesh_Debug
 	CMesh* pDebugCircleMesh = new CMesh;
 	{
-		//vecIdx.clear();
+		// 정점 연결 순서 설정
 		vector<UINT>	vecIdx;
-
 		for (int i = 1; i < vecVtx.size(); ++i)
 		{
 			vecIdx.push_back(i);
 		}
-
+		
 		pDebugCircleMesh->Create(vecVtx.data(), (UINT)vecVtx.size(), vecIdx.data(), (UINT)vecIdx.size());
 		AddAsset(L"CircleMesh_Debug", pDebugCircleMesh);
 	}

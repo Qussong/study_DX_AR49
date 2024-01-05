@@ -188,19 +188,19 @@ bool CCollisionMgr::CollisionBtwCollider(CCollider2D* _pLeft, CCollider2D* _pRig
 	// CIRCLE-RECT
 	else if (COLLIDER2D_TYPE::CIRCLE == typeLeft && COLLIDER2D_TYPE::RECT == typeRight)
 	{
-
+		return false;
 	}
 
 	// RECT-CIRCLE
 	else if (COLLIDER2D_TYPE::RECT == typeLeft && COLLIDER2D_TYPE::CIRCLE == typeRight)
 	{
-
+		return false;
 	}
 
 	// CIRCLE-CIRCLE
 	else if (COLLIDER2D_TYPE::CIRCLE == typeLeft && COLLIDER2D_TYPE::CIRCLE == typeRight)
 	{
-
+		return false;
 	}
 
 	// 4번의 테스트동안 분리할 수 없었다.
