@@ -39,8 +39,10 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         vBackgroundLeftTop -= g_vOffset;
         float2 vUV = vBackgroundLeftTop + (g_vBackground * _in.vUV);
         
-        if (vUV.x < g_vLeftTop.x || (g_vLeftTop.x + g_vSlizeSize.x) < vUV.x
-            || vUV.y < g_vLeftTop.y || (g_vLeftTop.y + g_vSlizeSize.y) < vUV.y)
+        if (vUV.x < g_vLeftTop.x 
+            || (g_vLeftTop.x + g_vSlizeSize.x) < vUV.x
+            || vUV.y < g_vLeftTop.y 
+            || (g_vLeftTop.y + g_vSlizeSize.y) < vUV.y)
         {
             //vColor = float4(1.f, 1.f, 0.f, 1.f);
             discard;
@@ -48,6 +50,11 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         else
         {
             vColor = g_anim2d_tex.Sample(g_sam_1, vUV);
+            
+            if (vColor.a < 0.1f)
+            {
+                discard;
+            }
         }
     }
     else
@@ -58,7 +65,7 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
         
             //saturate 0 ~ 1 을 넘지 않게 보정
             float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
-        
+            
             if (fAlpha < 0.1f)
             {
                 // 픽셀 쉐이더를 중간에 폐기처리
@@ -66,11 +73,6 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
             }
         }
     }
-    
-    // if (g_int_0)
-    // {
-    //     vColor.r *= 2.f;
-    // }
     
     return vColor;
 }

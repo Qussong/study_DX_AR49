@@ -36,6 +36,7 @@ int CTexture::Load(const wstring& _strFilePath)
 
 	if (FAILED(hr))
 	{
+		MessageBox(nullptr, L"Texture Load Failed", L"Texture Error", MB_OK);
 		return E_FAIL;
 	}
 
@@ -54,25 +55,40 @@ int CTexture::Load(const wstring& _strFilePath)
 	// ID3D11Texture2D 객체를 통해서 생성될때 사용된 옵션(DESC) 정보를 가져온다.
 	m_Tex2D->GetDesc(&m_Desc);
 
+	/*
+		D3D11_TEXTURE2D_DESC 의 정보
+	 
+	    UINT				Width;
+		UINT				Height;
+		UINT				MipLevels;
+		UINT				ArraySize;
+		DXGI_FORMAT			Format;
+		DXGI_SAMPLE_DESC	SampleDesc;
+		D3D11_USAGE			Usage;
+		UINT				BindFlags;
+		UINT				CPUAccessFlags;
+		UINT				MiscFlags;
+	*/
+
 	return S_OK;
 }
 
-void CTexture::UpdateData(int _RegisterNum)
+void CTexture::UpdateData(int _registerNum)
 {
-	CONTEXT->VSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
-	CONTEXT->HSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
-	CONTEXT->DSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
-	CONTEXT->GSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
-	CONTEXT->PSSetShaderResources(_RegisterNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->VSSetShaderResources(_registerNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->HSSetShaderResources(_registerNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->DSSetShaderResources(_registerNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->GSSetShaderResources(_registerNum, 1, m_SRV.GetAddressOf());
+	CONTEXT->PSSetShaderResources(_registerNum, 1, m_SRV.GetAddressOf());
 }
 
-void CTexture::Clear(int _RegisterNum)
+void CTexture::Clear(int _registerNum)
 {
 	ID3D11ShaderResourceView* pSRV = nullptr;
 
-	CONTEXT->VSSetShaderResources(_RegisterNum, 1, &pSRV);
-	CONTEXT->HSSetShaderResources(_RegisterNum, 1, &pSRV);
-	CONTEXT->DSSetShaderResources(_RegisterNum, 1, &pSRV);
-	CONTEXT->GSSetShaderResources(_RegisterNum, 1, &pSRV);
-	CONTEXT->PSSetShaderResources(_RegisterNum, 1, &pSRV);
+	CONTEXT->VSSetShaderResources(_registerNum, 1, &pSRV);
+	CONTEXT->HSSetShaderResources(_registerNum, 1, &pSRV);
+	CONTEXT->DSSetShaderResources(_registerNum, 1, &pSRV);
+	CONTEXT->GSSetShaderResources(_registerNum, 1, &pSRV);
+	CONTEXT->PSSetShaderResources(_registerNum, 1, &pSRV);
 }

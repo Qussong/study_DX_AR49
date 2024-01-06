@@ -85,5 +85,5 @@ void CAnim::Create(CAnimator2D* _animator, Ptr<CTexture> _atlas, Vec2 _vLeftTop
 	}
 
 	// 멘사 : uv 좌표계로 나눠
-	m_vecFrm[1].vOffset.x = 5.0f / (float)_atlas->GetWidth();
+	//m_vecFrm[1].vOffset.x = 5.0f / (float)_atlas->GetWidth();
 }

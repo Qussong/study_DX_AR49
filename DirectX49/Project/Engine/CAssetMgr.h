@@ -62,12 +62,12 @@ inline ASSET_TYPE CAssetMgr::GetAssetType()
 template<typename T>
 inline void CAssetMgr::AddAsset(const wstring& _strKey, T* _asset)
 {
-	ASSET_TYPE Type = GetAssetType<T>();
+	ASSET_TYPE type = GetAssetType<T>();
 
-	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)Type].find(_strKey);
-	assert(iter == m_mapAsset[(UINT)Type].end());
+	map<wstring, Ptr<CAsset>>::iterator iter = m_mapAsset[(UINT)type].find(_strKey);
+	assert(iter == m_mapAsset[(UINT)type].end());
 
-	m_mapAsset[(UINT)Type].insert(make_pair(_strKey, _asset));
+	m_mapAsset[(UINT)type].insert(make_pair(_strKey, _asset));
 }
 
 template<typename T>
@@ -88,9 +88,10 @@ inline Ptr<T> CAssetMgr::FindAsset(const wstring& _strKey)
 template<typename T>
 inline Ptr<T> CAssetMgr::Load(const wstring& _strKey, const wstring& _strRelativePath)
 {
-	Ptr<T> pAsset = FindAsset<T>(_strKey);
+	// _strKey 에 해당하는 Asset(Texture,...)이 없다면 nullptr 반환
+	Ptr<T> pAsset = FindAsset<T>(_strKey);	
 
-	// 로딩할 때 사용할 키로 이미 다른 에셋이 있다면
+	// 로딩할 때 사용할 키로 이미 다른 에셋이 있다면 주소값 반환
 	if (nullptr != pAsset)
 	{
 		return (T*)pAsset.Get();
@@ -102,7 +103,7 @@ inline Ptr<T> CAssetMgr::Load(const wstring& _strKey, const wstring& _strRelativ
 	pAsset = new T;
 	if (FAILED(pAsset->Load(strFilePath)))
 	{
-		MessageBox(nullptr, L"에셋 로딩 실패", L"에셋 로딩 실패", MB_OK);
+		MessageBox(nullptr, L"Asset Load Failed", L"Asset Error", MB_OK);
 		pAsset = nullptr;
 		return nullptr;
 	}
