@@ -1,7 +1,9 @@
 #include "pch.h"
-#include "CRenderMgr.h"
 
 #include "CTimeMgr.h"
+#include "CRenderMgr.h"
+
+#include "CStructuredBuffer.h"
 
 #include "CDevice.h"
 #include "CCamera.h"

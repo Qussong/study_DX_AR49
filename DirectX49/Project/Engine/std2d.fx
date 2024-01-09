@@ -66,7 +66,8 @@ float4 PS_Std2D(VS_OUT _in) : SV_Target
             vColor = g_tex_0.Sample(g_sam_1, _in.vUV);
             
             // Structured Buffer Test
-            //vColor = g_Data[2];
+            vColor = g_Data[2];
+            vColor.a = 1.f;
         
             //saturate 0 ~ 1 을 넘지 않게 보정
             float fAlpha = 1.f - saturate(dot(vColor.rb, vColor.rb) / 2.f);
