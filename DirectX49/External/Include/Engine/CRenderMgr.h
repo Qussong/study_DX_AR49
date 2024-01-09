@@ -3,6 +3,7 @@
 
 class CCamera;
 class CGameObject;
+class CStructuredBuffer;
 
 class CRenderMgr :
     public CSingleton<CRenderMgr>
@@ -10,6 +11,8 @@ class CRenderMgr :
     SINGLE(CRenderMgr);
 private:
     vector<CCamera*>        m_vecCam;
+
+    CStructuredBuffer*      m_light2DBuffer;
 
     list<tDebugShapeInfo>   m_dbgShapeInfo;
 

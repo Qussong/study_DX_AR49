@@ -10,7 +10,9 @@
 #include "CTransform.h"
 
 CRenderMgr::CRenderMgr()
-	: m_pDebugObj(nullptr)
+	: m_light2DBuffer(nullptr)
+	, m_pDebugObj(nullptr)
+	, m_bDebugPos(true)
 {
 }
 
@@ -18,6 +20,9 @@ CRenderMgr::~CRenderMgr()
 {
 	if (nullptr != m_pDebugObj)
 		delete m_pDebugObj;
+
+	if (nullptr != m_light2DBuffer)
+		delete m_light2DBuffer;
 }
 
 void CRenderMgr::Tick()
